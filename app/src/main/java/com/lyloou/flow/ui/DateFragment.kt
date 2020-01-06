@@ -2,7 +2,6 @@ package com.lyloou.flow.ui
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -13,6 +12,7 @@ import com.haibin.calendarview.CalendarView
 import com.lyloou.flow.R
 import com.lyloou.flow.databinding.FragmentDateBinding
 import com.lyloou.flow.model.MyViewModel
+import com.lyloou.flow.util.Utime
 import kotlinx.android.synthetic.main.fragment_date.*
 
 
@@ -27,7 +27,7 @@ class DateFragment : Fragment() {
     ): View? {
         initData()
         // Inflate the layout for this fragment
-        var binding = FragmentDateBinding.inflate(inflater)
+        val binding = FragmentDateBinding.inflate(inflater)
         binding.data = myViewModel
         binding.lifecycleOwner = this
         return binding.root
@@ -51,21 +51,29 @@ class DateFragment : Fragment() {
 
     private fun initView() {
         val day = myViewModel.flowDay.value?.day
-//        calendarView.scrollToCalendar(2018,11,11)
-        Log.i("TTAG", "${calendarView.curYear}, ${calendarView.curMonth}, ${calendarView.curDay}")
+        day?.let {
+            myViewModel.loadFromNet(it)
+
+            val date = Utime.transferTwo(day)
+            val calendar = java.util.Calendar.getInstance()
+            calendar.time = date
+            calendarView.scrollToCalendar(
+                calendar.get(java.util.Calendar.YEAR),
+                calendar.get(java.util.Calendar.MONTH) + 1,
+                calendar.get(java.util.Calendar.DAY_OF_MONTH)
+            )
+        }
         calendarView.setOnCalendarSelectListener(object : CalendarView.OnCalendarSelectListener {
             override fun onCalendarSelect(calendar: Calendar?, isClick: Boolean) {
-                Log.i("TTAG", calendar.toString())
                 calendar?.let { myViewModel.loadFromNet(it.toString()) }
             }
 
             override fun onCalendarOutOfRange(calendar: Calendar?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
 
         })
 
-        day?.let { myViewModel.loadFromNet(it) }
 
         myViewModel.flowDay.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             scrollView.smoothScrollTo(0, 0)
