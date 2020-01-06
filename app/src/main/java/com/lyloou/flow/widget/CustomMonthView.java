@@ -78,7 +78,7 @@ public class CustomMonthView extends MonthView {
 
         mCurrentDayPaint.setAntiAlias(true);
         mCurrentDayPaint.setStyle(Paint.Style.FILL);
-        mCurrentDayPaint.setColor(0xFFeaeaea);
+        mCurrentDayPaint.setColor(0xFFFFFFFF);
 
         mPointPaint.setAntiAlias(true);
         mPointPaint.setStyle(Paint.Style.FILL);

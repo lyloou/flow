@@ -84,7 +84,7 @@ public class CustomWeekView extends WeekView {
 
         mCurrentDayPaint.setAntiAlias(true);
         mCurrentDayPaint.setStyle(Paint.Style.FILL);
-        mCurrentDayPaint.setColor(0xFFeaeaea);
+        mCurrentDayPaint.setColor(0xFFFFFFFF);
 
 
         mCircleRadius = dipToPx(getContext(), 7);
