@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.lyloou.flow.model.MyViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:orientation="vertical"
+        tools:context=".ui.DateFragment">
+
+
+        <com.haibin.calendarview.CalendarLayout
+            android:id="@+id/calendarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:calendar_content_view_id="@+id/scrollView"
+            app:calendar_show_mode="both_month_week_view"
+            app:default_status="expand">
+
+            <com.haibin.calendarview.CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                app:calendar_height="50dp"
+                app:current_day_lunar_text_color="#ff0000"
+                app:current_month_lunar_text_color="#CFCFCF"
+                app:current_month_text_color="#333333"
+                app:lunar_text_size="10sp"
+                app:min_year="2004"
+                app:month_view="com.lyloou.flow.widget.CustomMonthView"
+                app:month_view_show_mode="mode_only_current"
+                app:other_month_lunar_text_color="#e1e1e1"
+                app:other_month_text_color="#e1e1e1"
+                app:scheme_lunar_text_color="#CFCFCF"
+                app:scheme_text="假"
+                app:scheme_text_color="#333"
+                app:scheme_theme_color="#128c4b"
+                app:selected_lunar_text_color="#128c4b"
+                app:selected_text_color="#128c4b"
+                app:selected_theme_color="#80cfcfcf"
+                app:week_background="#fff"
+                app:week_bar_view="com.lyloou.flow.widget.CustomWeekBar"
+                app:week_start_with="sun"
+                app:week_text_color="#111"
+                app:week_view="com.lyloou.flow.widget.CustomWeekView" />
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/flow_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{data.detail}"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="14sp" />
+            </androidx.core.widget.NestedScrollView>
+        </com.haibin.calendarview.CalendarLayout>
+
+
+    </LinearLayout>
+</layout>
