@@ -1,4 +1,4 @@
-package com.lyloou.flow.adapter
+package com.lyloou.flow.common
 
 import androidx.recyclerview.widget.*
 
@@ -9,7 +9,10 @@ abstract class ListAdapterWithHeader<T, VH : RecyclerView.ViewHolder>(
 
     private val mHelper by lazy {
         AsyncListDiffer<T>(
-            OffsetListUpdateCallback(this, headerOffset),
+            OffsetListUpdateCallback(
+                this,
+                headerOffset
+            ),
             AsyncDifferConfig.Builder<T>(diffCallback).build()
         )
     }

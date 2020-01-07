@@ -1,4 +1,4 @@
-package com.lyloou.flow.adapter
+package com.lyloou.flow.module.kalendar
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +8,13 @@ import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lyloou.flow.R
-import com.lyloou.flow.adapter.FlowItemAdapter.MyViewHolder
+import com.lyloou.flow.common.ListAdapterWithHeader
 import com.lyloou.flow.model.FlowItem
-import com.lyloou.flow.model.MyViewModel
+import com.lyloou.flow.module.kalendar.FlowItemAdapter.MyViewHolder
 
 
 // [Extending the ListAdapter with a header view | Brightec, Brighton, UK](https://www.brightec.co.uk/ideas/extending-listadapter-header-view)
+// [Android RecyclerView with header, footer and pagination - GadgetSaint](http://www.gadgetsaint.com/android/recyclerview-header-footer-pagination/#.XhMvEvy-uHv)
 class FlowItemAdapter(private val myViewModel: MyViewModel) :
 
     ListAdapterWithHeader<FlowItem, MyViewHolder>(ITEM_COMPARATOR) {
@@ -40,10 +41,6 @@ class FlowItemAdapter(private val myViewModel: MyViewModel) :
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textView: TextView = itemView.findViewById(R.id.textView)
-    }
-
-    class MyHeaderHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.textView)
     }
 

@@ -3,6 +3,7 @@ package com.lyloou.flow.model
 data class CommonResult(var err_code: Int, var err_msg: String, var data: Any?)
 
 data class FlowResult(var err_code: Int, var err_msg: String, var data: FlowRep?)
+data class FlowListResult(var err_code: Int, var err_msg: String, var data: List<FlowRep>?)
 
 data class FlowReq(
     val day: String,

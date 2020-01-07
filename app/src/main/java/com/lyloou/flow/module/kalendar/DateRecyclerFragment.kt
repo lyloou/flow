@@ -1,4 +1,4 @@
-package com.lyloou.flow.ui
+package com.lyloou.flow.module.kalendar
 
 
 import android.os.Bundle
@@ -7,18 +7,17 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.haibin.calendarview.Calendar
 import com.haibin.calendarview.CalendarView
 import com.lyloou.flow.R
-import com.lyloou.flow.adapter.FlowItemAdapter
 import com.lyloou.flow.databinding.FragmentDateRecycleBinding
-import com.lyloou.flow.extension.d2p
-import com.lyloou.flow.model.MyViewModel
+import com.lyloou.flow.extension.dp2px
 import com.lyloou.flow.util.Utime
 import com.lyloou.flow.widget.ItemOffsetDecoration
-import kotlinx.android.synthetic.main.fragment_date.calendarView
 import kotlinx.android.synthetic.main.fragment_date_recycle.*
+import kotlinx.android.synthetic.main.fragment_date_scroll.calendarView
 
 
 /**
@@ -82,9 +81,10 @@ class DateRecyclerFragment : Fragment() {
 
 
         val context = requireContext()
-        val flowItemAdapter = FlowItemAdapter(myViewModel)
+        val flowItemAdapter =
+            FlowItemAdapter(myViewModel)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.addItemDecoration(ItemOffsetDecoration(context.d2p(16f)))
+        recyclerView.addItemDecoration(ItemOffsetDecoration(context.dp2px(16f)))
         recyclerView.adapter = flowItemAdapter
 
         myViewModel.flowDay.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
@@ -109,4 +109,19 @@ class DateRecyclerFragment : Fragment() {
         })
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val controller = Navigation.findNavController(view!!)
+        when (item.itemId) {
+            R.id.view_mode -> {
+                controller.navigate(R.id.action_dateFragmentRecycler_to_dateFragmentScroll)
+            }
+            R.id.about -> {
+                controller.navigate(R.id.action_dateFragment_to_aboutFragment)
+            }
+            R.id.list -> {
+                controller.navigate(R.id.action_dateFragment_to_listFragment)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }

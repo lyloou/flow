@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/flow_nav"
-    app:startDestination="@id/dateFragment">
+    app:startDestination="@id/dateFragmentRecycler">
 
     <fragment
-        android:id="@+id/dateFragment"
-        android:name="com.lyloou.flow.ui.DateRecyclerFragment"
-        android:label="fragment_date"
-        tools:layout="@layout/fragment_date" >
+        android:id="@+id/dateFragmentRecycler"
+        android:name="com.lyloou.flow.module.kalendar.DateRecyclerFragment"
+        android:label="FlowRecycler"
+        tools:layout="@layout/fragment_date_scroll">
         <action
             android:id="@+id/action_dateFragment_to_listFragment"
             app:destination="@id/listFragment" />
@@ -19,20 +19,27 @@
         <action
             android:id="@+id/action_dateFragment_to_aboutFragment"
             app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_dateFragmentRecycler_to_dateFragmentScroll"
+            app:destination="@id/dateFragmentScroll" />
     </fragment>
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.lyloou.flow.ui.ListFragment"
-        android:label="fragment_list"
+        android:name="com.lyloou.flow.module.list.ListFragment"
+        android:label="FlowDay List"
         tools:layout="@layout/fragment_list" />
     <fragment
         android:id="@+id/aboutFragment"
-        android:name="com.lyloou.flow.ui.AboutFragment"
-        android:label="fragment_about"
+        android:name="com.lyloou.flow.module.about.AboutFragment"
+        android:label="关于"
         tools:layout="@layout/fragment_about" />
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.lyloou.flow.ui.DetailFragment"
+        android:name="com.lyloou.flow.module.detail.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" />
+    <fragment
+        android:id="@+id/dateFragmentScroll"
+        android:name="com.lyloou.flow.module.kalendar.DateFragmentScroll"
+        android:label="FlowScroll" />
 </navigation>
