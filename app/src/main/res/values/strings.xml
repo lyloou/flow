@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Flow</string>
+    <!--  argument key  -->
+    <string name="arg_key_list_to_detail">arg_key_list_to_detail</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

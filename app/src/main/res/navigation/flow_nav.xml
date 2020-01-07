@@ -14,9 +14,6 @@
             android:id="@+id/action_dateFragment_to_listFragment"
             app:destination="@id/listFragment" />
         <action
-            android:id="@+id/action_dateFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
-        <action
             android:id="@+id/action_dateFragment_to_aboutFragment"
             app:destination="@id/aboutFragment" />
         <action
@@ -27,7 +24,11 @@
         android:id="@+id/listFragment"
         android:name="com.lyloou.flow.module.list.ListFragment"
         android:label="FlowDay List"
-        tools:layout="@layout/fragment_list" />
+        tools:layout="@layout/fragment_list" >
+        <action
+            android:id="@+id/action_listFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.lyloou.flow.module.about.AboutFragment"

@@ -33,7 +33,7 @@ class ListFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val binding = FragmentListBinding.inflate(inflater)
-        viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
+        viewModel = ViewModelProviders.of(requireActivity()).get(ListViewModel::class.java)
         binding.data = viewModel
         binding.lifecycleOwner = this
         return binding.root
@@ -75,8 +75,8 @@ class ListFragment : Fragment() {
                 val nearBottom = totalItemCount - 4
                 if (viewModel.isNoData.value != true && lastVisibleItem >= nearBottom) {
                     if (!isLoading) {
-                        viewModel.page.value = 1 + (viewModel.page.value ?: 0)
-                        loadData(viewModel.page.value!!)
+                        viewModel.listPage.value = 1 + (viewModel.listPage.value ?: 0)
+                        loadData(viewModel.listPage.value!!)
                     }
                 }
             }

@@ -20,7 +20,7 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
         MutableLiveData<List<FlowDay>>()
     }
 
-    val page: MutableLiveData<Int> by lazy {
+    val listPage: MutableLiveData<Int> by lazy {
         MutableLiveData(0)
     }
     val currentPage: MutableLiveData<Int> by lazy {
@@ -45,7 +45,7 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
                     val originList: List<FlowDay>
                     if (clear) {
                         originList = mutableListOf()
-                        page.value = 0
+                        listPage.value = 0
                     } else {
                         originList = _flowDayList.value ?: mutableListOf()
                     }

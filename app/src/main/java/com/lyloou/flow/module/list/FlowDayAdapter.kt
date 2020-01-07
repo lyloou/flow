@@ -1,15 +1,15 @@
 package com.lyloou.flow.module.list
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lyloou.flow.R
-import com.lyloou.flow.model.FlowItemHelper
 import com.lyloou.flow.util.ImageHelper
 
 class FlowDayAdapter(private val listViewModel: ListViewModel) :
@@ -32,13 +32,18 @@ class FlowDayAdapter(private val listViewModel: ListViewModel) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         listViewModel.flowDayList.value?.get(position)?.let {
             holder.tvText.text = it.day
-            Glide.with(holder.ivImage)
+            val context = holder.view.context
+            Glide.with(context)
                 .load(ImageHelper.getBigImage(it.day))
                 .into(holder.ivImage)
             holder.view.setOnClickListener {
-                val text =
-                    FlowItemHelper.toPrettyText(listViewModel.flowDayList.value!![position].items)
-                Toast.makeText(holder.view.context, text, Toast.LENGTH_SHORT).show()
+                val controller = Navigation.findNavController(holder.view)
+                val bundle = Bundle()
+                bundle.putInt(
+                    context.resources.getString(R.string.arg_key_list_to_detail),
+                    position
+                )
+                controller.navigate(R.id.action_listFragment_to_detailFragment, bundle)
             }
         }
     }
