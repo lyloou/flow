@@ -18,10 +18,7 @@ import io.reactivex.schedulers.Schedulers
 class MyViewModel(application: Application) : AndroidViewModel(application) {
     val flowDay: MutableLiveData<FlowDay> by lazy {
         MutableLiveData<FlowDay>().also {
-            it.value = FlowDay(
-                Utime.getDayWithFormatTwo(),
-                arrayListOf()
-            )
+            loadFromNet(Utime.getDayWithFormatTwo())
         }
     }
 

@@ -56,8 +56,6 @@ class DateRecyclerFragment : Fragment() {
     private fun initView() {
         val day = myViewModel.flowDay.value?.day
         day?.let {
-            myViewModel.loadFromNet(it)
-
             val date = Utime.transferTwo(day)
             val calendar = java.util.Calendar.getInstance()
             calendar.time = date
@@ -70,7 +68,9 @@ class DateRecyclerFragment : Fragment() {
 
         calendarView.setOnCalendarSelectListener(object : CalendarView.OnCalendarSelectListener {
             override fun onCalendarSelect(calendar: Calendar?, isClick: Boolean) {
-                calendar?.let { myViewModel.loadFromNet(it.toString()) }
+                if (isClick) {
+                    calendar?.let { myViewModel.loadFromNet(it.toString()) }
+                }
             }
 
             override fun onCalendarOutOfRange(calendar: Calendar?) {

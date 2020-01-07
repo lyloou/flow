@@ -105,10 +105,10 @@ class DateFragmentScroll : Fragment() {
                 controller.navigateUp()
             }
             R.id.about -> {
-                controller.navigate(R.id.action_dateFragment_to_aboutFragment)
+                controller.navigate(R.id.aboutFragment)
             }
             R.id.list -> {
-                controller.navigate(R.id.action_dateFragment_to_listFragment)
+                controller.navigate(R.id.listFragment)
             }
         }
         return super.onOptionsItemSelected(item)

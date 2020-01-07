@@ -37,7 +37,7 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.lyloou.flow.module.detail.DetailFragment"
-        android:label="fragment_detail"
+        android:label="Flow Detail"
         tools:layout="@layout/fragment_detail" />
     <fragment
         android:id="@+id/dateFragmentScroll"
