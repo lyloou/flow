@@ -1,5 +1,6 @@
 package com.lyloou.flow.module.kalendar
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import com.lyloou.flow.R
 import com.lyloou.flow.common.ListAdapterWithHeader
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.module.kalendar.FlowItemAdapter.MyViewHolder
+import com.lyloou.flow.temp.TempActivity
 
 
 // [Extending the ListAdapter with a header view | Brightec, Brighton, UK](https://www.brightec.co.uk/ideas/extending-listadapter-header-view)
@@ -84,6 +86,12 @@ class FlowItemAdapter(private val myViewModel: MyViewModel) :
                         holder.textView.text,
                         Toast.LENGTH_SHORT
                     ).show()
+                    holder.textView.context.startActivity(
+                        Intent(
+                            holder.textView.context,
+                            TempActivity::class.java
+                        )
+                    )
                 }
             }
         }

@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import com.lyloou.flow.common.Consumer
 import com.lyloou.flow.common.Url
 import com.lyloou.flow.model.FlowDay
-import com.lyloou.flow.model.FlowListResult
 import com.lyloou.flow.model.toFlowDay
 import com.lyloou.flow.net.FlowApi
 import com.lyloou.flow.net.Network
@@ -39,7 +38,7 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
             .subscribeOn(Schedulers.io())
             .unsubscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(fun(it: FlowListResult) {
+            .subscribe({
                 if (it.err_code == 0) {
                     Log.e("TTAG", "data:${it.data}")
                     val originList: List<FlowDay>
