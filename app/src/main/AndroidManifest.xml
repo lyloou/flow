@@ -18,7 +18,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".temp.TempActivity"></activity>
+        <activity android:name=".module.dblist.DblistActivity"></activity>
+        <activity android:name=".temp.TempActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

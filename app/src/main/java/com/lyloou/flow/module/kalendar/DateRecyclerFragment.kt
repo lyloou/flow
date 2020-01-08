@@ -1,6 +1,7 @@
 package com.lyloou.flow.module.kalendar
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
@@ -14,6 +15,7 @@ import com.haibin.calendarview.CalendarView
 import com.lyloou.flow.R
 import com.lyloou.flow.databinding.FragmentDateRecycleBinding
 import com.lyloou.flow.extension.dp2px
+import com.lyloou.flow.module.dblist.DblistActivity
 import com.lyloou.flow.util.Utime
 import com.lyloou.flow.widget.ItemOffsetDecoration
 import kotlinx.android.synthetic.main.fragment_date_recycle.*
@@ -120,6 +122,9 @@ class DateRecyclerFragment : Fragment() {
             }
             R.id.list -> {
                 controller.navigate(R.id.action_dateFragment_to_listFragment)
+            }
+            R.id.local_list -> {
+                startActivity(Intent(context, DblistActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)

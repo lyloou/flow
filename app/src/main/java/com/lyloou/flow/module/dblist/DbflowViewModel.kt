@@ -1,0 +1,24 @@
+package com.lyloou.flow.module.dblist
+
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.lyloou.flow.repository.DbFlowDay
+import com.lyloou.flow.repository.FlowDatabase
+
+class DbflowViewModel(application: Application) : AndroidViewModel(application) {
+    private val database = FlowDatabase.getInstance(application)
+    private val flowDao = database.flowDao()
+    val dbFlowDay: LiveData<PagedList<DbFlowDay>> by lazy {
+        LivePagedListBuilder(
+            flowDao.getAllDbFlowDays(),
+            PagedList.Config.Builder()
+                .setPageSize(5)
+                .setEnablePlaceholders(false)
+                .setInitialLoadSizeHint(5)
+                .build()
+        ).build()
+    }
+}

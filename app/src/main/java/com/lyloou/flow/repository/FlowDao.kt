@@ -1,0 +1,25 @@
+package com.lyloou.flow.repository
+
+import androidx.paging.DataSource
+import androidx.room.*
+
+@Dao
+interface FlowDao {
+    @Insert
+    fun insertDbFlowDay(vararg dbFlowDays: DbFlowDay)
+
+    @Update
+    fun updateDbFlowDay(vararg dbFlowDays: DbFlowDay)
+
+    @Delete
+    fun deleteDbFlowDay(vararg dbFlowDays: DbFlowDay)
+
+    @Query("DELETE FROM $TABLE_FLOW")
+    fun deleteAllDbFlowDay()
+
+//    @Query("SELECT * FROM $TABLE_FLOW ORDER　BY $COL_FLOW_DAY DESC LIMIT :offset,:limit ")
+//    fun listDbFlowDays(limit: Int = 10, offset: Int = 0): LiveData<List<DbFlowDay>>
+
+    @Query("SELECT * FROM $TABLE_FLOW ORDER BY $COL_FLOW_DAY DESC")
+    fun getAllDbFlowDays(): DataSource.Factory<Int, DbFlowDay>;
+}

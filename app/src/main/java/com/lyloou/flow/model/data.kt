@@ -1,5 +1,7 @@
 package com.lyloou.flow.model
 
+import com.lyloou.flow.repository.DbFlowDay
+
 data class CommonResult(var err_code: Int, var err_msg: String, var data: Any?)
 
 data class FlowResult(var err_code: Int, var err_msg: String, var data: FlowRep?)
@@ -32,5 +34,16 @@ fun FlowRep.toFlowDay(): FlowDay {
         FlowItemHelper.fromJsonArray(item),
         isArchived,
         isDisabled
+    )
+}
+
+fun FlowRep.toDbFlowDay(): DbFlowDay {
+    return DbFlowDay(
+        0,
+        day,
+        item ?: "[]",
+        isArchived,
+        isDisabled,
+        true
     )
 }
