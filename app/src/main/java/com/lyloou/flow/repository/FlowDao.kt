@@ -24,9 +24,6 @@ interface FlowDao {
     @Query("SELECT * FROM $TABLE_FLOW ORDER BY $COL_FLOW_DAY DESC")
     fun getAllDbFlowDays(): DataSource.Factory<Int, DbFlowDay>;
 
-    @Query("SELECT * FROM $TABLE_FLOW WHERE $COL_FLOW_DAY = :day limit 1")
+    @Query("SELECT * FROM $TABLE_FLOW WHERE $COL_FLOW_DAY = :day")
     fun getDbFlowDay(day: String): LiveData<DbFlowDay>
-
-    @Query("SELECT * FROM $TABLE_FLOW WHERE $COL_FLOW_DAY = :day limit 1")
-    fun getDbFlowDayNormal(day: String): DbFlowDay
 }

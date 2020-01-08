@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.lyloou.flow.R
 import com.lyloou.flow.model.FlowItemHelper
 import com.lyloou.flow.util.Utime
+import com.lyloou.flow.widget.TimeLineItemDecoration
 import kotlinx.android.synthetic.main.fragment_dbdetail.*
 
 /**
@@ -32,16 +34,36 @@ class DbdetailFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(DbflowViewModel::class.java)
 
-        arguments?.let {
-            val day = it.getString("day", Utime.today())
-            Log.i("TTAG", "day=${day}")
-            val flowDay = viewModel.getDbFlowDay(day)
-            flowDay.observe(viewLifecycleOwner, Observer {
-                Log.i("TTAG", "flowday=${flowDay.value?.day}")
-                val prettyText =
-                    FlowItemHelper.toPrettyText(FlowItemHelper.fromJsonArray(flowDay.value?.items))
-                textView.text = "${flowDay.value?.day} \n $prettyText"
-            })
+
+        with(arguments) {
+            if (this != null) {
+                viewModel.day.value = arguments!!.getString("day", Utime.today())
+            } else {
+                if (viewModel.day.value == null) {
+                    viewModel.day.value = Utime.today()
+                }
+            }
         }
+
+        Log.i("TTAG", "day=${viewModel.day.value}")
+        val flowDay = viewModel.dbFlowDay
+        flowDay.observe(viewLifecycleOwner, Observer {
+            // 没有数据的时候，添加默认的
+            flowDay.value ?: viewModel.insertDbFlowDay()
+            viewModel.flowItems.value = FlowItemHelper.fromJsonArray(flowDay.value?.items)
+            Log.i("TTAG", "viewModel.flowItems.value=${viewModel.flowItems.value}")
+        })
+
+
+        val adapter = DbflowItemAdapter(viewModel)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.addItemDecoration(TimeLineItemDecoration())
+        viewModel.flowItems.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.notifyDataSetChanged()
+            }
+        })
+
     }
 }

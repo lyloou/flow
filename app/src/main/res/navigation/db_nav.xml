@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_dblist">
         <action
             android:id="@+id/action_dblistFragment_to_dbdetailFragment"
-            app:destination="@id/dbdetailFragment" />
+            app:destination="@+id/dbdetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/dbdetailFragment"
