@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.navigation.Navigation
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -40,12 +42,19 @@ class DbflowAdapter : PagedListAdapter<DbFlowDay, DbflowAdapter.MyViewHolder>(DI
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val flowDay = getItem(position)
-        flowDay?.let {
-            holder.textView.text = it.day
+        getItem(position)?.let {
+            val flowDay = it
+            holder.textView.text = flowDay.day
             Glide.with(holder.textView.context)
-                .load(ImageHelper.getBigImage(it.day))
+                .load(ImageHelper.getBigImage(flowDay.day))
                 .into(holder.imageView)
+            holder.itemView.setOnClickListener {
+                val navigation = Navigation.findNavController(holder.itemView)
+                navigation.navigate(
+                    R.id.action_dblistFragment_to_dbdetailFragment,
+                    bundleOf("day" to flowDay.day)
+                )
+            }
         }
     }
 }

@@ -18,14 +18,16 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".module.dblist.DblistActivity"></activity>
-        <activity android:name=".temp.TempActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".module.dblist.DblistActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".temp.TempActivity" />
+        <activity android:name=".MainActivity">
+
         </activity>
     </application>
 
