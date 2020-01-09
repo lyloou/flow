@@ -5,6 +5,9 @@ import android.os.AsyncTask
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 
 class FlowRepository(private val context: Context) {
     private val flowDao: FlowDao
@@ -26,6 +29,18 @@ class FlowRepository(private val context: Context) {
             }
 
         }
+    }
+
+    fun updateDbFlowItems(day: String, items: String) {
+        val workRequest = OneTimeWorkRequestBuilder<UpdateFlowItemsWork>()
+            .setInputData(
+                Data.Builder()
+                    .putString("day", day)
+                    .putString("items", items)
+                    .build()
+            )
+            .build()
+        WorkManager.getInstance(context).enqueue(workRequest)
     }
 
     fun updateDbFlowDay(vararg dbFlowDays: DbFlowDay) {

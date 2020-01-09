@@ -2,23 +2,22 @@ package com.lyloou.flow.module.dblist
 
 
 import android.app.TimePickerDialog.OnTimeSetListener
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.text.TextUtils
+import android.view.*
 import android.widget.TimePicker
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.lyloou.flow.R
 import com.lyloou.flow.extension.notifyObserver
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.model.FlowItemHelper
-import com.lyloou.flow.repository.DbFlowDay
 import com.lyloou.flow.util.Udialog
 import com.lyloou.flow.util.Usystem
 import com.lyloou.flow.util.Utime
@@ -31,80 +30,100 @@ import kotlinx.android.synthetic.main.fragment_dbdetail.*
  */
 class DbdetailFragment : Fragment() {
     private lateinit var viewModel: DbflowViewModel
-    private lateinit var dbFlowDay: LiveData<DbFlowDay>
+    private lateinit var day: String
+    private lateinit var adapter: DbflowItemAdapter
     private var handler: Handler = Handler()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        initData()
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_dbdetail, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    private fun initData() {
         viewModel = ViewModelProviders.of(requireActivity()).get(DbflowViewModel::class.java)
 
-        val adapter = DbflowItemAdapter(viewModel)
-        adapter.itemListener = getItemListener()
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.addItemDecoration(TimeLineItemDecoration())
-
-        viewModel.flowItems.observe(viewLifecycleOwner, Observer {
+        day = arguments?.getString("day", Utime.today()) ?: Utime.today()
+        val dbFlowDay = viewModel.getDbFlowDay(day)
+        // 没有数据的时候，添加默认的
+        dbFlowDay.observe(viewLifecycleOwner, Observer {
+            if (it == null) {
+                viewModel.insertDbFlowDay(day)
+                return@Observer
+            }
+            viewModel.flowItemList.value = FlowItemHelper.fromJsonArray(it.items)
+        })
+        viewModel.flowItemList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.notifyDataSetChanged()
             }
         })
-
-        with(arguments) {
-            if (this != null) {
-                viewModel.day.value = arguments!!.getString("day", Utime.today())
-            } else {
-                if (viewModel.day.value == null) {
-                    viewModel.day.value = Utime.today()
-                }
-            }
-        }
-
-
-        dbFlowDay = viewModel.getDbFlowDay(viewModel.day.value.toString())
-        dbFlowDay.observe(viewLifecycleOwner, Observer {
-            // 没有数据的时候，添加默认的
-            dbFlowDay.value ?: viewModel.insertDbFlowDay()
-            viewModel.flowItems.value =
-                FlowItemHelper.fromJsonArray(dbFlowDay.value?.items)
-        })
     }
 
-    fun updateDb(vararg now: Boolean) {
-        if (now.isNotEmpty() && now[0]) {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setHasOptionsMenu(true)
+
+        adapter = DbflowItemAdapter(viewModel)
+        adapter.itemListener = getItemListener()
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.addItemDecoration(TimeLineItemDecoration())
+    }
+
+    fun updateDb(vararg noDelay: Boolean) {
+        if (noDelay.isNotEmpty() && noDelay[0]) {
             updateDbTask.run()
             return
         }
-        delayUpdate()
+        delayUpdateDb()
     }
 
     private val updateDbTask = Runnable {
-        dbFlowDay.value?.let {
-            it.items = FlowItemHelper.toJsonArray(viewModel.flowItems.value)
-            Log.i("TTAG", "items: ${it.items}");
-            viewModel.updateDbFlowData(it)
+        viewModel.flowItemList.value?.let {
+            viewModel.updateDbFlowData(day, it)
         }
-
     }
 
 
-    private fun delayUpdate() {
+    private fun delayUpdateDb() {
         handler.removeCallbacks(updateDbTask)
         handler.postDelayed(updateDbTask, 800)
     }
 
     private fun updateUiAndDb() {
-        viewModel.flowItems.notifyObserver()
-        delayUpdate()
+        viewModel.flowItemList.notifyObserver()
+        delayUpdateDb()
+    }
+
+    private fun addNewItem() {
+        viewModel.flowItemList.value?.let {
+            val newItem = FlowItem()
+            val startArr = Utime.getValidTime(null)
+            var currentTime = Utime.getTimeString(startArr[0], startArr[1])
+
+            if (it.size > 0) {
+                val item = it[0]
+                // 当前时间已经存在，则不在新建
+                if (currentTime == item.timeStart) {
+                    showTips("该时间点已经有了一个哦")
+                    return
+                }
+                if (!TextUtils.isEmpty(item.timeEnd)) {
+                    currentTime = item.timeEnd
+                }
+            }
+            newItem.timeStart = currentTime
+            it.add(0, newItem)
+            updateUiAndDb()
+        }
+    }
+
+    private fun showTips(text: String) {
+        Snackbar.make(recyclerView, text, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun getItemListener() = object : OnItemListener {
@@ -121,8 +140,9 @@ class DbdetailFragment : Fragment() {
                     )
                 }
                 .add("删除此项") {
-                    val value = viewModel.flowItems.value
+                    val value = viewModel.flowItemList.value
                     value?.remove(item)
+                    viewModel.flowItemList.notifyObserver()
                 }
                 .show()
         }
@@ -131,7 +151,7 @@ class DbdetailFragment : Fragment() {
             // 原文链接：https://blog.csdn.net/qq_17009881/article/details/75371406
             val listener = OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
                 item.timeStart = Utime.getTimeString(hourOfDay, minute)
-                Utransfer.sortItems(viewModel.flowItems.value)
+                Utransfer.sortItems(viewModel.flowItemList.value)
                 updateUiAndDb()
             }
             Udialog.showTimePicker(requireContext(), listener, Utime.getValidTime(item.timeStart))
@@ -140,7 +160,7 @@ class DbdetailFragment : Fragment() {
         override fun onClickTimeEnd(item: FlowItem) {
             val listener = OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
                 item.timeEnd = Utime.getTimeString(hourOfDay, minute)
-                Utransfer.sortItems(viewModel.flowItems.value)
+                Utransfer.sortItems(viewModel.flowItemList.value)
                 updateUiAndDb()
             }
             Udialog.showTimePicker(requireContext(), listener, Utime.getValidTime(item.timeEnd))
@@ -151,7 +171,7 @@ class DbdetailFragment : Fragment() {
                 .consumer {
                     if (it) {
                         item.timeStart = null
-                        Utransfer.sortItems(viewModel.flowItems.value)
+                        Utransfer.sortItems(viewModel.flowItemList.value)
                         updateUiAndDb()
                     }
                 }
@@ -164,7 +184,7 @@ class DbdetailFragment : Fragment() {
                 .consumer {
                     if (it) {
                         item.timeEnd = null
-                        Utransfer.sortItems(viewModel.flowItems.value)
+                        Utransfer.sortItems(viewModel.flowItemList.value)
                         updateUiAndDb()
                     }
                 }
@@ -186,4 +206,28 @@ class DbdetailFragment : Fragment() {
 
     }
 
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.dbflow_menu, menu);
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val controller = Navigation.findNavController(view!!)
+        when (item.itemId) {
+            R.id.view_mode -> {
+                controller.navigate(R.id.action_dateFragmentRecycler_to_dateFragmentScroll)
+            }
+            R.id.about -> {
+                controller.navigate(R.id.action_dateFragment_to_aboutFragment)
+            }
+            R.id.list -> {
+                addNewItem()
+            }
+            R.id.local_list -> {
+                startActivity(Intent(context, DblistActivity::class.java))
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }

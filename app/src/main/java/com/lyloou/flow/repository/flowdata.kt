@@ -13,7 +13,7 @@ const val COL_FLOW_IS_ARCHIVED = "is_archived"
 const val COL_FLOW_IS_SYNCED = "is_synced"
 const val COL_FLOW_IS_DISABLED = "is_disabled"
 
-@Entity(tableName = TABLE_FLOW, indices = [Index("day")])
+@Entity(tableName = TABLE_FLOW, indices = [Index("day", unique = true)])
 data class DbFlowDay(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = COL_FLOW_ID)

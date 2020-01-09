@@ -34,7 +34,7 @@ class DbflowItemAdapter(private val viewmodel: DbflowViewModel) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        viewmodel.flowItems.value?.let { list ->
+        viewmodel.flowItemList.value?.let { list ->
             list[position].let {
                 holder.tvTimeStart.text = Utime.getFormatTime(it.timeStart)
                 holder.tvTimeSep.text = it.timeSep
@@ -105,5 +105,5 @@ class DbflowItemAdapter(private val viewmodel: DbflowViewModel) :
         }
     }
 
-    override fun getItemCount(): Int = viewmodel.flowItems.value?.size ?: 0
+    override fun getItemCount(): Int = viewmodel.flowItemList.value?.size ?: 0
 }

@@ -38,7 +38,7 @@ class DblistFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.addItemDecoration(ItemOffsetDecoration(requireContext().dp2px(16f)))
-        viewModel.dbFlowDays.observe(viewLifecycleOwner, Observer {
+        viewModel.dbFlowDayList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
             }
