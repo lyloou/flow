@@ -5,9 +5,8 @@ import android.os.AsyncTask
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import androidx.work.Data
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.*
+import kotlinx.coroutines.coroutineScope
 
 class FlowRepository(private val context: Context) {
     private val flowDao: FlowDao
@@ -32,20 +31,15 @@ class FlowRepository(private val context: Context) {
     }
 
     fun updateDbFlowItems(day: String, items: String) {
-        val workRequest = OneTimeWorkRequestBuilder<UpdateFlowItemsWork>()
-            .setInputData(
-                Data.Builder()
-                    .putString("day", day)
-                    .putString("items", items)
-                    .build()
-            )
-            .build()
+        val workRequest = OneTimeWorkRequestBuilder<UpdateFlowItemsWork>().setInputData(
+            Data.Builder()
+                .putString(Keys.DAY, day)
+                .putString(Keys.ITEMS, items)
+                .build()
+        ).build()
         WorkManager.getInstance(context).enqueue(workRequest)
     }
 
-    fun updateDbFlowDay(vararg dbFlowDays: DbFlowDay) {
-        UpdateAsyncTask(flowDao).execute(*dbFlowDays)
-    }
 
     fun insertDbFlowDay(vararg dbFlowDays: DbFlowDay) {
         InsertAsyncTask(flowDao).execute(*dbFlowDays)
@@ -60,7 +54,7 @@ class FlowRepository(private val context: Context) {
             flowDao.getAllDbFlowDays(),
             PagedList.Config.Builder()
                 .setPageSize(5)
-                .setEnablePlaceholders(false)
+                .setEnablePlaceholders(true)
                 .setInitialLoadSizeHint(5)
                 .build()
         ).build()
@@ -77,14 +71,25 @@ class FlowRepository(private val context: Context) {
 
     }
 
-    class UpdateAsyncTask(private val flowDao: FlowDao) : AsyncTask<DbFlowDay, Unit, Unit>() {
+    object Keys {
+        const val DAY = "day"
+        const val ITEMS = "ITEMS"
+    }
 
-        override fun doInBackground(vararg flowDays: DbFlowDay) {
-            if (flowDays.size < 0) {
-                return
+    class UpdateFlowItemsWork(
+        private val context: Context,
+        private val workerParameters: WorkerParameters
+    ) : CoroutineWorker(context, workerParameters) {
+        override suspend fun doWork(): Result = coroutineScope {
+            val day = workerParameters.inputData.getString(Keys.DAY)
+            val items = workerParameters.inputData.getString(Keys.ITEMS)
+            val flowDao = FlowDatabase.getInstance(context).flowDao()
+            if (flowDao.updateDbFlowDayWithItems(day!!, items!!) >= 0) {
+                Result.success()
+            } else {
+                Result.failure()
             }
-            flowDao.updateDbFlowDay(*flowDays)
         }
-
     }
 }
+

@@ -107,7 +107,7 @@ class DateFragmentScroll : Fragment() {
             R.id.about -> {
                 controller.navigate(R.id.aboutFragment)
             }
-            R.id.list -> {
+            R.id.add -> {
                 controller.navigate(R.id.listFragment)
             }
         }

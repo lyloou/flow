@@ -30,14 +30,7 @@ class DbflowViewModel(application: Application) : AndroidViewModel(application) 
         Log.i("TTAG", "dbFlowDay=$dbFlowDay")
     }
 
-    fun updateDbFlowData(dbFlowDay: DbFlowDay?) {
-        if (dbFlowDay == null) {
-            return
-        }
-        flowRepository.updateDbFlowDay(dbFlowDay)
-    }
-
-    fun updateDbFlowData(day: String, itemList: List<FlowItem>) {
+    fun updateDbFlowItems(day: String, itemList: List<FlowItem>) {
         val items = FlowItemHelper.toJsonArray(itemList)
         flowRepository.updateDbFlowItems(day, items)
     }

@@ -12,7 +12,7 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always" />
     <item
-        android:id="@+id/list"
+        android:id="@+id/add"
         android:icon="@drawable/ic_format_list_bulleted_white"
         android:title="列表"
         app:showAsAction="always" />

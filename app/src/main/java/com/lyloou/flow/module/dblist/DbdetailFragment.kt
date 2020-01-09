@@ -67,7 +67,7 @@ class DbdetailFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setHasOptionsMenu(true)
 
-        adapter = DbflowItemAdapter(viewModel)
+        adapter = DbflowItemAdapter(viewModel.flowItemList)
         adapter.itemListener = getItemListener()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -84,7 +84,7 @@ class DbdetailFragment : Fragment() {
 
     private val updateDbTask = Runnable {
         viewModel.flowItemList.value?.let {
-            viewModel.updateDbFlowData(day, it)
+            viewModel.updateDbFlowItems(day, it)
         }
     }
 
@@ -140,9 +140,10 @@ class DbdetailFragment : Fragment() {
                     )
                 }
                 .add("删除此项") {
-                    val value = viewModel.flowItemList.value
-                    value?.remove(item)
-                    viewModel.flowItemList.notifyObserver()
+                    viewModel.flowItemList.value?.let {
+                        it.remove(item)
+                        updateUiAndDb()
+                    }
                 }
                 .show()
         }
@@ -194,10 +195,8 @@ class DbdetailFragment : Fragment() {
 
         override fun onTextChanged(item: FlowItem, s: CharSequence) {
             item.content = s.toString()
-            // 这个时候文字已经显示到屏幕了，不需要再通知 liveData 刷新屏幕了
             // 只需要更新数据即可
             updateDb()
-
         }
 
         override fun onEditTextFocused(hasFocus: Boolean, item: FlowItem) {
@@ -218,10 +217,8 @@ class DbdetailFragment : Fragment() {
             R.id.view_mode -> {
                 controller.navigate(R.id.action_dateFragmentRecycler_to_dateFragmentScroll)
             }
-            R.id.about -> {
-                controller.navigate(R.id.action_dateFragment_to_aboutFragment)
-            }
-            R.id.list -> {
+
+            R.id.add -> {
                 addNewItem()
             }
             R.id.local_list -> {

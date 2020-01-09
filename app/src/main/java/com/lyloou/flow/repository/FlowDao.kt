@@ -18,9 +18,6 @@ interface FlowDao {
     @Query("DELETE FROM $TABLE_FLOW")
     fun deleteAllDbFlowDay()
 
-//    @Query("SELECT * FROM $TABLE_FLOW ORDER　BY $COL_FLOW_DAY DESC LIMIT :offset,:limit ")
-//    fun listDbFlowDays(limit: Int = 10, offset: Int = 0): LiveData<List<DbFlowDay>>
-
     @Query("SELECT * FROM $TABLE_FLOW ORDER BY $COL_FLOW_DAY DESC")
     fun getAllDbFlowDays(): DataSource.Factory<Int, DbFlowDay>;
 

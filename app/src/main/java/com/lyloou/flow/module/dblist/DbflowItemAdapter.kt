@@ -9,12 +9,13 @@ import android.view.View.OnLongClickListener
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.lyloou.flow.R
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.util.Utime
 
-class DbflowItemAdapter(private val viewmodel: DbflowViewModel) :
+class DbflowItemAdapter(private val data: MutableLiveData<MutableList<FlowItem>>) :
     RecyclerView.Adapter<DbflowItemAdapter.MyViewHolder>() {
 
     var itemListener: OnItemListener? = null
@@ -34,13 +35,14 @@ class DbflowItemAdapter(private val viewmodel: DbflowViewModel) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        viewmodel.flowItemList.value?.let { list ->
+        data.value?.let { list ->
             list[position].let {
                 holder.tvTimeStart.text = Utime.getFormatTime(it.timeStart)
                 holder.tvTimeSep.text = it.timeSep
                 holder.tvTimeEnd.text = Utime.getFormatTime(it.timeEnd)
                 holder.tvSpend.text = it.spend
                 holder.etContent.setText(it.content)
+                holder.etContent.setSelection(it.content?.length ?: 0)
                 addChangeListener(holder.etContent, it)
 
                 holder.tvTimeStart.setOnClickListener { view: View? ->
@@ -105,5 +107,5 @@ class DbflowItemAdapter(private val viewmodel: DbflowViewModel) :
         }
     }
 
-    override fun getItemCount(): Int = viewmodel.flowItemList.value?.size ?: 0
+    override fun getItemCount(): Int = data.value?.size ?: 0
 }

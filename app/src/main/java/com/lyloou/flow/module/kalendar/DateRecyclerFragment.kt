@@ -120,7 +120,7 @@ class DateRecyclerFragment : Fragment() {
             R.id.about -> {
                 controller.navigate(R.id.action_dateFragment_to_aboutFragment)
             }
-            R.id.list -> {
+            R.id.add -> {
                 controller.navigate(R.id.action_dateFragment_to_listFragment)
             }
             R.id.local_list -> {
