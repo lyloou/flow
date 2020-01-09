@@ -32,7 +32,7 @@ class DblistFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(DbflowViewModel::class.java)
+        viewModel = ViewModelProviders.of(requireActivity()).get(DbflowViewModel::class.java)
 
         val adapter = DbflowAdapter()
         recyclerView.adapter = adapter

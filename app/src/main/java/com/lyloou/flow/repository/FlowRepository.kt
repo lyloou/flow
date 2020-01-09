@@ -28,6 +28,10 @@ class FlowRepository(private val context: Context) {
         }
     }
 
+    fun updateDbFlowDay(vararg dbFlowDays: DbFlowDay) {
+        UpdateAsyncTask(flowDao).execute(*dbFlowDays)
+    }
+
     fun insertDbFlowDay(vararg dbFlowDays: DbFlowDay) {
         InsertAsyncTask(flowDao).execute(*dbFlowDays)
     }
@@ -54,6 +58,17 @@ class FlowRepository(private val context: Context) {
                 return
             }
             flowDao.insertDbFlowDay(*flowDays)
+        }
+
+    }
+
+    class UpdateAsyncTask(private val flowDao: FlowDao) : AsyncTask<DbFlowDay, Unit, Unit>() {
+
+        override fun doInBackground(vararg flowDays: DbFlowDay) {
+            if (flowDays.size < 0) {
+                return
+            }
+            flowDao.updateDbFlowDay(*flowDays)
         }
 
     }

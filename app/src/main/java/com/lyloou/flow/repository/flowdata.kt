@@ -21,11 +21,11 @@ data class DbFlowDay(
     @ColumnInfo(name = COL_FLOW_DAY)
     val day: String,
     @ColumnInfo(name = COL_FLOW_ITEMS)
-    val items: String,
+    var items: String,
     @ColumnInfo(name = COL_FLOW_IS_ARCHIVED)
-    val isArchived: Boolean = false,
+    var isArchived: Boolean = false,
     @ColumnInfo(name = COL_FLOW_IS_SYNCED)
-    val isSynced: Boolean = false,
+    var isSynced: Boolean = false,
     @ColumnInfo(name = COL_FLOW_IS_DISABLED)
     val isDisabled: Boolean = false
 )
