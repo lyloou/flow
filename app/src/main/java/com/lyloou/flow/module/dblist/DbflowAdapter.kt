@@ -20,7 +20,7 @@ class DbflowAdapter : PagedListAdapter<DbFlowDay, DbflowAdapter.MyViewHolder>(DI
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DbFlowDay>() {
             override fun areItemsTheSame(oldItem: DbFlowDay, newItem: DbFlowDay): Boolean {
-                return oldItem === newItem
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: DbFlowDay, newItem: DbFlowDay): Boolean {
