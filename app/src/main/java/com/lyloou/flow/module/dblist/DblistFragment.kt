@@ -1,7 +1,6 @@
 package com.lyloou.flow.module.dblist
 
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.transition.TransitionInflater
 import com.lyloou.flow.R
 import com.lyloou.flow.extension.dp2px
 import com.lyloou.flow.widget.ItemOffsetDecoration
@@ -36,12 +34,6 @@ class DblistFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(requireActivity()).get(DbflowViewModel::class.java)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            sharedElementReturnTransition = TransitionInflater.from(requireActivity())
-                .inflateTransition(R.transition.default_transition)
-            exitTransition = TransitionInflater.from(requireActivity())
-                .inflateTransition(android.R.transition.no_transition)
-        }
         val adapter = DbflowAdapter()
         recyclerView.apply {
             startPostponedEnterTransition()

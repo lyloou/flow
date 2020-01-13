@@ -1,20 +1,21 @@
 package com.lyloou.flow.module.dblist
 
+import android.app.Activity
+import android.app.ActivityOptions
+import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.os.bundleOf
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lyloou.flow.R
 import com.lyloou.flow.repository.DbFlowDay
+import com.lyloou.flow.temp.TempActivity
 import com.lyloou.flow.util.ImageHelper
 
 class DbflowAdapter : PagedListAdapter<DbFlowDay, DbflowAdapter.MyViewHolder>(DIFF_CALLBACK) {
@@ -45,34 +46,34 @@ class DbflowAdapter : PagedListAdapter<DbFlowDay, DbflowAdapter.MyViewHolder>(DI
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         getItem(position)?.let {
-            val flowDay = it
-            holder.textView.text = flowDay.day
-            Glide.with(holder.textView.context)
-                .load(ImageHelper.getBigImage(flowDay.day))
+            val day = it.day
+            holder.textView.text = day
+            Glide.with(holder.imageView.context)
+                .load(ImageHelper.getBigImage(day))
                 .into(holder.imageView)
 
-            val transitionName = "transition$position"
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                holder.imageView.transitionName = transitionName
-            }
-
             holder.itemView.setOnClickListener {
-                val navigation = Navigation.findNavController(holder.itemView)
-                val extras = FragmentNavigatorExtras(
-                    holder.imageView to transitionName
-                )
-                navigation.navigate(
-                    R.id.action_dblistFragment_to_dbdetailFragment,
-                    bundleOf("day" to flowDay.day, "transitionName" to transitionName),
-                    null,
-                    extras
-                )
+                doOnClickItem(day, holder.imageView)
             }
         }
     }
-//    lateinit var
+
+    private fun doOnClickItem(day: String, imageView: ImageView) {
+        val intent = Intent(imageView.context, TempActivity::class.java)
+        intent.putExtra("day", day)
+
+        var options: ActivityOptions? = null
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            options = ActivityOptions.makeSceneTransitionAnimation(
+                imageView.context as Activity,
+                imageView,
+                day
+            )
+        }
+        imageView.context.startActivity(intent, options?.toBundle())
+    }
 }
 
-interface OnClickListener{
+interface OnClickListener {
     fun onClick();
 }
