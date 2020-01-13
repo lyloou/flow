@@ -1,5 +1,6 @@
 package com.lyloou.flow.module.dblist
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -48,13 +50,29 @@ class DbflowAdapter : PagedListAdapter<DbFlowDay, DbflowAdapter.MyViewHolder>(DI
             Glide.with(holder.textView.context)
                 .load(ImageHelper.getBigImage(flowDay.day))
                 .into(holder.imageView)
+
+            val transitionName = "transition$position"
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                holder.imageView.transitionName = transitionName
+            }
+
             holder.itemView.setOnClickListener {
                 val navigation = Navigation.findNavController(holder.itemView)
+                val extras = FragmentNavigatorExtras(
+                    holder.imageView to transitionName
+                )
                 navigation.navigate(
                     R.id.action_dblistFragment_to_dbdetailFragment,
-                    bundleOf("day" to flowDay.day)
+                    bundleOf("day" to flowDay.day, "transitionName" to transitionName),
+                    null,
+                    extras
                 )
             }
         }
     }
+//    lateinit var
+}
+
+interface OnClickListener{
+    fun onClick();
 }

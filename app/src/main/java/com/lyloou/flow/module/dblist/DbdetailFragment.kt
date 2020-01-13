@@ -3,6 +3,7 @@ package com.lyloou.flow.module.dblist
 
 import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
@@ -13,15 +14,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionInflater
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.lyloou.flow.R
 import com.lyloou.flow.extension.notifyObserver
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.model.FlowItemHelper
-import com.lyloou.flow.util.Udialog
-import com.lyloou.flow.util.Usystem
-import com.lyloou.flow.util.Utime
-import com.lyloou.flow.util.Utransfer
+import com.lyloou.flow.util.*
 import com.lyloou.flow.widget.TimeLineItemDecoration
 import kotlinx.android.synthetic.main.fragment_dbdetail.*
 
@@ -66,6 +66,17 @@ class DbdetailFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setHasOptionsMenu(true)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            sharedElementEnterTransition = TransitionInflater.from(requireContext())
+                .inflateTransition(R.transition.default_transition).apply { duration = 300 }
+            enterTransition = TransitionInflater.from(requireContext())
+                .inflateTransition(android.R.transition.no_transition)
+            val transitionName = arguments?.getString("transitionName")
+            iv_header.transitionName = transitionName
+        }
+        Glide.with(requireContext())
+            .load(ImageHelper.getBigImage(day))
+            .into(iv_header)
 
         adapter = DbflowItemAdapter(viewModel.flowItemList)
         adapter.itemListener = getItemListener()
