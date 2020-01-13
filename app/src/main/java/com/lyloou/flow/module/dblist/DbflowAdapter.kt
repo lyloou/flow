@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lyloou.flow.R
 import com.lyloou.flow.repository.DbFlowDay
-import com.lyloou.flow.temp.TempActivity
 import com.lyloou.flow.util.ImageHelper
 
 class DbflowAdapter : PagedListAdapter<DbFlowDay, DbflowAdapter.MyViewHolder>(DIFF_CALLBACK) {
@@ -59,7 +58,7 @@ class DbflowAdapter : PagedListAdapter<DbFlowDay, DbflowAdapter.MyViewHolder>(DI
     }
 
     private fun doOnClickItem(day: String, imageView: ImageView) {
-        val intent = Intent(imageView.context, TempActivity::class.java)
+        val intent = Intent(imageView.context, DbdetailActivity::class.java)
         intent.putExtra("day", day)
 
         var options: ActivityOptions? = null
@@ -72,8 +71,4 @@ class DbflowAdapter : PagedListAdapter<DbFlowDay, DbflowAdapter.MyViewHolder>(DI
         }
         imageView.context.startActivity(intent, options?.toBundle())
     }
-}
-
-interface OnClickListener {
-    fun onClick();
 }

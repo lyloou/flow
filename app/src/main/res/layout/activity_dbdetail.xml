@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    tools:context=".module.dblist.DbdetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -37,15 +38,25 @@
                 android:layout_height="?android:actionBarSize"
                 android:layout_gravity="bottom|center_horizontal"
                 android:background="@color/colorAccentTransparent"
+                android:ellipsize="end"
                 android:gravity="center"
+                android:maxLines="2"
                 android:padding="8dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
+                android:text="多么美好的一天 大太阳晒伤我的脸 我担心干旱持续好久水库会缺水 多么美好的一天 又接近末日一点点 我独自坚强稀释寂寞无聊的时间"
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 android:textStyle="italic"
-                android:visibility="invisible" />
+                android:visibility="visible" />
 
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?android:actionBarSize"
+                app:contentInsetEnd="0dp"
+                app:contentInsetStart="0dp"
+                app:layout_collapseMode="pin" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -58,7 +69,6 @@
         android:paddingLeft="10dp"
         android:paddingEnd="20dp"
         android:paddingRight="20dp"
-        android:visibility="invisible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/cell_dbdetail" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -61,7 +61,10 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     androidTestImplementation "androidx.room:room-testing:$room_version"
+    implementation "androidx.palette:palette-ktx:1.0.0"
 
+
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
 
     // For Kotlin use kapt instead of annotationProcessor
 

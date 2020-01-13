@@ -18,6 +18,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
+        <activity
+            android:name=".module.dblist.DbdetailActivity"
+            android:theme="@style/NoActionBar" />
         <activity android:name=".module.dblist.DblistActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,9 +29,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".temp.TempActivity" />
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>
