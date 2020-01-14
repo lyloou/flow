@@ -33,9 +33,11 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.snackbar.Snackbar
 import com.lyloou.flow.R
 import com.lyloou.flow.common.BaseCompatActivity
+import com.lyloou.flow.common.Key
 import com.lyloou.flow.common.Url
+import com.lyloou.flow.model.Flow
 import com.lyloou.flow.model.FlowItem
-import com.lyloou.flow.model.FlowItemHelper
+import com.lyloou.flow.model.toDbFlow
 import com.lyloou.flow.net.KingsoftwareAPI
 import com.lyloou.flow.net.Network
 import com.lyloou.flow.util.*
@@ -46,10 +48,9 @@ import kotlinx.android.synthetic.main.activity_dbdetail.*
 class DetailActivity : BaseCompatActivity() {
 
     private lateinit var viewModel: FlowViewModel
-    private lateinit var day: String
+    private lateinit var flow: Flow
     private lateinit var itemList: MutableList<FlowItem>
     private lateinit var adapter: FlowItemAdapter
-    private var inited: Boolean = false
     private var handler: Handler = Handler()
 
 
@@ -69,33 +70,20 @@ class DetailActivity : BaseCompatActivity() {
     }
 
     private fun initData() {
+        flow = intent?.getParcelableExtra(Key.FLOW.name) ?: Flow(Utime.today())
         viewModel = ViewModelProviders.of(this).get(FlowViewModel::class.java)
-        if (intent != null) {
-            day = intent.getStringExtra("day") ?: Utime.today()
-        } else {
-            day = Utime.today()
-        }
-
-        val dbFlow = viewModel.getDbFlow(day)
-        dbFlow.observe(this, Observer {
-            if (inited) {
-                return@Observer
-            }
+        // 没有数据的时候，添加默认的
+        viewModel.getDbFlow(flow.day).observe(this, Observer {
             if (it == null) {
-                // 没有数据的时候，添加默认的
-                viewModel.insertDbFlow(day)
-                return@Observer
+                viewModel.insertDbFlow(flow.toDbFlow())
             }
-
-            itemList = FlowItemHelper.fromJsonArray(it.items)
-            initRecyclerView()
-            inited = true
         })
+
     }
 
     private fun initView() {
         setSupportActionBar(toolbar);
-        supportActionBar?.title = day;
+        supportActionBar?.title = flow.day;
         toolbar.setNavigationOnClickListener { onBackPressed() };
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
@@ -106,13 +94,13 @@ class DetailActivity : BaseCompatActivity() {
 
         intent?.let {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                iv_header.transitionName = day
+                iv_header.transitionName = flow.day
             }
         }
 
         Glide.with(context)
             .asBitmap()
-            .load(ImageHelper.getBigImage(day))
+            .load(ImageHelper.getBigImage(flow.day))
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .placeholder(R.mipmap.ic_launcher)
             .listener(object : RequestListener<Bitmap> {
@@ -152,7 +140,7 @@ class DetailActivity : BaseCompatActivity() {
             });
 
         Network.get(Url.Kingsoftware.url, KingsoftwareAPI::class.java)
-            .getDaily(Utime.transferTwoToOne(day))
+            .getDaily(Utime.transferTwoToOne(flow.day))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -170,9 +158,11 @@ class DetailActivity : BaseCompatActivity() {
             }
         };
 
+        initRecyclerView()
     }
 
     private fun initRecyclerView() {
+        itemList = flow.items
         adapter = FlowItemAdapter(itemList)
         adapter.itemListener = getItemListener()
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -210,8 +200,7 @@ class DetailActivity : BaseCompatActivity() {
     }
 
     private val updateDbTask = Runnable {
-        viewModel.updateDbFlowItems(day, itemList)
-
+        viewModel.updateDbFlowItems(flow.day, itemList)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -262,7 +251,7 @@ class DetailActivity : BaseCompatActivity() {
     }
 
     private fun showTips(text: String) {
-        Snackbar.make(recyclerView, text, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(findViewById(android.R.id.content), text, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun getItemListener() = object : OnItemListener {

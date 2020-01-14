@@ -20,9 +20,8 @@ class FlowViewModel(application: Application) : AndroidViewModel(application) {
         return flowRepository.getDbFlow(day)
     }
 
-    fun insertDbFlow(day: String) {
-        val init = DbFlow(0, day, "[]")
-        flowRepository.insertDbFlow(init)
+    fun insertDbFlow(dbFlow: DbFlow) {
+        flowRepository.insertDbFlow(dbFlow)
     }
 
     fun updateDbFlowItems(day: String, itemList: List<FlowItem>) {

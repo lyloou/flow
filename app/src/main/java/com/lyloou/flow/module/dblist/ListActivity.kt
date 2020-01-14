@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -103,7 +102,6 @@ class ListActivity : BaseCompatActivity() {
                     val color =
                         palette.getMutedColor(ContextCompat.getColor(context, R.color.colorAccent))
                     resetThemeColor(color)
-
                 }
             })
     }
@@ -114,12 +112,5 @@ class ListActivity : BaseCompatActivity() {
         // https://stackoverflow.com/questions/6539879/how-to-convert-a-color-integer-to-a-hex-string-in-android
         val hexColor = String.format("#%06X", 0xFFFFFF and color)
         Uscreen.setStatusBarColor(this, Color.parseColor(hexColor))
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            toolbar.navigationIcon?.mutate()?.let {
-                it.setTint((transparentColor))
-                toolbar.navigationIcon = it
-            }
-        }
     }
 }

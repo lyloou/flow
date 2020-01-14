@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lyloou.flow.R
+import com.lyloou.flow.common.Key
 import com.lyloou.flow.repository.DbFlow
+import com.lyloou.flow.repository.toFlow
 import com.lyloou.flow.util.ImageHelper
 
 class FlowAdapter : PagedListAdapter<DbFlow, FlowAdapter.MyViewHolder>(DIFF_CALLBACK) {
@@ -22,7 +24,7 @@ class FlowAdapter : PagedListAdapter<DbFlow, FlowAdapter.MyViewHolder>(DIFF_CALL
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DbFlow>() {
             override fun areItemsTheSame(oldItem: DbFlow, newItem: DbFlow): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem == newItem
             }
 
             override fun areContentsTheSame(oldItem: DbFlow, newItem: DbFlow): Boolean {
@@ -44,29 +46,29 @@ class FlowAdapter : PagedListAdapter<DbFlow, FlowAdapter.MyViewHolder>(DIFF_CALL
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        getItem(position)?.let {
-            val day = it.day
+        getItem(position)?.let { flow ->
+            val day = flow.day
             holder.textView.text = day
             Glide.with(holder.imageView.context)
                 .load(ImageHelper.getBigImage(day))
                 .into(holder.imageView)
 
             holder.itemView.setOnClickListener {
-                doOnClickItem(day, holder.imageView)
+                doOnClickItem(flow, holder.imageView)
             }
         }
     }
 
-    private fun doOnClickItem(day: String, imageView: ImageView) {
+    private fun doOnClickItem(flow: DbFlow, imageView: ImageView) {
         val intent = Intent(imageView.context, DetailActivity::class.java)
-        intent.putExtra("day", day)
+        intent.putExtra(Key.FLOW.name, flow.toFlow())
 
         var options: ActivityOptions? = null
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             options = ActivityOptions.makeSceneTransitionAnimation(
                 imageView.context as Activity,
                 imageView,
-                day
+                flow.day
             )
         }
         imageView.context.startActivity(intent, options?.toBundle())
