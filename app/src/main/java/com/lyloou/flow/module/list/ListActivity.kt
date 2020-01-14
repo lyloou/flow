@@ -27,7 +27,7 @@ import com.lyloou.flow.util.Uview
 import com.lyloou.flow.widget.ItemOffsetDecoration
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_dblist.*
+import kotlinx.android.synthetic.main.activity_list.*
 
 
 class ListActivity : BaseCompatActivity() {
@@ -35,12 +35,12 @@ class ListActivity : BaseCompatActivity() {
     private lateinit var viewModel: FlowViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dblist)
+        setContentView(R.layout.activity_list)
         viewModel = ViewModelProviders.of(this).get(FlowViewModel::class.java)
         initView()
 
-        val adapter = FlowAdapter()
         recyclerView.apply {
+            val adapter = FlowAdapter()
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.addItemDecoration(ItemOffsetDecoration(dp2px(16f)))

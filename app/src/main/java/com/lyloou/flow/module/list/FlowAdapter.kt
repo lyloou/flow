@@ -42,7 +42,7 @@ class FlowAdapter : PagedListAdapter<DbFlow, FlowAdapter.MyViewHolder>(DIFF_CALL
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.cell_dblist, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.cell_list, parent, false)
         return MyViewHolder(view)
     }
 

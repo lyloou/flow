@@ -44,7 +44,7 @@ import com.lyloou.flow.net.Network
 import com.lyloou.flow.util.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_dbdetail.*
+import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : BaseCompatActivity() {
 
@@ -57,7 +57,7 @@ class DetailActivity : BaseCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dbdetail)
+        setContentView(R.layout.activity_detail)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val bounds = ChangeBounds()

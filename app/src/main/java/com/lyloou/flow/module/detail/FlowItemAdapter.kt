@@ -28,7 +28,7 @@ class FlowItemAdapter(private val data: MutableList<FlowItem>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.cell_dbdetail, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.cell_detail, parent, false)
         return MyViewHolder(view)
     }
 

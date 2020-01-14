@@ -18,7 +18,7 @@
             android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@color/transparent"
             app:contentScrim="@color/transparent"
             app:expandedTitleGravity="center"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -64,10 +64,6 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="0dp"
-        android:paddingLeft="0dp"
-        android:paddingEnd="16dp"
-        android:paddingRight="16dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/cell_dbdetail" />
+        tools:listitem="@layout/cell_list" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
