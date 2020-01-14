@@ -15,7 +15,7 @@ import com.haibin.calendarview.CalendarView
 import com.lyloou.flow.R
 import com.lyloou.flow.databinding.FragmentDateRecycleBinding
 import com.lyloou.flow.extension.dp2px
-import com.lyloou.flow.module.dblist.DblistActivity
+import com.lyloou.flow.module.dblist.ListActivity
 import com.lyloou.flow.util.Utime
 import com.lyloou.flow.widget.ItemOffsetDecoration
 import kotlinx.android.synthetic.main.fragment_date_recycle.*
@@ -56,7 +56,7 @@ class DateRecyclerFragment : Fragment() {
     }
 
     private fun initView() {
-        val day = myViewModel.flowDay.value?.day
+        val day = myViewModel.flow.value?.day
         day?.let {
             val date = Utime.transferTwo(day)
             val calendar = java.util.Calendar.getInstance()
@@ -89,9 +89,9 @@ class DateRecyclerFragment : Fragment() {
         recyclerView.addItemDecoration(ItemOffsetDecoration(context.dp2px(16f)))
         recyclerView.adapter = flowItemAdapter
 
-        myViewModel.flowDay.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        myViewModel.flow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             flowItemAdapter.notifyHeaderItem()
-            flowItemAdapter.submitList(myViewModel.flowDay.value?.items)
+            flowItemAdapter.submitList(myViewModel.flow.value?.items)
         })
     }
 
@@ -123,7 +123,7 @@ class DateRecyclerFragment : Fragment() {
             R.id.add -> {
             }
             R.id.local_list -> {
-                startActivity(Intent(context, DblistActivity::class.java))
+                startActivity(Intent(context, ListActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)

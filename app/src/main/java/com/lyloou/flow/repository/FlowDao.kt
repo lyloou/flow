@@ -7,23 +7,23 @@ import androidx.room.*
 @Dao
 interface FlowDao {
     @Insert
-    fun insertDbFlowDay(vararg dbFlowDays: DbFlowDay)
+    fun insertDbFlows(vararg dbFlows: DbFlow)
 
     @Update
-    fun updateDbFlowDay(vararg dbFlowDays: DbFlowDay)
+    fun updateDbFlows(vararg dbFlows: DbFlow)
 
     @Delete
-    fun deleteDbFlowDay(vararg dbFlowDays: DbFlowDay)
+    fun deleteDbFlows(vararg dbFlows: DbFlow)
 
     @Query("DELETE FROM $TABLE_FLOW")
-    fun deleteAllDbFlowDay()
+    fun deleteAllDbFlows()
 
     @Query("SELECT * FROM $TABLE_FLOW ORDER BY $COL_FLOW_DAY DESC")
-    fun getAllDbFlowDays(): DataSource.Factory<Int, DbFlowDay>;
+    fun getAllDbFlows(): DataSource.Factory<Int, DbFlow>;
 
     @Query("SELECT * FROM $TABLE_FLOW WHERE $COL_FLOW_DAY = :day")
-    fun getDbFlowDay(day: String): LiveData<DbFlowDay>
+    fun getDbFlow(day: String): LiveData<DbFlow>
 
     @Query("UPDATE  $TABLE_FLOW SET $COL_FLOW_ITEMS=:items WHERE $COL_FLOW_DAY = :day")
-    fun updateDbFlowDayWithItems(day: String, items: String): Int
+    fun updateDbFlowWithItems(day: String, items: String): Int
 }

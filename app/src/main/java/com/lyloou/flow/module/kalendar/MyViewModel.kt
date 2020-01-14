@@ -5,10 +5,10 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.lyloou.flow.common.Url
-import com.lyloou.flow.model.FlowDay
+import com.lyloou.flow.model.Flow
 import com.lyloou.flow.model.FlowItemHelper
 import com.lyloou.flow.model.FlowResult
-import com.lyloou.flow.model.toFlowDay
+import com.lyloou.flow.model.toFlow
 import com.lyloou.flow.net.FlowApi
 import com.lyloou.flow.net.Network
 import com.lyloou.flow.util.Utime
@@ -16,8 +16,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class MyViewModel(application: Application) : AndroidViewModel(application) {
-    val flowDay: MutableLiveData<FlowDay> by lazy {
-        MutableLiveData<FlowDay>().also {
+    val flow: MutableLiveData<Flow> by lazy {
+        MutableLiveData<Flow>().also {
             loadFromNet(Utime.getDayWithFormatTwo())
         }
     }
@@ -32,15 +32,15 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(fun(it: FlowResult) {
                 if (it.err_code == 0) {
-                    flowDay.value = it.data?.toFlowDay()
-                    flowDay.value = flowDay.value ?: FlowDay(
+                    flow.value = it.data?.toFlow()
+                    flow.value = flow.value ?: Flow(
                         day,
                         arrayListOf()
                     )
-                    Log.e("TTAG", "flowDay.value=${flowDay.value}")
+                    Log.e("TTAG", "flow.value=${flow.value}")
 
                     detail.value = StringBuilder().apply {
-                        val value = flowDay.value
+                        val value = flow.value
                         if (value != null) {
                             append("【${value.day}】")
                             append("\n(\tA: ${value.isArchived}")

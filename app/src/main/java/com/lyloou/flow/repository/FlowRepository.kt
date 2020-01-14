@@ -41,17 +41,17 @@ class FlowRepository(private val context: Context) {
     }
 
 
-    fun insertDbFlowDay(vararg dbFlowDays: DbFlowDay) {
-        InsertAsyncTask(flowDao).execute(*dbFlowDays)
+    fun insertDbFlow(vararg dbFlows: DbFlow) {
+        InsertAsyncTask(flowDao).execute(*dbFlows)
     }
 
-    fun getDbFlowDay(day: String): LiveData<DbFlowDay> {
-        return flowDao.getDbFlowDay(day)
+    fun getDbFlow(day: String): LiveData<DbFlow> {
+        return flowDao.getDbFlow(day)
     }
 
-    fun getPagedList(): LiveData<PagedList<DbFlowDay>> {
+    fun getPagedList(): LiveData<PagedList<DbFlow>> {
         return LivePagedListBuilder(
-            flowDao.getAllDbFlowDays(),
+            flowDao.getAllDbFlows(),
             PagedList.Config.Builder()
                 .setPageSize(5)
                 .setEnablePlaceholders(true)
@@ -60,13 +60,13 @@ class FlowRepository(private val context: Context) {
         ).build()
     }
 
-    class InsertAsyncTask(private val flowDao: FlowDao) : AsyncTask<DbFlowDay, Unit, Unit>() {
+    class InsertAsyncTask(private val flowDao: FlowDao) : AsyncTask<DbFlow, Unit, Unit>() {
 
-        override fun doInBackground(vararg flowDays: DbFlowDay) {
-            if (flowDays.size < 0) {
+        override fun doInBackground(vararg flows: DbFlow) {
+            if (flows.size < 0) {
                 return
             }
-            flowDao.insertDbFlowDay(*flowDays)
+            flowDao.insertDbFlows(*flows)
         }
 
     }
@@ -84,7 +84,7 @@ class FlowRepository(private val context: Context) {
             val day = workerParameters.inputData.getString(Keys.DAY)
             val items = workerParameters.inputData.getString(Keys.ITEMS)
             val flowDao = FlowDatabase.getInstance(context).flowDao()
-            if (flowDao.updateDbFlowDayWithItems(day!!, items!!) >= 0) {
+            if (flowDao.updateDbFlowWithItems(day!!, items!!) >= 0) {
                 Result.success()
             } else {
                 Result.failure()

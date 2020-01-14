@@ -14,7 +14,7 @@ const val COL_FLOW_IS_SYNCED = "is_synced"
 const val COL_FLOW_IS_DISABLED = "is_disabled"
 
 @Entity(tableName = TABLE_FLOW, indices = [Index("day", unique = true)])
-data class DbFlowDay(
+data class DbFlow(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = COL_FLOW_ID)
     val id: Int,

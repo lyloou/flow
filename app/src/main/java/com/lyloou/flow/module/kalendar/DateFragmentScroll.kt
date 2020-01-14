@@ -50,7 +50,7 @@ class DateFragmentScroll : Fragment() {
     }
 
     private fun initView() {
-        val day = myViewModel.flowDay.value?.day
+        val day = myViewModel.flow.value?.day
         day?.let {
             myViewModel.loadFromNet(it)
 
@@ -75,7 +75,7 @@ class DateFragmentScroll : Fragment() {
         })
 
 
-        myViewModel.flowDay.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        myViewModel.flow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             scrollView.smoothScrollTo(0, 0)
         })
 

@@ -43,12 +43,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_dbdetail.*
 
-class DbdetailActivity : BaseCompatActivity() {
+class DetailActivity : BaseCompatActivity() {
 
-    private lateinit var viewModel: DbflowViewModel
+    private lateinit var viewModel: FlowViewModel
     private lateinit var day: String
     private lateinit var itemList: MutableList<FlowItem>
-    private lateinit var adapter: DbflowItemAdapter
+    private lateinit var adapter: FlowItemAdapter
     private var inited: Boolean = false
     private var handler: Handler = Handler()
 
@@ -69,21 +69,21 @@ class DbdetailActivity : BaseCompatActivity() {
     }
 
     private fun initData() {
-        viewModel = ViewModelProviders.of(this).get(DbflowViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(FlowViewModel::class.java)
         if (intent != null) {
             day = intent.getStringExtra("day") ?: Utime.today()
         } else {
             day = Utime.today()
         }
 
-        val dbFlowDay = viewModel.getDbFlowDay(day)
-        dbFlowDay.observe(this, Observer {
+        val dbFlow = viewModel.getDbFlow(day)
+        dbFlow.observe(this, Observer {
             if (inited) {
                 return@Observer
             }
             if (it == null) {
                 // 没有数据的时候，添加默认的
-                viewModel.insertDbFlowDay(day)
+                viewModel.insertDbFlow(day)
                 return@Observer
             }
 
@@ -173,7 +173,7 @@ class DbdetailActivity : BaseCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        adapter = DbflowItemAdapter(itemList)
+        adapter = FlowItemAdapter(itemList)
         adapter.itemListener = getItemListener()
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter

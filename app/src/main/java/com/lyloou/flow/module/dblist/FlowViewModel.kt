@@ -6,23 +6,23 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.model.FlowItemHelper
-import com.lyloou.flow.repository.DbFlowDay
+import com.lyloou.flow.repository.DbFlow
 import com.lyloou.flow.repository.FlowRepository
 
 
-class DbflowViewModel(application: Application) : AndroidViewModel(application) {
+class FlowViewModel(application: Application) : AndroidViewModel(application) {
     private val flowRepository = FlowRepository.getInstance(application)
-    val dbFlowDayList: LiveData<PagedList<DbFlowDay>> by lazy {
+    val dbFlowList: LiveData<PagedList<DbFlow>> by lazy {
         flowRepository.getPagedList()
     }
 
-    fun getDbFlowDay(day: String): LiveData<DbFlowDay> {
-        return flowRepository.getDbFlowDay(day)
+    fun getDbFlow(day: String): LiveData<DbFlow> {
+        return flowRepository.getDbFlow(day)
     }
 
-    fun insertDbFlowDay(day: String) {
-        val init = DbFlowDay(0, day, "[]")
-        flowRepository.insertDbFlowDay(init)
+    fun insertDbFlow(day: String) {
+        val init = DbFlow(0, day, "[]")
+        flowRepository.insertDbFlow(init)
     }
 
     fun updateDbFlowItems(day: String, itemList: List<FlowItem>) {

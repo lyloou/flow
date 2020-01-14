@@ -31,22 +31,22 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_dblist.*
 
 
-class DblistActivity : BaseCompatActivity() {
+class ListActivity : BaseCompatActivity() {
 
-    private lateinit var viewModel: DbflowViewModel
+    private lateinit var viewModel: FlowViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dblist)
-        viewModel = ViewModelProviders.of(this).get(DbflowViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(FlowViewModel::class.java)
         initView()
 
-        val adapter = DbflowAdapter()
+        val adapter = FlowAdapter()
         recyclerView.apply {
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.addItemDecoration(ItemOffsetDecoration(dp2px(16f)))
 
-            viewModel.dbFlowDayList.observe(this@DblistActivity, Observer {
+            viewModel.dbFlowList.observe(this@ListActivity, Observer {
                 it?.let {
                     adapter.submitList(it)
                 }

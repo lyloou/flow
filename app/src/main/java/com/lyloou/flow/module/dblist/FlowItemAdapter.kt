@@ -13,8 +13,8 @@ import com.lyloou.flow.R
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.util.Utime
 
-class DbflowItemAdapter(private val data: MutableList<FlowItem>) :
-    RecyclerView.Adapter<DbflowItemAdapter.MyViewHolder>() {
+class FlowItemAdapter(private val data: MutableList<FlowItem>) :
+    RecyclerView.Adapter<FlowItemAdapter.MyViewHolder>() {
 
     var itemListener: OnItemListener? = null
 

@@ -1,6 +1,6 @@
 package com.lyloou.flow.model
 
-import com.lyloou.flow.repository.DbFlowDay
+import com.lyloou.flow.repository.DbFlow
 
 data class CommonResult(var err_code: Int, var err_msg: String, var data: Any?)
 
@@ -21,15 +21,15 @@ data class FlowRep(
     val isDisabled: Boolean = false
 )
 
-data class FlowDay(
+data class Flow(
     var day: String,
     val items: MutableList<FlowItem>,
     val isArchived: Boolean = false,
     val isDisabled: Boolean = false
 )
 
-fun FlowRep.toFlowDay(): FlowDay {
-    return FlowDay(
+fun FlowRep.toFlow(): Flow {
+    return Flow(
         day,
         FlowItemHelper.fromJsonArray(item),
         isArchived,
@@ -37,8 +37,8 @@ fun FlowRep.toFlowDay(): FlowDay {
     )
 }
 
-fun FlowRep.toDbFlowDay(): DbFlowDay {
-    return DbFlowDay(
+fun FlowRep.toDbFlow(): DbFlow {
+    return DbFlow(
         0,
         day,
         item ?: "[]",

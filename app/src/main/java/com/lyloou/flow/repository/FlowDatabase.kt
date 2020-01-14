@@ -8,7 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 
-@Database(entities = [DbFlowDay::class], version = 1, exportSchema = false)
+@Database(entities = [DbFlow::class], version = 1, exportSchema = false)
 abstract class FlowDatabase : RoomDatabase() {
 
     abstract fun flowDao(): FlowDao

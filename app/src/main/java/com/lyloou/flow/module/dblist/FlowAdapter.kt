@@ -14,18 +14,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lyloou.flow.R
-import com.lyloou.flow.repository.DbFlowDay
+import com.lyloou.flow.repository.DbFlow
 import com.lyloou.flow.util.ImageHelper
 
-class DbflowAdapter : PagedListAdapter<DbFlowDay, DbflowAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class FlowAdapter : PagedListAdapter<DbFlow, FlowAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DbFlowDay>() {
-            override fun areItemsTheSame(oldItem: DbFlowDay, newItem: DbFlowDay): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DbFlow>() {
+            override fun areItemsTheSame(oldItem: DbFlow, newItem: DbFlow): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: DbFlowDay, newItem: DbFlowDay): Boolean {
+            override fun areContentsTheSame(oldItem: DbFlow, newItem: DbFlow): Boolean {
                 return oldItem.day == newItem.day
             }
 
@@ -58,7 +58,7 @@ class DbflowAdapter : PagedListAdapter<DbFlowDay, DbflowAdapter.MyViewHolder>(DI
     }
 
     private fun doOnClickItem(day: String, imageView: ImageView) {
-        val intent = Intent(imageView.context, DbdetailActivity::class.java)
+        val intent = Intent(imageView.context, DetailActivity::class.java)
         intent.putExtra("day", day)
 
         var options: ActivityOptions? = null

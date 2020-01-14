@@ -19,10 +19,10 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
         <activity
-            android:name=".module.dblist.DbdetailActivity"
+            android:name=".module.dblist.DetailActivity"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".module.dblist.DblistActivity"
+            android:name=".module.dblist.ListActivity"
             android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

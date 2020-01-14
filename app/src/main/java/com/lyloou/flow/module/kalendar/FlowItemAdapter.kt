@@ -65,7 +65,7 @@ class FlowItemAdapter(private val myViewModel: MyViewModel) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         when (position) {
             HEADER_POSITION -> {
-                holder.textView.text = myViewModel.flowDay.value?.day
+                holder.textView.text = myViewModel.flow.value?.day
             }
             else -> {
                 val item = getItem(position)

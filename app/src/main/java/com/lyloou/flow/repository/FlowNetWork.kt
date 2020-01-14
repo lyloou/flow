@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.lyloou.flow.common.Url
-import com.lyloou.flow.model.toDbFlowDay
+import com.lyloou.flow.model.toDbFlow
 import com.lyloou.flow.net.FlowApi
 import com.lyloou.flow.net.Network
 import io.reactivex.schedulers.Schedulers
@@ -33,8 +33,8 @@ class FlowNetWork(
 
                         val database = FlowDatabase.getInstance(applicationContext)
                         val flowDao = database.flowDao()
-                        flowDao.insertDbFlowDay(
-                            *(it.data?.map { it.toDbFlowDay() } ?: emptyList()).toTypedArray()
+                        flowDao.insertDbFlows(
+                            *(it.data?.map { it.toDbFlow() } ?: emptyList()).toTypedArray()
                         )
                         latch.countDown()
                     }
