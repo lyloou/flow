@@ -1,6 +1,7 @@
 package com.lyloou.flow.module.detail
 
 import android.app.TimePickerDialog
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
@@ -160,6 +161,9 @@ class DetailActivity : BaseCompatActivity() {
         };
 
         initRecyclerView()
+        action_add.setOnClickListener {
+            addNewItem()
+        }
     }
 
     private fun initRecyclerView() {
@@ -190,6 +194,8 @@ class DetailActivity : BaseCompatActivity() {
         // https://stackoverflow.com/questions/6539879/how-to-convert-a-color-integer-to-a-hex-string-in-android
         val hexColor = String.format("#%06X", 0xFFFFFF and color)
         Uscreen.setStatusBarColor(this, Color.parseColor(hexColor))
+        action_add.backgroundTintList = ColorStateList.valueOf(color)
+        action_add.setRippleColor(ColorStateList.valueOf(transparentColor))
     }
 
     fun updateDb(vararg noDelay: Boolean) {
