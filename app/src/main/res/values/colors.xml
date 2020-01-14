@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="week_bar_color">#ff2233</color>
     <color name="grayTransparent">#06000000</color>
+    <color name="darkGrayTransparent">#38000000</color>
     <color name="gray">#666666</color>
     <color name="colorAccentTransparent">#66008577</color>
     <color name="white">#ffffff</color>

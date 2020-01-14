@@ -22,6 +22,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -33,12 +34,10 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.snackbar.Snackbar
 import com.lyloou.flow.R
 import com.lyloou.flow.common.BaseCompatActivity
-import com.lyloou.flow.extension.dp2px
 import com.lyloou.flow.extension.notifyObserver
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.model.FlowItemHelper
 import com.lyloou.flow.util.*
-import com.lyloou.flow.widget.ItemOffsetDecoration
 import kotlinx.android.synthetic.main.activity_dbdetail.*
 import kotlinx.android.synthetic.main.activity_dbdetail.app_bar
 import kotlinx.android.synthetic.main.activity_dbdetail.collapsing_toolbar_layout
@@ -130,9 +129,8 @@ class DbdetailActivity : BaseCompatActivity() {
         adapter = DbflowItemAdapter(viewModel.flowItemList)
         adapter.itemListener = getItemListener()
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.addItemDecoration(ItemOffsetDecoration(dp2px(16f)))
-        recyclerView.itemAnimator = null
         recyclerView.adapter = adapter
+        recyclerView.descendantFocusability = RecyclerView.FOCUS_AFTER_DESCENDANTS
         // 通过延迟的方式，让界面出来的时更顺滑（动画）
         showViewAnimated(recyclerView)
     }
@@ -163,7 +161,6 @@ class DbdetailActivity : BaseCompatActivity() {
         } else {
             day = Utime.today()
         }
-        Log.i("TTAG", "day: $day");
 
         val dbFlowDay = viewModel.getDbFlowDay(day)
         // 没有数据的时候，添加默认的
@@ -176,6 +173,8 @@ class DbdetailActivity : BaseCompatActivity() {
         })
         viewModel.flowItemList.observe(this, Observer {
             it?.let {
+                Log.i("TTAG", "day: changed");
+
                 adapter.notifyDataSetChanged()
             }
         })
@@ -321,7 +320,7 @@ class DbdetailActivity : BaseCompatActivity() {
         override fun onTextChanged(item: FlowItem, s: CharSequence) {
             item.content = s.toString()
             // 只需要更新数据即可
-            updateDb()
+            //updateDb()
         }
 
         override fun onEditTextFocused(hasFocus: Boolean, item: FlowItem) {
