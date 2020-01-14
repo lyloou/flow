@@ -1,4 +1,4 @@
-package com.lyloou.flow.module.dblist
+package com.lyloou.flow.module.list
 
 import android.app.Activity
 import android.app.ActivityOptions
@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lyloou.flow.R
 import com.lyloou.flow.common.Key
+import com.lyloou.flow.module.detail.DetailActivity
 import com.lyloou.flow.repository.DbFlow
 import com.lyloou.flow.repository.toFlow
 import com.lyloou.flow.util.ImageHelper

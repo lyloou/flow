@@ -1,4 +1,4 @@
-package com.lyloou.flow.module.dblist
+package com.lyloou.flow.module.list
 
 import android.graphics.Bitmap
 import android.graphics.Color

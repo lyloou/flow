@@ -1,4 +1,4 @@
-package com.lyloou.flow.module.dblist
+package com.lyloou.flow.module.detail
 
 import com.lyloou.flow.model.FlowItem
 

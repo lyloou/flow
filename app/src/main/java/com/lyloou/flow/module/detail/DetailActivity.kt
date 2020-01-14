@@ -1,4 +1,4 @@
-package com.lyloou.flow.module.dblist
+package com.lyloou.flow.module.detail
 
 import android.app.TimePickerDialog
 import android.graphics.Bitmap
@@ -38,6 +38,7 @@ import com.lyloou.flow.common.Url
 import com.lyloou.flow.model.Flow
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.model.toDbFlow
+import com.lyloou.flow.module.list.FlowViewModel
 import com.lyloou.flow.net.KingsoftwareAPI
 import com.lyloou.flow.net.Network
 import com.lyloou.flow.util.*
@@ -254,7 +255,8 @@ class DetailActivity : BaseCompatActivity() {
         Snackbar.make(findViewById(android.R.id.content), text, Snackbar.LENGTH_SHORT).show()
     }
 
-    private fun getItemListener() = object : OnItemListener {
+    private fun getItemListener() = object :
+        OnItemListener {
         override fun onLongClickItem(item: FlowItem, position: Int) {
             Udialog.AlertMultiItem.builder(context)
                 .add("复制内容") { Usystem.copyString(context, item.content) }

@@ -15,7 +15,7 @@ import com.haibin.calendarview.CalendarView
 import com.lyloou.flow.R
 import com.lyloou.flow.databinding.FragmentDateRecycleBinding
 import com.lyloou.flow.extension.dp2px
-import com.lyloou.flow.module.dblist.ListActivity
+import com.lyloou.flow.module.list.ListActivity
 import com.lyloou.flow.util.Utime
 import com.lyloou.flow.widget.ItemOffsetDecoration
 import kotlinx.android.synthetic.main.fragment_date_recycle.*

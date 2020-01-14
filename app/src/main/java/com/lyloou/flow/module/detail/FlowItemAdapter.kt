@@ -1,4 +1,4 @@
-package com.lyloou.flow.module.dblist
+package com.lyloou.flow.module.detail
 
 import android.text.Editable
 import android.text.TextWatcher

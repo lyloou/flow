@@ -1,4 +1,4 @@
-package com.lyloou.flow.module.dblist
+package com.lyloou.flow.module.list
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
