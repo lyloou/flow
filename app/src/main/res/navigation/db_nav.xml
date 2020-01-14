@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/dblistFragment"
         android:name="com.lyloou.flow.module.dblist.DblistFragment"
-        android:label="本地列表"
+        android:label="夫路"
         tools:layout="@layout/fragment_dblist">
         <action
             android:id="@+id/action_dblistFragment_to_dbdetailFragment"

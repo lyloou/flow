@@ -33,9 +33,14 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.snackbar.Snackbar
 import com.lyloou.flow.R
 import com.lyloou.flow.common.BaseCompatActivity
+import com.lyloou.flow.common.Url
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.model.FlowItemHelper
+import com.lyloou.flow.net.KingsoftwareAPI
+import com.lyloou.flow.net.Network
 import com.lyloou.flow.util.*
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_dbdetail.*
 import kotlinx.android.synthetic.main.activity_dbdetail.app_bar
 import kotlinx.android.synthetic.main.activity_dbdetail.collapsing_toolbar_layout
@@ -151,6 +156,24 @@ class DbdetailActivity : BaseCompatActivity() {
                 }
             });
 
+        Network.get(Url.Kingsoftware.url, KingsoftwareAPI::class.java)
+            .getDaily(Utime.transferTwoToOne(day))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                tv_header.text = it.content
+                tv_header.tag = it.note
+                tv_header.visibility = View.VISIBLE
+            }, Throwable::printStackTrace)
+
+        tv_header.setOnClickListener {
+            val netString = it.tag
+            if (netString is String) {
+                val oldString = tv_header.text.toString()
+                tv_header.text = netString
+                tv_header.tag = oldString
+            }
+        };
 
     }
 
@@ -218,11 +241,6 @@ class DbdetailActivity : BaseCompatActivity() {
         handler.postDelayed(updateDbTask, 800)
     }
 
-    private fun updateUiAndDb() {
-        adapter.notifyDataSetChanged()
-        delayUpdateDb()
-    }
-
     private fun addNewItem() {
         with(itemList) {
             val newItem = FlowItem()
@@ -242,7 +260,9 @@ class DbdetailActivity : BaseCompatActivity() {
             }
             newItem.timeStart = currentTime
             add(0, newItem)
-            updateUiAndDb()
+            recyclerView.scrollToPosition(0)
+            adapter.notifyItemInserted(0)
+            delayUpdateDb()
         }
     }
 
@@ -251,7 +271,7 @@ class DbdetailActivity : BaseCompatActivity() {
     }
 
     private fun getItemListener() = object : OnItemListener {
-        override fun onLongClickItem(item: FlowItem) {
+        override fun onLongClickItem(item: FlowItem, position: Int) {
             Udialog.AlertMultiItem.builder(context)
                 .add("复制内容") { Usystem.copyString(context, item.content) }
                 .add("复制全部") {
@@ -265,65 +285,70 @@ class DbdetailActivity : BaseCompatActivity() {
                 }
                 .add("删除此项") {
                     itemList.remove(item)
-                    updateUiAndDb()
+                    adapter.notifyDataSetChanged()
+                    delayUpdateDb()
                 }
                 .show()
         }
 
-        override fun onClickTimeStart(item: FlowItem) {
+        override fun onClickTimeStart(item: FlowItem, position: Int) {
             // 原文链接：https://blog.csdn.net/qq_17009881/article/details/75371406
             val listener =
                 TimePickerDialog.OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
                     item.timeStart = Utime.getTimeString(hourOfDay, minute)
                     Utransfer.sortItems(itemList)
-                    updateUiAndDb()
+                    adapter.notifyItemChanged(position)
+                    delayUpdateDb()
                 }
             Udialog.showTimePicker(context, listener, Utime.getValidTime(item.timeStart))
         }
 
-        override fun onClickTimeEnd(item: FlowItem) {
+        override fun onClickTimeEnd(item: FlowItem, position: Int) {
             val listener =
                 TimePickerDialog.OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
                     item.timeEnd = Utime.getTimeString(hourOfDay, minute)
                     Utransfer.sortItems(itemList)
-                    updateUiAndDb()
+                    adapter.notifyItemChanged(position)
+                    delayUpdateDb()
                 }
             Udialog.showTimePicker(context, listener, Utime.getValidTime(item.timeEnd))
         }
 
-        override fun onLongClickTimeStart(item: FlowItem) {
+        override fun onLongClickTimeStart(item: FlowItem, position: Int) {
             Udialog.AlertOneItem.builder(context)
                 .consumer {
                     if (it) {
                         item.timeStart = null
                         Utransfer.sortItems(itemList)
-                        updateUiAndDb()
+                        adapter.notifyItemChanged(position)
+                        delayUpdateDb()
                     }
                 }
                 .message("清空开始时间")
                 .show();
         }
 
-        override fun onLongClickTimeEnd(item: FlowItem) {
+        override fun onLongClickTimeEnd(item: FlowItem, position: Int) {
             Udialog.AlertOneItem.builder(context)
                 .consumer {
                     if (it) {
                         item.timeEnd = null
                         Utransfer.sortItems(itemList)
-                        updateUiAndDb()
+                        adapter.notifyItemChanged(position)
+                        delayUpdateDb()
                     }
                 }
                 .message("清空结束时间")
                 .show();
         }
 
-        override fun onTextChanged(item: FlowItem, s: CharSequence) {
+        override fun onTextChanged(item: FlowItem, s: CharSequence, position: Int) {
             item.content = s.toString()
             // 只需要更新数据即可
             updateDb()
         }
 
-        override fun onEditTextFocused(hasFocus: Boolean, item: FlowItem) {
+        override fun onEditTextFocused(hasFocus: Boolean, item: FlowItem, position: Int) {
 
         }
 

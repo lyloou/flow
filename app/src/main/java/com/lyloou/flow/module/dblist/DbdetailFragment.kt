@@ -138,7 +138,7 @@ class DbdetailFragment : Fragment() {
     }
 
     private fun getItemListener() = object : OnItemListener {
-        override fun onLongClickItem(item: FlowItem) {
+        override fun onLongClickItem(item: FlowItem, position: Int) {
             Udialog.AlertMultiItem.builder(requireContext())
                 .add("复制内容") { Usystem.copyString(requireContext(), item.content) }
                 .add("复制全部") {
@@ -159,7 +159,7 @@ class DbdetailFragment : Fragment() {
                 .show()
         }
 
-        override fun onClickTimeStart(item: FlowItem) {
+        override fun onClickTimeStart(item: FlowItem, position: Int) {
             // 原文链接：https://blog.csdn.net/qq_17009881/article/details/75371406
             val listener = OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
                 item.timeStart = Utime.getTimeString(hourOfDay, minute)
@@ -169,7 +169,7 @@ class DbdetailFragment : Fragment() {
             Udialog.showTimePicker(requireContext(), listener, Utime.getValidTime(item.timeStart))
         }
 
-        override fun onClickTimeEnd(item: FlowItem) {
+        override fun onClickTimeEnd(item: FlowItem, position: Int) {
             val listener = OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
                 item.timeEnd = Utime.getTimeString(hourOfDay, minute)
                 Utransfer.sortItems(viewModel.flowItemList.value)
@@ -178,7 +178,7 @@ class DbdetailFragment : Fragment() {
             Udialog.showTimePicker(requireContext(), listener, Utime.getValidTime(item.timeEnd))
         }
 
-        override fun onLongClickTimeStart(item: FlowItem) {
+        override fun onLongClickTimeStart(item: FlowItem, position: Int) {
             Udialog.AlertOneItem.builder(requireContext())
                 .consumer {
                     if (it) {
@@ -191,7 +191,7 @@ class DbdetailFragment : Fragment() {
                 .show();
         }
 
-        override fun onLongClickTimeEnd(item: FlowItem) {
+        override fun onLongClickTimeEnd(item: FlowItem, position: Int) {
             Udialog.AlertOneItem.builder(requireContext())
                 .consumer {
                     if (it) {
@@ -204,13 +204,13 @@ class DbdetailFragment : Fragment() {
                 .show();
         }
 
-        override fun onTextChanged(item: FlowItem, s: CharSequence) {
+        override fun onTextChanged(item: FlowItem, s: CharSequence, position: Int) {
             item.content = s.toString()
             // 只需要更新数据即可
             updateDb()
         }
 
-        override fun onEditTextFocused(hasFocus: Boolean, item: FlowItem) {
+        override fun onEditTextFocused(hasFocus: Boolean, item: FlowItem, position: Int) {
 
         }
 

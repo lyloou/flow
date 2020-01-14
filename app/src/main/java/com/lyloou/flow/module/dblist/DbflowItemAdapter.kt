@@ -40,24 +40,24 @@ class DbflowItemAdapter(private val data: MutableList<FlowItem>) :
             holder.tvSpend.text = item.spend
             holder.etContent.setText(item.content)
             holder.etContent.setSelection(item.content?.length ?: 0)
-            addChangeListener(holder.etContent, item)
+            addChangeListener(holder.etContent, item, position)
 
             holder.tvTimeStart.setOnClickListener {
-                itemListener?.onClickTimeStart(item)
+                itemListener?.onClickTimeStart(item, position)
             }
             holder.tvTimeEnd.setOnClickListener {
-                itemListener?.onClickTimeEnd(item)
+                itemListener?.onClickTimeEnd(item, position)
             }
             holder.tvTimeStart.setOnLongClickListener {
-                itemListener?.onLongClickTimeStart(item)
+                itemListener?.onLongClickTimeStart(item, position)
                 true
             }
             holder.tvTimeEnd.setOnLongClickListener {
-                itemListener?.onLongClickTimeEnd(item)
+                itemListener?.onLongClickTimeEnd(item, position)
                 true
             }
             holder.itemView.setOnLongClickListener {
-                itemListener?.onLongClickItem(item)
+                itemListener?.onLongClickItem(item, position)
                 false
             }
         }
@@ -65,7 +65,8 @@ class DbflowItemAdapter(private val data: MutableList<FlowItem>) :
 
     private fun addChangeListener(
         editText: EditText,
-        item: FlowItem
+        item: FlowItem,
+        position: Int
     ) {
         // [How to get the Edit text position from Recycler View adapter using Text Watcher in android - Stack Overflow](https://stackoverflow.com/a/37916021)
         val watcher: TextWatcher = object : TextWatcher {
@@ -87,12 +88,12 @@ class DbflowItemAdapter(private val data: MutableList<FlowItem>) :
 
             override fun afterTextChanged(s: Editable) {
                 if (editText.hasFocus()) {
-                    itemListener?.onTextChanged(item, s)
+                    itemListener?.onTextChanged(item, s, position)
                 }
             }
         }
         editText.onFocusChangeListener = OnFocusChangeListener { _: View?, hasFocus: Boolean ->
-            itemListener?.onEditTextFocused(hasFocus, item)
+            itemListener?.onEditTextFocused(hasFocus, item, position)
             if (hasFocus) {
                 editText.addTextChangedListener(watcher)
             } else {

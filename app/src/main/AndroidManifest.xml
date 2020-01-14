@@ -21,7 +21,9 @@
         <activity
             android:name=".module.dblist.DbdetailActivity"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".module.dblist.DblistActivity">
+        <activity
+            android:name=".module.dblist.DblistActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

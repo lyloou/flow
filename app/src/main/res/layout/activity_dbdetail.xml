@@ -47,8 +47,7 @@
                 android:text="多么美好的一天 大太阳晒伤我的脸 我担心干旱持续好久水库会缺水 多么美好的一天 又接近末日一点点 我独自坚强稀释寂寞无聊的时间"
                 android:textColor="@color/white"
                 android:textSize="15sp"
-                android:textStyle="italic"
-                android:visibility="visible" />
+                android:textStyle="italic" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
