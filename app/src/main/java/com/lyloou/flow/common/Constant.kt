@@ -38,3 +38,13 @@ fun getSimpleStr(clazz: Class<*>, name: String): String {
 interface Str {
     fun str(): String?
 }
+
+enum class IMG(val url: String) : Str {
+    TOP_BG_01("https://ws1.sinaimg.cn/large/610dc034gy1fhupzs0awwj20u00u0tcf.jpg"),
+    ;
+
+    override fun str(): String {
+        return getSimpleStr(javaClass, name)
+    }
+
+}

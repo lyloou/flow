@@ -108,7 +108,6 @@ class DateFragmentScroll : Fragment() {
                 controller.navigate(R.id.aboutFragment)
             }
             R.id.add -> {
-                controller.navigate(R.id.listFragment)
             }
         }
         return super.onOptionsItemSelected(item)

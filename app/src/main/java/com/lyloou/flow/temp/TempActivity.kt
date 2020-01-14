@@ -7,13 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
 import com.lyloou.flow.R
 import com.lyloou.flow.databinding.ActivityTempBinding
 import com.lyloou.flow.util.ImageHelper
 import kotlinx.android.synthetic.main.activity_temp.*
-import kotlinx.android.synthetic.main.fragment_dbdetail.*
 
 class TempActivity : AppCompatActivity() {
 

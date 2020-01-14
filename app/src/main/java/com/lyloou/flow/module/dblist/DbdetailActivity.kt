@@ -42,11 +42,6 @@ import com.lyloou.flow.util.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_dbdetail.*
-import kotlinx.android.synthetic.main.activity_dbdetail.app_bar
-import kotlinx.android.synthetic.main.activity_dbdetail.collapsing_toolbar_layout
-import kotlinx.android.synthetic.main.activity_dbdetail.tv_header
-import kotlinx.android.synthetic.main.fragment_dbdetail.iv_header
-import kotlinx.android.synthetic.main.fragment_dbdetail.recyclerView
 
 class DbdetailActivity : BaseCompatActivity() {
 

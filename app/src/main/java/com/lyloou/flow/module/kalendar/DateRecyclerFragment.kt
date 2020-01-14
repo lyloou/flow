@@ -121,7 +121,6 @@ class DateRecyclerFragment : Fragment() {
                 controller.navigate(R.id.action_dateFragment_to_aboutFragment)
             }
             R.id.add -> {
-                controller.navigate(R.id.action_dateFragment_to_listFragment)
             }
             R.id.local_list -> {
                 startActivity(Intent(context, DblistActivity::class.java))

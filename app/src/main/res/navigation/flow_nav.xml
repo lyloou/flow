@@ -11,9 +11,6 @@
         android:label="FlowRecycler"
         tools:layout="@layout/fragment_date_scroll">
         <action
-            android:id="@+id/action_dateFragment_to_listFragment"
-            app:destination="@id/listFragment" />
-        <action
             android:id="@+id/action_dateFragment_to_aboutFragment"
             app:destination="@id/aboutFragment" />
         <action
@@ -21,24 +18,10 @@
             app:destination="@id/dateFragmentScroll" />
     </fragment>
     <fragment
-        android:id="@+id/listFragment"
-        android:name="com.lyloou.flow.module.list.ListFragment"
-        android:label="FlowDay List"
-        tools:layout="@layout/fragment_list" >
-        <action
-            android:id="@+id/action_listFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/aboutFragment"
         android:name="com.lyloou.flow.module.about.AboutFragment"
         android:label="关于"
         tools:layout="@layout/fragment_about" />
-    <fragment
-        android:id="@+id/detailFragment"
-        android:name="com.lyloou.flow.module.detail.DetailFragment"
-        android:label="Flow Detail"
-        tools:layout="@layout/fragment_detail" />
     <fragment
         android:id="@+id/dateFragmentScroll"
         android:name="com.lyloou.flow.module.kalendar.DateFragmentScroll"
