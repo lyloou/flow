@@ -78,7 +78,7 @@ class DbdetailFragment : Fragment() {
             .load(ImageHelper.getBigImage(day))
             .into(iv_header)
 
-        adapter = DbflowItemAdapter(viewModel.flowItemList)
+        adapter = DbflowItemAdapter(viewModel.flowItemList.value!!)
         adapter.itemListener = getItemListener()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())

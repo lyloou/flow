@@ -5,17 +5,15 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnFocusChangeListener
-import android.view.View.OnLongClickListener
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.lyloou.flow.R
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.util.Utime
 
-class DbflowItemAdapter(private val data: MutableLiveData<MutableList<FlowItem>>) :
+class DbflowItemAdapter(private val data: MutableList<FlowItem>) :
     RecyclerView.Adapter<DbflowItemAdapter.MyViewHolder>() {
 
     var itemListener: OnItemListener? = null
@@ -35,38 +33,34 @@ class DbflowItemAdapter(private val data: MutableLiveData<MutableList<FlowItem>>
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        data.value?.let { list ->
-            list[position].let {
-                holder.tvTimeStart.text = Utime.getFormatTime(it.timeStart)
-                holder.tvTimeSep.text = it.timeSep
-                holder.tvTimeEnd.text = Utime.getFormatTime(it.timeEnd)
-                holder.tvSpend.text = it.spend
-                holder.etContent.setText(it.content)
-                holder.etContent.setSelection(it.content?.length ?: 0)
-                addChangeListener(holder.etContent, it)
+        data[position].let { item ->
+            holder.tvTimeStart.text = Utime.getFormatTime(item.timeStart)
+            holder.tvTimeSep.text = item.timeSep
+            holder.tvTimeEnd.text = Utime.getFormatTime(item.timeEnd)
+            holder.tvSpend.text = item.spend
+            holder.etContent.setText(item.content)
+            holder.etContent.setSelection(item.content?.length ?: 0)
+            addChangeListener(holder.etContent, item)
 
-                holder.tvTimeStart.setOnClickListener { view: View? ->
-                    itemListener?.onClickTimeStart(it)
-                }
-                holder.tvTimeEnd.setOnClickListener { view: View? ->
-                    itemListener?.onClickTimeEnd(it)
-                }
-                holder.tvTimeStart.setOnLongClickListener { view: View? ->
-                    itemListener?.onLongClickTimeStart(it)
-                    true
-                }
-                holder.tvTimeEnd.setOnLongClickListener { view: View? ->
-                    itemListener?.onLongClickTimeEnd(it)
-                    true
-                }
-                holder.itemView.setOnLongClickListener(OnLongClickListener { v: View? ->
-                    itemListener?.onLongClickItem(it)
-                    false
-                })
+            holder.tvTimeStart.setOnClickListener {
+                itemListener?.onClickTimeStart(item)
+            }
+            holder.tvTimeEnd.setOnClickListener {
+                itemListener?.onClickTimeEnd(item)
+            }
+            holder.tvTimeStart.setOnLongClickListener {
+                itemListener?.onLongClickTimeStart(item)
+                true
+            }
+            holder.tvTimeEnd.setOnLongClickListener {
+                itemListener?.onLongClickTimeEnd(item)
+                true
+            }
+            holder.itemView.setOnLongClickListener {
+                itemListener?.onLongClickItem(item)
+                false
             }
         }
-
-
     }
 
     private fun addChangeListener(
@@ -97,7 +91,7 @@ class DbflowItemAdapter(private val data: MutableLiveData<MutableList<FlowItem>>
                 }
             }
         }
-        editText.onFocusChangeListener = OnFocusChangeListener { v: View?, hasFocus: Boolean ->
+        editText.onFocusChangeListener = OnFocusChangeListener { _: View?, hasFocus: Boolean ->
             itemListener?.onEditTextFocused(hasFocus, item)
             if (hasFocus) {
                 editText.addTextChangedListener(watcher)
@@ -107,5 +101,5 @@ class DbflowItemAdapter(private val data: MutableLiveData<MutableList<FlowItem>>
         }
     }
 
-    override fun getItemCount(): Int = data.value?.size ?: 0
+    override fun getItemCount(): Int = data.size
 }

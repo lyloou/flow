@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
 import android.transition.ChangeBounds
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -34,7 +33,6 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.snackbar.Snackbar
 import com.lyloou.flow.R
 import com.lyloou.flow.common.BaseCompatActivity
-import com.lyloou.flow.extension.notifyObserver
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.model.FlowItemHelper
 import com.lyloou.flow.util.*
@@ -49,8 +47,11 @@ class DbdetailActivity : BaseCompatActivity() {
 
     private lateinit var viewModel: DbflowViewModel
     private lateinit var day: String
+    private lateinit var itemList: MutableList<FlowItem>
     private lateinit var adapter: DbflowItemAdapter
+    private var inited: Boolean = false
     private var handler: Handler = Handler()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +66,31 @@ class DbdetailActivity : BaseCompatActivity() {
 
         initData()
         initView()
+    }
+
+    private fun initData() {
+        viewModel = ViewModelProviders.of(this).get(DbflowViewModel::class.java)
+        if (intent != null) {
+            day = intent.getStringExtra("day") ?: Utime.today()
+        } else {
+            day = Utime.today()
+        }
+
+        val dbFlowDay = viewModel.getDbFlowDay(day)
+        dbFlowDay.observe(this, Observer {
+            if (inited) {
+                return@Observer
+            }
+            if (it == null) {
+                // 没有数据的时候，添加默认的
+                viewModel.insertDbFlowDay(day)
+                return@Observer
+            }
+
+            itemList = FlowItemHelper.fromJsonArray(it.items)
+            initRecyclerView()
+            inited = true
+        })
     }
 
     private fun initView() {
@@ -126,7 +152,10 @@ class DbdetailActivity : BaseCompatActivity() {
             });
 
 
-        adapter = DbflowItemAdapter(viewModel.flowItemList)
+    }
+
+    private fun initRecyclerView() {
+        adapter = DbflowItemAdapter(itemList)
         adapter.itemListener = getItemListener()
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
@@ -154,32 +183,6 @@ class DbdetailActivity : BaseCompatActivity() {
         Uscreen.setStatusBarColor(this, Color.parseColor(hexColor))
     }
 
-    private fun initData() {
-        viewModel = ViewModelProviders.of(this).get(DbflowViewModel::class.java)
-        if (intent != null) {
-            day = intent.getStringExtra("day") ?: Utime.today()
-        } else {
-            day = Utime.today()
-        }
-
-        val dbFlowDay = viewModel.getDbFlowDay(day)
-        // 没有数据的时候，添加默认的
-        dbFlowDay.observe(this, Observer {
-            if (it == null) {
-                viewModel.insertDbFlowDay(day)
-                return@Observer
-            }
-            viewModel.flowItemList.value = FlowItemHelper.fromJsonArray(it.items)
-        })
-        viewModel.flowItemList.observe(this, Observer {
-            it?.let {
-                Log.i("TTAG", "day: changed");
-
-                adapter.notifyDataSetChanged()
-            }
-        })
-    }
-
     fun updateDb(vararg noDelay: Boolean) {
         if (noDelay.isNotEmpty() && noDelay[0]) {
             updateDbTask.run()
@@ -189,9 +192,8 @@ class DbdetailActivity : BaseCompatActivity() {
     }
 
     private val updateDbTask = Runnable {
-        viewModel.flowItemList.value?.let {
-            viewModel.updateDbFlowItems(day, it)
-        }
+        viewModel.updateDbFlowItems(day, itemList)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -217,18 +219,18 @@ class DbdetailActivity : BaseCompatActivity() {
     }
 
     private fun updateUiAndDb() {
-        viewModel.flowItemList.notifyObserver()
+        adapter.notifyDataSetChanged()
         delayUpdateDb()
     }
 
     private fun addNewItem() {
-        viewModel.flowItemList.value?.let {
+        with(itemList) {
             val newItem = FlowItem()
             val startArr = Utime.getValidTime(null)
             var currentTime = Utime.getTimeString(startArr[0], startArr[1])
 
-            if (it.size > 0) {
-                val item = it[0]
+            if (this.size > 0) {
+                val item = this[0]
                 // 当前时间已经存在，则不在新建
                 if (currentTime == item.timeStart) {
                     showTips("该时间点已经有了一个哦")
@@ -239,7 +241,7 @@ class DbdetailActivity : BaseCompatActivity() {
                 }
             }
             newItem.timeStart = currentTime
-            it.add(0, newItem)
+            add(0, newItem)
             updateUiAndDb()
         }
     }
@@ -262,10 +264,8 @@ class DbdetailActivity : BaseCompatActivity() {
                     )
                 }
                 .add("删除此项") {
-                    viewModel.flowItemList.value?.let {
-                        it.remove(item)
-                        updateUiAndDb()
-                    }
+                    itemList.remove(item)
+                    updateUiAndDb()
                 }
                 .show()
         }
@@ -275,7 +275,7 @@ class DbdetailActivity : BaseCompatActivity() {
             val listener =
                 TimePickerDialog.OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
                     item.timeStart = Utime.getTimeString(hourOfDay, minute)
-                    Utransfer.sortItems(viewModel.flowItemList.value)
+                    Utransfer.sortItems(itemList)
                     updateUiAndDb()
                 }
             Udialog.showTimePicker(context, listener, Utime.getValidTime(item.timeStart))
@@ -285,7 +285,7 @@ class DbdetailActivity : BaseCompatActivity() {
             val listener =
                 TimePickerDialog.OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
                     item.timeEnd = Utime.getTimeString(hourOfDay, minute)
-                    Utransfer.sortItems(viewModel.flowItemList.value)
+                    Utransfer.sortItems(itemList)
                     updateUiAndDb()
                 }
             Udialog.showTimePicker(context, listener, Utime.getValidTime(item.timeEnd))
@@ -296,7 +296,7 @@ class DbdetailActivity : BaseCompatActivity() {
                 .consumer {
                     if (it) {
                         item.timeStart = null
-                        Utransfer.sortItems(viewModel.flowItemList.value)
+                        Utransfer.sortItems(itemList)
                         updateUiAndDb()
                     }
                 }
@@ -309,7 +309,7 @@ class DbdetailActivity : BaseCompatActivity() {
                 .consumer {
                     if (it) {
                         item.timeEnd = null
-                        Utransfer.sortItems(viewModel.flowItemList.value)
+                        Utransfer.sortItems(itemList)
                         updateUiAndDb()
                     }
                 }
@@ -320,7 +320,7 @@ class DbdetailActivity : BaseCompatActivity() {
         override fun onTextChanged(item: FlowItem, s: CharSequence) {
             item.content = s.toString()
             // 只需要更新数据即可
-            //updateDb()
+            updateDb()
         }
 
         override fun onEditTextFocused(hasFocus: Boolean, item: FlowItem) {
