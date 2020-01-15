@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.lyloou.flow.R
+import com.lyloou.flow.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 
@@ -19,13 +18,27 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProviders.of(this).get(HomeViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(this, Observer {
-            textView.text = it
+        val binding = FragmentHomeBinding.inflate(inflater)
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        binding.data = homeViewModel
+        binding.lifecycleOwner = this
+        return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        homeViewModel.a.observe(this, Observer {
+            homeViewModel.save()
         })
-        return root
+        homeViewModel.b.observe(this, Observer {
+            homeViewModel.save()
+        })
+        homeViewModel.c.observe(this, Observer {
+            homeViewModel.save()
+        })
+        homeViewModel.d.observe(this, Observer {
+            homeViewModel.save()
+        })
     }
 }

@@ -33,7 +33,10 @@ class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         }
 
         nav_view.setOnNavigationItemSelectedListener { menu ->
-            viewPager.currentItem = menuIdToFragments.indexOfFirst { it.first == menu.itemId }
+            viewPager.setCurrentItem(
+                menuIdToFragments.indexOfFirst { it.first == menu.itemId },
+                false
+            )
             true
         }
     }
