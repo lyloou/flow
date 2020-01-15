@@ -1,4 +1,4 @@
-package com.lyloou.flow.module.list
+package com.lyloou.flow.ui.list
 
 import android.app.Activity
 import android.app.ActivityOptions
@@ -15,11 +15,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lyloou.flow.R
 import com.lyloou.flow.common.Key
-import com.lyloou.flow.module.detail.DetailActivity
 import com.lyloou.flow.repository.DbFlow
+import com.lyloou.flow.ui.detail.DetailActivity
 import com.lyloou.flow.util.ImageHelper
 
-class FlowAdapter : PagedListAdapter<DbFlow, FlowAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class ListAdapter : PagedListAdapter<DbFlow, ListAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DbFlow>() {

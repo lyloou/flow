@@ -19,19 +19,23 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
         <activity
-            android:name=".module.detail.DetailActivity"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".module.list.ListActivity"
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
             android:theme="@style/NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.lyloou.flow.common.BaseCompatActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.lyloou.flow.ui.detail.DetailActivity"
+            android:theme="@style/NoActionBar" />
         <activity android:name=".temp.TempActivity" />
-        <activity android:name=".module.kalendar.KalendarActivity"></activity>
+        <activity android:name="com.lyloou.flow.ui.kalendar.KalendarActivity" />
     </application>
 
 </manifest>

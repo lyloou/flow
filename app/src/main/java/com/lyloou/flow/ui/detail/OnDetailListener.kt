@@ -1,4 +1,4 @@
-package com.lyloou.flow.module.detail
+package com.lyloou.flow.ui.detail
 
 import com.lyloou.flow.model.FlowItem
 

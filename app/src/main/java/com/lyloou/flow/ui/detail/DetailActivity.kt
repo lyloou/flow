@@ -1,4 +1,4 @@
-package com.lyloou.flow.module.detail
+package com.lyloou.flow.ui.detail
 
 import android.app.TimePickerDialog
 import android.content.res.ColorStateList
@@ -40,9 +40,9 @@ import com.lyloou.flow.model.Flow
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.model.FlowItemHelper
 import com.lyloou.flow.model.toDbFlow
-import com.lyloou.flow.module.list.FlowViewModel
 import com.lyloou.flow.net.KingsoftwareAPI
 import com.lyloou.flow.net.Network
+import com.lyloou.flow.ui.list.ListViewModel
 import com.lyloou.flow.util.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -50,7 +50,7 @@ import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : BaseCompatActivity() {
 
-    private lateinit var viewModel: FlowViewModel
+    private lateinit var viewModel: ListViewModel
     private lateinit var day: String
     private lateinit var itemList: MutableList<FlowItem>
     private lateinit var adapter: DetailAdapter
@@ -74,7 +74,7 @@ class DetailActivity : BaseCompatActivity() {
 
     private fun initData() {
         day = intent?.getStringExtra(Key.DAY.name) ?: Utime.today()
-        viewModel = ViewModelProviders.of(this).get(FlowViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
         // 没有数据的时候，初始化默认的
         viewModel.getDbFlow(day).observe(this, Observer {
             if (it == null) {

@@ -1,4 +1,4 @@
-package com.lyloou.flow.module.kalendar
+package com.lyloou.flow.ui.kalendar
 
 
 import android.content.Intent
@@ -12,10 +12,11 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.haibin.calendarview.Calendar
 import com.haibin.calendarview.CalendarView
+import com.lyloou.flow.MainActivity
 import com.lyloou.flow.R
+import com.lyloou.flow.common.Key
 import com.lyloou.flow.databinding.FragmentKalendarRecycleBinding
 import com.lyloou.flow.extension.dp2px
-import com.lyloou.flow.module.list.ListActivity
 import com.lyloou.flow.util.Utime
 import com.lyloou.flow.widget.ItemOffsetDecoration
 import kotlinx.android.synthetic.main.fragment_kalendar_recycle.*
@@ -123,7 +124,9 @@ class KalendarRecyclerFragment : Fragment() {
             R.id.add -> {
             }
             R.id.local_list -> {
-                startActivity(Intent(context, ListActivity::class.java))
+                val intent = Intent(context, MainActivity::class.java)
+                intent.putExtra(Key.NAVIGATION_ID.name, R.id.navigation_list)
+                startActivity(intent)
             }
         }
         return super.onOptionsItemSelected(item)

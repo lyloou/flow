@@ -1,4 +1,4 @@
-package com.lyloou.flow.module.setting
+package com.lyloou.flow.ui.setting
 
 enum class KalendarMode(private val code: Int) {
 

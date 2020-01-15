@@ -24,7 +24,10 @@ enum class Action : Str {
 }
 
 enum class Key : Str {
-    DAY;
+    DAY,
+    NAVIGATION_ID,
+
+    ;
 
     override fun str(): String {
         return getSimpleStr(javaClass, name)

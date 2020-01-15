@@ -1,4 +1,4 @@
-package com.lyloou.flow.module.list
+package com.lyloou.flow.ui.list
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -9,8 +9,7 @@ import com.lyloou.flow.model.FlowItemHelper
 import com.lyloou.flow.repository.DbFlow
 import com.lyloou.flow.repository.FlowRepository
 
-
-class FlowViewModel(application: Application) : AndroidViewModel(application) {
+class ListViewModel(application: Application) : AndroidViewModel(application) {
     private val flowRepository = FlowRepository.getInstance(application)
     val dbFlowList: LiveData<PagedList<DbFlow>> by lazy {
         flowRepository.getPagedList()

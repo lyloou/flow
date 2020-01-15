@@ -1,4 +1,4 @@
-package com.lyloou.flow.module.setting
+package com.lyloou.flow.ui.setting
 
 import android.app.Application
 import android.content.Context

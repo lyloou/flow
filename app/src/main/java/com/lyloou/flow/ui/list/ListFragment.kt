@@ -1,4 +1,4 @@
-package com.lyloou.flow.module.list
+package com.lyloou.flow.ui.list
 
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -7,10 +7,10 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.palette.graphics.Palette
@@ -19,50 +19,54 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.lyloou.flow.R
-import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.Url
 import com.lyloou.flow.extension.dp2px
-import com.lyloou.flow.module.detail.DetailActivity
-import com.lyloou.flow.module.kalendar.KalendarActivity
 import com.lyloou.flow.net.KingsoftwareAPI
 import com.lyloou.flow.net.Network
+import com.lyloou.flow.ui.detail.DetailActivity
+import com.lyloou.flow.ui.kalendar.KalendarActivity
 import com.lyloou.flow.util.*
 import com.lyloou.flow.widget.ItemOffsetDecoration
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_list.*
+import kotlinx.android.synthetic.main.fragment_list.*
 
+class ListFragment : Fragment() {
 
-class ListActivity : BaseCompatActivity() {
+    private lateinit var viewModel: ListViewModel
 
-    private lateinit var viewModel: FlowViewModel
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list)
-        viewModel = ViewModelProviders.of(this).get(FlowViewModel::class.java)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_list, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setHasOptionsMenu(true)
+        viewModel = ViewModelProviders.of(requireActivity()).get(ListViewModel::class.java)
         initView()
 
         recyclerView.apply {
-            val adapter = FlowAdapter()
+            val adapter = ListAdapter()
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.addItemDecoration(ItemOffsetDecoration(dp2px(16f)))
 
-            viewModel.dbFlowList.observe(this@ListActivity, Observer {
+            viewModel.dbFlowList.observe(requireActivity(), Observer {
                 it?.let {
                     adapter.submitList(it)
                 }
             })
         }
-
     }
 
     private fun initView() {
-        setSupportActionBar(toolbar);
-        supportActionBar?.title = "夫路";
-        toolbar.setNavigationOnClickListener { onBackPressed() };
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        supportActionBar?.setDisplayShowHomeEnabled(true);
+        val appCompatActivity = activity as AppCompatActivity
+        appCompatActivity.setSupportActionBar(toolbar);
+        appCompatActivity.supportActionBar?.title = "夫路";
 
         collapsing_toolbar_layout.setExpandedTitleColor(Color.TRANSPARENT)
         collapsing_toolbar_layout.setCollapsedTitleTextColor(Color.WHITE)
@@ -95,11 +99,11 @@ class ListActivity : BaseCompatActivity() {
     }
 
     private fun toDetail() {
-        startActivity(Intent(this, DetailActivity::class.java))
+        startActivity(Intent(activity, DetailActivity::class.java))
     }
 
     private fun initIvHeader(url: String?) {
-        Glide.with(context).asBitmap()
+        Glide.with(context!!).asBitmap()
             .load(url)
             .placeholder(R.mipmap.ic_launcher)
             .centerCrop().into(object : CustomTarget<Bitmap>() {
@@ -111,7 +115,12 @@ class ListActivity : BaseCompatActivity() {
                     // [Dynamic Colors With Glide Library and Android Palette](https://android.jlelse.eu/dynamic-colors-with-glide-library-and-android-palette-5be407049d97)
                     val palette = Palette.from(resource).generate()
                     val color =
-                        palette.getMutedColor(ContextCompat.getColor(context, R.color.colorAccent))
+                        palette.getMutedColor(
+                            ContextCompat.getColor(
+                                context!!,
+                                R.color.colorAccent
+                            )
+                        )
                     resetThemeColor(color)
                 }
             })
@@ -122,21 +131,22 @@ class ListActivity : BaseCompatActivity() {
         tv_header.setBackgroundColor(transparentColor)
         // https://stackoverflow.com/questions/6539879/how-to-convert-a-color-integer-to-a-hex-string-in-android
         val hexColor = String.format("#%06X", 0xFFFFFF and color)
-        Uscreen.setStatusBarColor(this, Color.parseColor(hexColor))
+        Uscreen.setStatusBarColor(activity, Color.parseColor(hexColor))
 
         fab.backgroundTintList = ColorStateList.valueOf(color)
         fab.setRippleColor(ColorStateList.valueOf(transparentColor))
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.flow_list, menu)
-        return true
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.flow_list, menu)
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_kalendar -> {
-                startActivity(Intent(this@ListActivity, KalendarActivity::class.java))
+                startActivity(Intent(context, KalendarActivity::class.java))
             }
             R.id.menu_sync_all_tab -> {
 

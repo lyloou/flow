@@ -1,4 +1,4 @@
-package com.lyloou.flow.module.kalendar
+package com.lyloou.flow.ui.kalendar
 
 import android.app.Application
 import android.util.Log

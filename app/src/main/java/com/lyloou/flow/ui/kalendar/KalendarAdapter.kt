@@ -1,4 +1,4 @@
-package com.lyloou.flow.module.kalendar
+package com.lyloou.flow.ui.kalendar
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lyloou.flow.R
 import com.lyloou.flow.common.ListAdapterWithHeader
 import com.lyloou.flow.model.FlowItem
-import com.lyloou.flow.module.kalendar.KalendarAdapter.MyViewHolder
 import com.lyloou.flow.temp.TempActivity
+import com.lyloou.flow.ui.kalendar.KalendarAdapter.MyViewHolder
 
 
 // [Extending the ListAdapter with a header view | Brightec, Brighton, UK](https://www.brightec.co.uk/ideas/extending-listadapter-header-view)
