@@ -29,22 +29,25 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setHasOptionsMenu(true)
 
+        val observer = Observer<String> {
+            homeViewModel.save()
+        }
+        homeViewModel.a.observe(this, observer)
+        homeViewModel.b.observe(this, observer)
+        homeViewModel.c.observe(this, observer)
+        homeViewModel.d.observe(this, observer)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        initToolbar()
+    }
+
+    private fun initToolbar() {
         val appCompatActivity = activity as AppCompatActivity
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.supportActionBar?.title = "日程";
-
-        homeViewModel.a.observe(this, Observer {
-            homeViewModel.save()
-        })
-        homeViewModel.b.observe(this, Observer {
-            homeViewModel.save()
-        })
-        homeViewModel.c.observe(this, Observer {
-            homeViewModel.save()
-        })
-        homeViewModel.d.observe(this, Observer {
-            homeViewModel.save()
-        })
     }
 }
