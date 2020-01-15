@@ -63,11 +63,18 @@ class ListFragment : Fragment() {
         }
     }
 
-    private fun initView() {
+    override fun onResume() {
+        super.onResume()
+        initToolbar()
+    }
+
+    private fun initToolbar() {
         val appCompatActivity = activity as AppCompatActivity
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.supportActionBar?.title = "夫路";
+    }
 
+    private fun initView() {
         collapsing_toolbar_layout.setExpandedTitleColor(Color.TRANSPARENT)
         collapsing_toolbar_layout.setCollapsedTitleTextColor(Color.WHITE)
         Uview.toggleViewVisibleWhenAppBarLayoutScrollChanged(app_bar, tv_header)
