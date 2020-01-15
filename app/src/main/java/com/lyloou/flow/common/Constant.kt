@@ -24,7 +24,7 @@ enum class Action : Str {
 }
 
 enum class Key : Str {
-    FLOW;
+    DAY;
 
     override fun str(): String {
         return getSimpleStr(javaClass, name)

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_kalendar"
+        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:iconTint="@color/white"
+        android:title="时间表"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_today_flow_time"
+        android:title="今日时分流"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_add_shortcut"
+        android:title="添加到桌面"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_sync_all_tab"
+        android:title="上传全部数据" />
+
+</menu>

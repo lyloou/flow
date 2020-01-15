@@ -17,7 +17,6 @@ import com.lyloou.flow.R
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.module.detail.DetailActivity
 import com.lyloou.flow.repository.DbFlow
-import com.lyloou.flow.repository.toFlow
 import com.lyloou.flow.util.ImageHelper
 
 class FlowAdapter : PagedListAdapter<DbFlow, FlowAdapter.MyViewHolder>(DIFF_CALLBACK) {
@@ -62,14 +61,15 @@ class FlowAdapter : PagedListAdapter<DbFlow, FlowAdapter.MyViewHolder>(DIFF_CALL
 
     private fun doOnClickItem(flow: DbFlow, imageView: ImageView) {
         val intent = Intent(imageView.context, DetailActivity::class.java)
-        intent.putExtra(Key.FLOW.name, flow.toFlow())
+        var day = flow.day
+        intent.putExtra(Key.DAY.name, day)
 
         var options: ActivityOptions? = null
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             options = ActivityOptions.makeSceneTransitionAnimation(
                 imageView.context as Activity,
                 imageView,
-                flow.day
+                day
             )
         }
         imageView.context.startActivity(intent, options?.toBundle())

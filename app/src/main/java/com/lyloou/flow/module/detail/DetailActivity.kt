@@ -38,6 +38,7 @@ import com.lyloou.flow.common.Key
 import com.lyloou.flow.common.Url
 import com.lyloou.flow.model.Flow
 import com.lyloou.flow.model.FlowItem
+import com.lyloou.flow.model.FlowItemHelper
 import com.lyloou.flow.model.toDbFlow
 import com.lyloou.flow.module.list.FlowViewModel
 import com.lyloou.flow.net.KingsoftwareAPI
@@ -50,7 +51,7 @@ import kotlinx.android.synthetic.main.activity_detail.*
 class DetailActivity : BaseCompatActivity() {
 
     private lateinit var viewModel: FlowViewModel
-    private lateinit var flow: Flow
+    private lateinit var day: String
     private lateinit var itemList: MutableList<FlowItem>
     private lateinit var adapter: FlowItemAdapter
     private var handler: Handler = Handler()
@@ -72,20 +73,22 @@ class DetailActivity : BaseCompatActivity() {
     }
 
     private fun initData() {
-        flow = intent?.getParcelableExtra(Key.FLOW.name) ?: Flow(Utime.today())
+        day = intent?.getStringExtra(Key.DAY.name) ?: Utime.today()
         viewModel = ViewModelProviders.of(this).get(FlowViewModel::class.java)
-        // 没有数据的时候，添加默认的
-        viewModel.getDbFlow(flow.day).observe(this, Observer {
+        // 没有数据的时候，初始化默认的
+        viewModel.getDbFlow(day).observe(this, Observer {
             if (it == null) {
-                viewModel.insertDbFlow(flow.toDbFlow())
+                viewModel.insertDbFlow(Flow(day).toDbFlow())
+                return@Observer
             }
+            initRecyclerView(it.items)
         })
 
     }
 
     private fun initView() {
         setSupportActionBar(toolbar);
-        supportActionBar?.title = flow.day;
+        supportActionBar?.title = day;
         toolbar.setNavigationOnClickListener { onBackPressed() };
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
@@ -96,13 +99,13 @@ class DetailActivity : BaseCompatActivity() {
 
         intent?.let {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                iv_header.transitionName = flow.day
+                iv_header.transitionName = day
             }
         }
 
         Glide.with(context)
             .asBitmap()
-            .load(ImageHelper.getBigImage(flow.day))
+            .load(ImageHelper.getBigImage(day))
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .placeholder(R.mipmap.ic_launcher)
             .listener(object : RequestListener<Bitmap> {
@@ -142,7 +145,7 @@ class DetailActivity : BaseCompatActivity() {
             });
 
         Network.get(Url.Kingsoftware.url, KingsoftwareAPI::class.java)
-            .getDaily(Utime.transferTwoToOne(flow.day))
+            .getDaily(Utime.transferTwoToOne(day))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -160,14 +163,13 @@ class DetailActivity : BaseCompatActivity() {
             }
         };
 
-        initRecyclerView()
-        action_add.setOnClickListener {
+        fab.setOnClickListener {
             addNewItem()
         }
     }
 
-    private fun initRecyclerView() {
-        itemList = flow.items
+    private fun initRecyclerView(items: String) {
+        itemList = FlowItemHelper.fromJsonArray(items)
         adapter = FlowItemAdapter(itemList)
         adapter.itemListener = getItemListener()
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -194,8 +196,8 @@ class DetailActivity : BaseCompatActivity() {
         // https://stackoverflow.com/questions/6539879/how-to-convert-a-color-integer-to-a-hex-string-in-android
         val hexColor = String.format("#%06X", 0xFFFFFF and color)
         Uscreen.setStatusBarColor(this, Color.parseColor(hexColor))
-        action_add.backgroundTintList = ColorStateList.valueOf(color)
-        action_add.setRippleColor(ColorStateList.valueOf(transparentColor))
+        fab.backgroundTintList = ColorStateList.valueOf(color)
+        fab.setRippleColor(ColorStateList.valueOf(transparentColor))
     }
 
     fun updateDb(vararg noDelay: Boolean) {
@@ -207,11 +209,11 @@ class DetailActivity : BaseCompatActivity() {
     }
 
     private val updateDbTask = Runnable {
-        viewModel.updateDbFlowItems(flow.day, itemList)
+        viewModel.updateDbFlowItems(day, itemList)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.dbflow_menu, menu)
+        menuInflater.inflate(R.menu.flow_detail, menu)
         return true
     }
 

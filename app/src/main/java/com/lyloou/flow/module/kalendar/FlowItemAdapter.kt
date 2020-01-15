@@ -25,7 +25,7 @@ class FlowItemAdapter(private val myViewModel: MyViewModel) :
         const val HEADER_POSITION = 0
         val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<FlowItem>() {
             override fun areItemsTheSame(oldItem: FlowItem, newItem: FlowItem): Boolean {
-                return oldItem === newItem
+                return oldItem == newItem
             }
 
             override fun areContentsTheSame(oldItem: FlowItem, newItem: FlowItem): Boolean {

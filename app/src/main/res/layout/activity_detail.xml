@@ -61,7 +61,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/action_add"
+        android:id="@+id/fab"
         app:fabSize="normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

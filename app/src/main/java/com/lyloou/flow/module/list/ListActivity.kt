@@ -1,10 +1,14 @@
 package com.lyloou.flow.module.list
 
+import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -14,16 +18,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.lyloou.flow.MainActivity
 import com.lyloou.flow.R
 import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.Url
 import com.lyloou.flow.extension.dp2px
+import com.lyloou.flow.module.detail.DetailActivity
 import com.lyloou.flow.net.KingsoftwareAPI
 import com.lyloou.flow.net.Network
-import com.lyloou.flow.util.Ucolor
-import com.lyloou.flow.util.Uscreen
-import com.lyloou.flow.util.Utime
-import com.lyloou.flow.util.Uview
+import com.lyloou.flow.util.*
 import com.lyloou.flow.widget.ItemOffsetDecoration
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -85,6 +88,14 @@ class ListActivity : BaseCompatActivity() {
             }
         };
 
+        fab.startAnimation(Uanimation.getRotateAnimation(3600))
+        fab.setOnClickListener {
+            toDetail()
+        }
+    }
+
+    private fun toDetail() {
+        startActivity(Intent(this, DetailActivity::class.java))
     }
 
     private fun initIvHeader(url: String?) {
@@ -112,5 +123,31 @@ class ListActivity : BaseCompatActivity() {
         // https://stackoverflow.com/questions/6539879/how-to-convert-a-color-integer-to-a-hex-string-in-android
         val hexColor = String.format("#%06X", 0xFFFFFF and color)
         Uscreen.setStatusBarColor(this, Color.parseColor(hexColor))
+
+        fab.backgroundTintList = ColorStateList.valueOf(color)
+        fab.setRippleColor(ColorStateList.valueOf(transparentColor))
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.flow_list, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_kalendar -> {
+                startActivity(Intent(this@ListActivity, MainActivity::class.java))
+            }
+            R.id.menu_sync_all_tab -> {
+
+            }
+            R.id.menu_add_shortcut -> {
+
+            }
+            R.id.menu_today_flow_time -> {
+                toDetail()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
