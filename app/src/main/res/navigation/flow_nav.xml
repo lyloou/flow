@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/dateFragmentRecycler"
-        android:name="com.lyloou.flow.module.kalendar.DateRecyclerFragment"
+        android:name="com.lyloou.flow.module.kalendar.KalendarRecyclerFragment"
         android:label="FlowRecycler"
-        tools:layout="@layout/fragment_date_scroll">
+        tools:layout="@layout/fragment_kalendar_scroll">
         <action
             android:id="@+id/action_dateFragment_to_aboutFragment"
             app:destination="@id/aboutFragment" />
@@ -24,6 +24,6 @@
         tools:layout="@layout/fragment_about" />
     <fragment
         android:id="@+id/dateFragmentScroll"
-        android:name="com.lyloou.flow.module.kalendar.DateFragmentScroll"
+        android:name="com.lyloou.flow.module.kalendar.KalendarScrollFragment"
         android:label="FlowScroll" />
 </navigation>

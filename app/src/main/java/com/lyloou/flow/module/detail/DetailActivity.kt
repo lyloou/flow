@@ -53,7 +53,7 @@ class DetailActivity : BaseCompatActivity() {
     private lateinit var viewModel: FlowViewModel
     private lateinit var day: String
     private lateinit var itemList: MutableList<FlowItem>
-    private lateinit var adapter: FlowItemAdapter
+    private lateinit var adapter: DetailAdapter
     private var handler: Handler = Handler()
 
 
@@ -170,8 +170,8 @@ class DetailActivity : BaseCompatActivity() {
 
     private fun initRecyclerView(items: String) {
         itemList = FlowItemHelper.fromJsonArray(items)
-        adapter = FlowItemAdapter(itemList)
-        adapter.itemListener = getItemListener()
+        adapter = DetailAdapter(itemList)
+        adapter.detailListener = getItemListener()
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
         recyclerView.descendantFocusability = RecyclerView.FOCUS_AFTER_DESCENDANTS
@@ -264,7 +264,7 @@ class DetailActivity : BaseCompatActivity() {
     }
 
     private fun getItemListener() = object :
-        OnItemListener {
+        OnDetailListener {
         override fun onLongClickItem(item: FlowItem, position: Int) {
             Udialog.AlertMultiItem.builder(context)
                 .add("复制内容") { Usystem.copyString(context, item.content) }

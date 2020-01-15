@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lyloou.flow.R
 import com.lyloou.flow.common.ListAdapterWithHeader
 import com.lyloou.flow.model.FlowItem
-import com.lyloou.flow.module.kalendar.FlowItemAdapter.MyViewHolder
+import com.lyloou.flow.module.kalendar.KalendarAdapter.MyViewHolder
 import com.lyloou.flow.temp.TempActivity
 
 
 // [Extending the ListAdapter with a header view | Brightec, Brighton, UK](https://www.brightec.co.uk/ideas/extending-listadapter-header-view)
 // [Android RecyclerView with header, footer and pagination - GadgetSaint](http://www.gadgetsaint.com/android/recyclerview-header-footer-pagination/#.XhMvEvy-uHv)
-class FlowItemAdapter(private val myViewModel: MyViewModel) :
+class KalendarAdapter(private val kalendarViewModel: KalendarViewModel) :
 
     ListAdapterWithHeader<FlowItem, MyViewHolder>(ITEM_COMPARATOR) {
 
@@ -65,7 +65,7 @@ class FlowItemAdapter(private val myViewModel: MyViewModel) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         when (position) {
             HEADER_POSITION -> {
-                holder.textView.text = myViewModel.flow.value?.day
+                holder.textView.text = kalendarViewModel.flow.value?.day
             }
             else -> {
                 val item = getItem(position)

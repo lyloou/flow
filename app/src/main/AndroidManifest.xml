@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".temp.TempActivity" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".module.kalendar.KalendarActivity"></activity>
     </application>
 
 </manifest>

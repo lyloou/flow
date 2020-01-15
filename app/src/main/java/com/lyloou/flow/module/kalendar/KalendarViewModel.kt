@@ -15,7 +15,7 @@ import com.lyloou.flow.util.Utime
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class MyViewModel(application: Application) : AndroidViewModel(application) {
+class KalendarViewModel(application: Application) : AndroidViewModel(application) {
     val flow: MutableLiveData<Flow> by lazy {
         MutableLiveData<Flow>().also {
             loadFromNet(Utime.getDayWithFormatTwo())

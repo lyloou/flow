@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.lyloou.flow.module.kalendar.MyViewModel" />
+            type="com.lyloou.flow.module.kalendar.KalendarViewModel" />
     </data>
 
     <LinearLayout
@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:background="#fff"
         android:orientation="vertical"
-        tools:context=".module.kalendar.DateFragmentScroll">
+        tools:context=".module.kalendar.KalendarScrollFragment">
 
 
         <com.haibin.calendarview.CalendarLayout

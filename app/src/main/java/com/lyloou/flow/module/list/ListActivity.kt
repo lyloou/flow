@@ -18,12 +18,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.lyloou.flow.MainActivity
 import com.lyloou.flow.R
 import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.Url
 import com.lyloou.flow.extension.dp2px
 import com.lyloou.flow.module.detail.DetailActivity
+import com.lyloou.flow.module.kalendar.KalendarActivity
 import com.lyloou.flow.net.KingsoftwareAPI
 import com.lyloou.flow.net.Network
 import com.lyloou.flow.util.*
@@ -136,7 +136,7 @@ class ListActivity : BaseCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_kalendar -> {
-                startActivity(Intent(this@ListActivity, MainActivity::class.java))
+                startActivity(Intent(this@ListActivity, KalendarActivity::class.java))
             }
             R.id.menu_sync_all_tab -> {
 

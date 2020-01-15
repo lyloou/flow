@@ -1,6 +1,7 @@
 package com.lyloou.flow.module.kalendar
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
@@ -8,18 +9,23 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.haibin.calendarview.Calendar
 import com.haibin.calendarview.CalendarView
 import com.lyloou.flow.R
-import com.lyloou.flow.databinding.FragmentDateScrollBinding
+import com.lyloou.flow.databinding.FragmentKalendarRecycleBinding
+import com.lyloou.flow.extension.dp2px
+import com.lyloou.flow.module.list.ListActivity
 import com.lyloou.flow.util.Utime
-import kotlinx.android.synthetic.main.fragment_date_scroll.*
+import com.lyloou.flow.widget.ItemOffsetDecoration
+import kotlinx.android.synthetic.main.fragment_kalendar_recycle.*
+import kotlinx.android.synthetic.main.fragment_kalendar_scroll.calendarView
 
 
 /**
  * A simple [Fragment] subclass.
  */
-class DateFragmentScroll : Fragment() {
+class KalendarRecyclerFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,8 +33,8 @@ class DateFragmentScroll : Fragment() {
     ): View? {
         initData()
         // Inflate the layout for this fragment
-        val binding = FragmentDateScrollBinding.inflate(inflater)
-        binding.data = myViewModel
+        val binding = FragmentKalendarRecycleBinding.inflate(inflater)
+        binding.data = kalendarViewModel
         binding.lifecycleOwner = this
         return binding.root
 
@@ -41,19 +47,17 @@ class DateFragmentScroll : Fragment() {
         initView()
     }
 
-    private lateinit var myViewModel: MyViewModel
+    private lateinit var kalendarViewModel: KalendarViewModel
     private fun initData() {
-        myViewModel = ViewModelProviders.of(
+        kalendarViewModel = ViewModelProviders.of(
             this,
             ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
-        ).get(MyViewModel::class.java)
+        ).get(KalendarViewModel::class.java)
     }
 
     private fun initView() {
-        val day = myViewModel.flow.value?.day
+        val day = kalendarViewModel.flow.value?.day
         day?.let {
-            myViewModel.loadFromNet(it)
-
             val date = Utime.transferTwo(day)
             val calendar = java.util.Calendar.getInstance()
             calendar.time = date
@@ -63,9 +67,12 @@ class DateFragmentScroll : Fragment() {
                 calendar.get(java.util.Calendar.DAY_OF_MONTH)
             )
         }
+
         calendarView.setOnCalendarSelectListener(object : CalendarView.OnCalendarSelectListener {
             override fun onCalendarSelect(calendar: Calendar?, isClick: Boolean) {
-                calendar?.let { myViewModel.loadFromNet(it.toString()) }
+                if (isClick) {
+                    calendar?.let { kalendarViewModel.loadFromNet(it.toString()) }
+                }
             }
 
             override fun onCalendarOutOfRange(calendar: Calendar?) {
@@ -75,16 +82,22 @@ class DateFragmentScroll : Fragment() {
         })
 
 
-        myViewModel.flow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            scrollView.smoothScrollTo(0, 0)
-        })
+        val context = requireContext()
+        val flowItemAdapter =
+            KalendarAdapter(kalendarViewModel)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.addItemDecoration(ItemOffsetDecoration(context.dp2px(16f)))
+        recyclerView.adapter = flowItemAdapter
 
+        kalendarViewModel.flow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            flowItemAdapter.notifyHeaderItem()
+            flowItemAdapter.submitList(kalendarViewModel.flow.value?.items)
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.flow_menu, menu);
-        menu.findItem(R.id.view_mode).title = "Recycler Mode"
         val searchView: SearchView = menu.findItem(R.id.app_bar_search).actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -102,12 +115,15 @@ class DateFragmentScroll : Fragment() {
         val controller = Navigation.findNavController(view!!)
         when (item.itemId) {
             R.id.view_mode -> {
-                controller.navigateUp()
+                controller.navigate(R.id.action_dateFragmentRecycler_to_dateFragmentScroll)
             }
             R.id.about -> {
-                controller.navigate(R.id.aboutFragment)
+                controller.navigate(R.id.action_dateFragment_to_aboutFragment)
             }
             R.id.add -> {
+            }
+            R.id.local_list -> {
+                startActivity(Intent(context, ListActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)

@@ -2,7 +2,7 @@ package com.lyloou.flow.module.detail
 
 import com.lyloou.flow.model.FlowItem
 
-interface OnItemListener {
+interface OnDetailListener {
     fun onLongClickItem(item: FlowItem, position: Int)
     fun onClickTimeStart(item: FlowItem, position: Int)
     fun onClickTimeEnd(item: FlowItem, position: Int)
