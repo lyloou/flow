@@ -35,13 +35,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.lyloou.flow.R
 import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.Key
-import com.lyloou.flow.common.Url
 import com.lyloou.flow.model.Flow
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.model.FlowItemHelper
 import com.lyloou.flow.model.toDbFlow
-import com.lyloou.flow.net.KingsoftwareAPI
 import com.lyloou.flow.net.Network
+import com.lyloou.flow.net.kingSoftwareApi
 import com.lyloou.flow.ui.list.ListViewModel
 import com.lyloou.flow.util.*
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -144,7 +143,7 @@ class DetailActivity : BaseCompatActivity() {
                 }
             });
 
-        Network.get(Url.Kingsoftware.url, KingsoftwareAPI::class.java)
+        Network.kingSoftwareApi()
             .getDaily(Utime.transferTwoToOne(day))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

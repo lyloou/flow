@@ -1,9 +1,8 @@
 package com.lyloou.flow
 
 import android.util.Log
-import com.lyloou.flow.common.Url
-import com.lyloou.flow.net.KingsoftwareAPI
 import com.lyloou.flow.net.Network
+import com.lyloou.flow.net.kingSoftwareApi
 import io.reactivex.schedulers.Schedulers
 import org.junit.Test
 
@@ -11,7 +10,7 @@ import org.junit.Test
 class NetTest {
     @Test
     fun testKingSoftware() {
-        Network.get(Url.Kingsoftware.url, KingsoftwareAPI::class.java)
+        Network.kingSoftwareApi()
             .getDaily("2020-01-14")
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.computation())

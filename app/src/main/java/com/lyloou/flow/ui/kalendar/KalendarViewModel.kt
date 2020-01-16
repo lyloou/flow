@@ -4,13 +4,12 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.lyloou.flow.common.Url
 import com.lyloou.flow.model.Flow
 import com.lyloou.flow.model.FlowItemHelper
 import com.lyloou.flow.model.FlowResult
 import com.lyloou.flow.model.toFlow
-import com.lyloou.flow.net.FlowApi
 import com.lyloou.flow.net.Network
+import com.lyloou.flow.net.flowApi
 import com.lyloou.flow.util.Utime
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -25,7 +24,7 @@ class KalendarViewModel(application: Application) : AndroidViewModel(application
     val detail: MutableLiveData<String> = MutableLiveData()
 
     fun loadFromNet(day: String) {
-        Network.get(Url.FlowApi.url, FlowApi::class.java)
+        Network.flowApi()
             .get(day)
             .subscribeOn(Schedulers.io())
             .unsubscribeOn(Schedulers.io())

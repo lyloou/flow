@@ -13,25 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.lyloou.flow.net
 
-package com.lyloou.flow.net;
-
-import com.lyloou.flow.model.Daily;
-
-import io.reactivex.Observable;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
+import com.lyloou.flow.common.Url
+import com.lyloou.flow.model.Daily
+import io.reactivex.Observable
+import retrofit2.http.GET
+import retrofit2.http.Query
 
 /**
  * Author:    Lou
  * Version:   V1.0
  * Date:      2017.06.26 19:03
- * <p>
+ *
+ *
  * Description:
  */
-public interface KingsoftwareAPI {
-
-
+interface KingSoftwareApi {
     @GET("/dsapi")
-    Observable<Daily> getDaily(@Query("date") String date);
+    fun getDaily(@Query("date") date: String?): Observable<Daily>
+}
+
+fun Network.kingSoftwareApi(): KingSoftwareApi {
+    return get(Url.Kingsoftware.url, KingSoftwareApi::class.java)
 }

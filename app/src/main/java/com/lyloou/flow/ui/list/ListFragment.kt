@@ -19,10 +19,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.lyloou.flow.R
-import com.lyloou.flow.common.Url
 import com.lyloou.flow.extension.dp2px
-import com.lyloou.flow.net.KingsoftwareAPI
 import com.lyloou.flow.net.Network
+import com.lyloou.flow.net.kingSoftwareApi
 import com.lyloou.flow.ui.detail.DetailActivity
 import com.lyloou.flow.ui.kalendar.KalendarActivity
 import com.lyloou.flow.util.*
@@ -79,7 +78,7 @@ class ListFragment : Fragment() {
         collapsing_toolbar_layout.setCollapsedTitleTextColor(Color.WHITE)
         Uview.toggleViewVisibleWhenAppBarLayoutScrollChanged(app_bar, tv_header)
 
-        Network.get(Url.Kingsoftware.url, KingsoftwareAPI::class.java)
+        Network.kingSoftwareApi()
             .getDaily(Utime.transferTwoToOne(Utime.getDayWithFormatOne()))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

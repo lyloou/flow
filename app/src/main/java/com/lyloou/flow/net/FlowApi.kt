@@ -1,5 +1,10 @@
 package com.lyloou.flow.net
 
+import android.app.Application
+import com.lyloou.flow.App
+import com.lyloou.flow.common.Key
+import com.lyloou.flow.common.SpName
+import com.lyloou.flow.common.Url
 import com.lyloou.flow.model.CommonResult
 import com.lyloou.flow.model.FlowListResult
 import com.lyloou.flow.model.FlowReq
@@ -22,4 +27,21 @@ interface FlowApi {
 
     @POST("batch_sync")
     fun batchSync(@Body flowReqs: List<FlowReq>): Observable<CommonResult>
+}
+
+fun Network.flowApi(): FlowApi {
+    return withHeader { auth() }
+        .get(Url.FlowApi.url, FlowApi::class.java)
+}
+
+// [Retrofit — Add Custom Request Header](https://futurestud.io/tutorials/retrofit-add-custom-request-header)
+private fun auth(): List<Pair<String, String>> {
+    val preferences = App.instance
+        .getSharedPreferences(SpName.NET_AUTHORIZATION.name, Application.MODE_PRIVATE)
+    val auth = preferences.getString(Key.NET_AUTHORIZATION.name, null)
+
+    auth?.let { authorization ->
+        return listOf("Authorization" to authorization)
+    }
+    return listOf()
 }

@@ -23,10 +23,20 @@ enum class Action : Str {
     }
 }
 
+enum class SpName : Str {
+    NET_AUTHORIZATION,
+
+    ;
+
+    override fun str(): String {
+        return getSimpleStr(javaClass, name)
+    }
+}
+
 enum class Key : Str {
     DAY,
     NAVIGATION_ID,
-
+    NET_AUTHORIZATION,
     ;
 
     override fun str(): String {

@@ -1,8 +1,7 @@
 package com.lyloou.flow
 
-import com.lyloou.flow.common.Url
-import com.lyloou.flow.net.FlowApi
 import com.lyloou.flow.net.Network
+import com.lyloou.flow.net.flowApi
 import io.reactivex.schedulers.Schedulers
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -20,7 +19,7 @@ class ExampleUnitTest {
 
     @Test
     fun net_sync() {
-        Network.get(Url.FlowApi.url, FlowApi::class.java)
+        Network.flowApi()
             .get("20200105")
             .subscribeOn(Schedulers.io())
             .unsubscribeOn(Schedulers.io())
