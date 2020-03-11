@@ -39,7 +39,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/textViewD" />
 
         <EditText
-            android:id="@+id/editTextD"
+            android:id="@+id/editText"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@null"
@@ -47,7 +47,8 @@
             android:gravity="start|top"
             android:importantForAutofill="no"
             android:inputType="none"
-            android:padding="10dp"
+            android:padding="16dp"
+            android:focusable="true"
             android:text="@={data.content}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -19,7 +19,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".ui.home.TodoActivity"></activity>
+        <activity
+            android:name=".ui.home.TodoActivity"
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/NoActionBar">

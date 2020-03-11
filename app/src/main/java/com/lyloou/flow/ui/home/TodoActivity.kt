@@ -8,10 +8,12 @@ import androidx.lifecycle.ViewModelProviders
 import com.lyloou.flow.R
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.databinding.ActivityTodoBinding
+import com.lyloou.flow.model.Order
+import kotlinx.android.synthetic.main.activity_todo.*
 
 class TodoActivity : AppCompatActivity() {
 
-    lateinit var todoViewModel: TodoViewModel
+    private lateinit var todoViewModel: TodoViewModel
     private lateinit var binding: ActivityTodoBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,5 +31,19 @@ class TodoActivity : AppCompatActivity() {
         todoViewModel.content.observe(this, Observer {
             todoViewModel.save()
         })
+        initEditText(key)
+    }
+
+    private fun initEditText(key: String?) {
+        editText.setBackgroundResource(
+            when (key) {
+                Order.A.name -> R.drawable.item_schedule_a_bg
+                Order.B.name -> R.drawable.item_schedule_b_bg
+                Order.C.name -> R.drawable.item_schedule_c_bg
+                Order.D.name -> R.drawable.item_schedule_d_bg
+                else -> 0
+            }
+        )
+
     }
 }
