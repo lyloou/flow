@@ -36,6 +36,7 @@ enum class SpName : Str {
 enum class Key : Str {
     DAY,
     NAVIGATION_ID,
+    TODO,
     NET_AUTHORIZATION,
     ;
 

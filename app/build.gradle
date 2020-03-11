@@ -17,6 +17,8 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         dataBinding.enabled = true
         vectorDrawables.useSupportLibrary = true
+
+        multiDexEnabled true  //ADD THIS LINE
     }
     buildTypes {
         release {
@@ -86,4 +88,13 @@ dependencies {
 
     // DigestUtils加密工具；
     implementation 'commons-codec:commons-codec:1.10'
+
+    // https://github.com/noties/Markwon
+    // https://noties.io/Markwon/docs/v4/editor/#getting-started-with-editor
+    final def markwon_version = "4.2.2"
+    implementation "io.noties.markwon:core:$markwon_version"
+    implementation "io.noties.markwon:ext-tasklist:$markwon_version"
+
+    implementation 'androidx.multidex:multidex:2.0.1'
+
 }

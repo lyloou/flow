@@ -1,53 +1,64 @@
 package com.lyloou.flow.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import com.lyloou.flow.databinding.FragmentHomeBinding
-import kotlinx.android.synthetic.main.fragment_list.*
+import com.lyloou.flow.R
+import com.lyloou.flow.common.Key
+import com.lyloou.flow.model.ScheduleHelper
+import com.lyloou.flow.model.ScheduleItem
+import io.noties.markwon.Markwon
+import io.noties.markwon.ext.tasklist.TaskListPlugin
+import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
-
-    private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentHomeBinding.inflate(inflater)
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-        binding.data = homeViewModel
-        binding.lifecycleOwner = this
-        return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        setHasOptionsMenu(true)
-
-        val observer = Observer<String> {
-            homeViewModel.save()
-        }
-        homeViewModel.a.observe(this, observer)
-        homeViewModel.b.observe(this, observer)
-        homeViewModel.c.observe(this, observer)
-        homeViewModel.d.observe(this, observer)
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onStart() {
         super.onStart()
-        initToolbar()
+        val schedule = ScheduleHelper.getSchedule(requireActivity().application)
+        val editTexts = arrayOf(editTextA, editTextB, editTextC, editTextD)
+        val datas = arrayOf(
+            schedule.a,
+            schedule.b,
+            schedule.c,
+            schedule.d
+        )
+
+        editTexts.forEachIndexed { index, editText ->
+            Markwon.builder(context!!)
+                .usePlugin(TaskListPlugin.create(context!!))
+                .build().setMarkdown(editText, datas[index].content ?: "");
+        }
+
+        val onClickListener = View.OnClickListener {
+            when (it.id) {
+                R.id.editTextA -> enterMode(schedule.a)
+                R.id.editTextB -> enterMode(schedule.b)
+                R.id.editTextC -> enterMode(schedule.c)
+                R.id.editTextD -> enterMode(schedule.d)
+            }
+        }
+        editTextA.setOnClickListener(onClickListener)
+        editTextB.setOnClickListener(onClickListener)
+        editTextC.setOnClickListener(onClickListener)
+        editTextD.setOnClickListener(onClickListener)
     }
 
-    private fun initToolbar() {
-        val appCompatActivity = activity as AppCompatActivity
-        appCompatActivity.setSupportActionBar(toolbar);
-        appCompatActivity.supportActionBar?.title = "日程";
+
+    fun enterMode(data: ScheduleItem) {
+        val intent = Intent(context, TodoActivity::class.java)
+        intent.putExtra(Key.TODO.name, data.name)
+        startActivity(intent)
     }
 }
