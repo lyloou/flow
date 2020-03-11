@@ -38,7 +38,7 @@ data class FlowItem(
     var timeEnd: String? = null,
     var timeSep: String = "~",
     var content: String? = null,
-    val spend: String = Utime.getInterval(timeStart, timeEnd) ?: "--:--"
+    var spend: String = Utime.getInterval(timeStart, timeEnd) ?: "--:--"
 ) : Parcelable
 
 fun FlowRep.toFlow(): Flow {

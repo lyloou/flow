@@ -71,6 +71,7 @@ class DetailActivity : BaseCompatActivity() {
         initView()
     }
 
+    private var observed: Boolean = false
     private fun initData() {
         day = intent?.getStringExtra(Key.DAY.name) ?: Utime.today()
         viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
@@ -80,7 +81,10 @@ class DetailActivity : BaseCompatActivity() {
                 viewModel.insertDbFlow(Flow(day).toDbFlow())
                 return@Observer
             }
-            initRecyclerView(it.items)
+            if (!observed) {
+                observed = true
+                initRecyclerView(it.items)
+            }
         })
 
     }

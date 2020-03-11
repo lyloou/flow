@@ -37,6 +37,7 @@ class DetailAdapter(private val data: MutableList<FlowItem>) :
             holder.tvTimeStart.text = Utime.getFormatTime(item.timeStart)
             holder.tvTimeSep.text = item.timeSep
             holder.tvTimeEnd.text = Utime.getFormatTime(item.timeEnd)
+            item.spend = Utime.getInterval(item.timeStart, item.timeEnd) ?: "--:--"
             holder.tvSpend.text = item.spend
             holder.etContent.setText(item.content)
             holder.etContent.setSelection(item.content?.length ?: 0)
