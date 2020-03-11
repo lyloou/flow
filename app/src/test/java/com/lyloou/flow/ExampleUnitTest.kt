@@ -17,22 +17,6 @@ class ExampleUnitTest {
         assertEquals(4, 2 + 2)
     }
 
-    @Test
-    fun net_sync() {
-        Network.flowApi()
-            .get("20200105")
-            .subscribeOn(Schedulers.io())
-            .unsubscribeOn(Schedulers.io())
-            .observeOn(Schedulers.computation())
-            .subscribe {
-                println(it.err_code)
-                println(it.err_msg)
-                println(it.data)
-            }
-        Thread.sleep(3000)
-
-    }
-
     // [Convert List Or Array To Vararg (Kotlin) | Lua Software Code](https://code.luasoftware.com/tutorials/kotlin/convert-list-and-array-to-vararg/)
     @Test
     fun testVararg() {
