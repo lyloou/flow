@@ -26,7 +26,7 @@ class ExampleInstrumentedTest {
     @Test
     fun net_sync() {
         Network.flowApi()
-            .get(1L, "20200105")
+            .get("20200105")
             .subscribeOn(Schedulers.io())
             .unsubscribeOn(Schedulers.io())
             .observeOn(Schedulers.computation())

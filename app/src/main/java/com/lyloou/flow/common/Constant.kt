@@ -38,6 +38,7 @@ enum class Key : Str {
     NAVIGATION_ID,
     TODO,
     NET_AUTHORIZATION,
+    NET_USER_ID,
     ;
 
     override fun str(): String {
