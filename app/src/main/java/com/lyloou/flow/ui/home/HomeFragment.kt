@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
         editTexts.forEachIndexed { index, editText ->
             Markwon.builder(context!!)
                 .usePlugin(TaskListPlugin.create(context!!))
-                .build().setMarkdown(editText, datas[index].content ?: "");
+                .build().setMarkdown(editText, datas[index].content);
         }
 
         val onClickListener = View.OnClickListener {

@@ -4,10 +4,7 @@ import android.app.Application
 import com.lyloou.flow.App
 import com.lyloou.flow.common.SpName
 import com.lyloou.flow.common.Url
-import com.lyloou.flow.model.CommonResult
-import com.lyloou.flow.model.FlowListResult
-import com.lyloou.flow.model.FlowReq
-import com.lyloou.flow.model.FlowResult
+import com.lyloou.flow.model.*
 import io.reactivex.Observable
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -15,6 +12,9 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface FlowApi {
+    @POST("login")
+    fun login(@Query("name") name: String, @Query("password") password: String): Observable<UserResult>
+
     @GET("get")
     fun get(@Query("day") day: String): Observable<FlowResult>
 
@@ -43,7 +43,11 @@ private fun auth(): List<Pair<String, String>> {
     val auth = "86f7e437faa5a7fce15d1ddcb9eaeaea377667b8"
     val userId: Long = 1
     auth?.let { authorization ->
-        return listOf("Authorization" to authorization, "UserId" to userId.toString())
+        return listOf(
+            "Content-Type" to "application/json",
+            "Authorization" to authorization,
+            "UserId" to userId.toString()
+        )
     }
     return listOf()
 }
