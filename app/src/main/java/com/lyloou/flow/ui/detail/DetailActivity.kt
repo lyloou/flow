@@ -78,7 +78,7 @@ class DetailActivity : BaseCompatActivity() {
         // 没有数据的时候，初始化默认的
         viewModel.getDbFlow(day).observe(this, Observer {
             if (it == null) {
-                viewModel.insertDbFlow(Flow(day).toDbFlow())
+                viewModel.insertDbFlow(Flow(1L, day).toDbFlow())
                 return@Observer
             }
             if (!observed) {

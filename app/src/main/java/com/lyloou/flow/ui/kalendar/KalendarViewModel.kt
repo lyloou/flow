@@ -25,7 +25,7 @@ class KalendarViewModel(application: Application) : AndroidViewModel(application
 
     fun loadFromNet(day: String) {
         Network.flowApi()
-            .get(day)
+            .get(1L, day)
             .subscribeOn(Schedulers.io())
             .unsubscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -33,6 +33,7 @@ class KalendarViewModel(application: Application) : AndroidViewModel(application
                 if (it.err_code == 0) {
                     flow.value = it.data?.toFlow()
                     flow.value = flow.value ?: Flow(
+                        0,
                         day,
                         arrayListOf()
                     )

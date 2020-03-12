@@ -22,7 +22,7 @@ class FlowNetWork(
             var isOk = false
             Network
                 .flowApi()
-                .list(9999, 0)
+                .list(1L, 9999, 0)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())

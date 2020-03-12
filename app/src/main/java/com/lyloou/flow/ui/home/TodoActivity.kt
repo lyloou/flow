@@ -32,6 +32,7 @@ class TodoActivity : AppCompatActivity() {
             todoViewModel.save()
         })
         initEditText(key)
+        ivClose.setOnClickListener { onBackPressed() }
     }
 
     private fun initEditText(key: String?) {

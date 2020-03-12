@@ -20,9 +20,11 @@
             android:id="@+id/textViewD"
             android:layout_width="0dp"
             android:layout_height="48dp"
+            android:background="@color/colorPrimary"
             android:gravity="center"
             android:padding="6dp"
             android:text="@{data.name}"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_margin="2dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="@+id/textViewD" />
 
         <EditText
@@ -44,11 +46,11 @@
             android:layout_height="0dp"
             android:background="@null"
             android:ems="10"
+            android:focusable="true"
             android:gravity="start|top"
             android:importantForAutofill="no"
             android:inputType="none"
             android:padding="16dp"
-            android:focusable="true"
             android:text="@={data.content}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -56,5 +58,17 @@
             app:layout_constraintTop_toBottomOf="@+id/textViewD"
             tools:ignore="LabelFor"
             tools:text="Name" />
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="0dp"
+            android:scaleType="center"
+            android:src="?attr/actionModeCloseDrawable"
+            app:layout_constraintBottom_toTopOf="@+id/editText"
+            app:layout_constraintStart_toStartOf="@+id/textViewD"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

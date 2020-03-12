@@ -11,6 +11,7 @@ data class FlowResult(var err_code: Int, var err_msg: String, var data: FlowRep?
 data class FlowListResult(var err_code: Int, var err_msg: String, var data: List<FlowRep>?)
 
 data class FlowReq(
+    val userId: Long,
     val day: String,
     val item: String? = null,
     val isArchived: Boolean = false,
@@ -18,6 +19,7 @@ data class FlowReq(
 )
 
 data class FlowRep(
+    val userId: Long,
     val day: String,
     val item: String? = null,
     val isArchived: Boolean = false,
@@ -26,6 +28,7 @@ data class FlowRep(
 
 @Parcelize
 data class Flow(
+    val userId: Long,
     var day: String,
     val items: MutableList<FlowItem> = mutableListOf(),
     val isArchived: Boolean = false,
@@ -43,6 +46,7 @@ data class FlowItem(
 
 fun FlowRep.toFlow(): Flow {
     return Flow(
+        userId,
         day,
         FlowItemHelper.fromJsonArray(item),
         isArchived,
@@ -53,6 +57,7 @@ fun FlowRep.toFlow(): Flow {
 fun FlowRep.toDbFlow(): DbFlow {
     return DbFlow(
         0,
+        userId,
         day,
         item ?: "[]",
         isArchived,
@@ -65,6 +70,7 @@ fun FlowRep.toDbFlow(): DbFlow {
 fun Flow.toDbFlow(): DbFlow {
     return DbFlow(
         0,
+        userId,
         day,
         FlowItemHelper.toJsonArray(items),
         isArchived,

@@ -1,15 +1,13 @@
 package com.lyloou.flow
 
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.lyloou.flow.net.Network
 import com.lyloou.flow.net.flowApi
 import io.reactivex.schedulers.Schedulers
-
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -28,7 +26,7 @@ class ExampleInstrumentedTest {
     @Test
     fun net_sync() {
         Network.flowApi()
-            .get("20200105")
+            .get(1L, "20200105")
             .subscribeOn(Schedulers.io())
             .unsubscribeOn(Schedulers.io())
             .observeOn(Schedulers.computation())

@@ -10,6 +10,7 @@ import com.lyloou.flow.model.FlowItemHelper
 const val TABLE_FLOW = "flow"
 const val COL_FLOW_ID = "id"
 const val COL_FLOW_DAY = "day"
+const val COL_FLOW_USER_ID = "user_id"
 const val COL_FLOW_ITEMS = "items"
 const val COL_FLOW_IS_ARCHIVED = "is_archived"
 const val COL_FLOW_IS_SYNCED = "is_synced"
@@ -20,6 +21,8 @@ data class DbFlow(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = COL_FLOW_ID)
     val id: Int,
+    @ColumnInfo(name = COL_FLOW_USER_ID)
+    val userId: Long,
     @ColumnInfo(name = COL_FLOW_DAY)
     val day: String,
     @ColumnInfo(name = COL_FLOW_ITEMS)
@@ -33,6 +36,7 @@ data class DbFlow(
 )
 
 fun DbFlow.toFlow(): Flow = Flow(
+    userId,
     day,
     FlowItemHelper.fromJsonArray(this.items),
     isArchived,
