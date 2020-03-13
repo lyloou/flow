@@ -29,9 +29,10 @@ class FlowNetWork(
                 .subscribe({
                     if (it.err_code == 0) {
                         isOk = true
-                        Log.e("TTAG", "error occured.${it.data}")
+                        Log.i("TTAG", "get data:${it.data}")
 
                         val database = FlowDatabase.getInstance(applicationContext)
+                        database.clearAllTables()
                         val flowDao = database.flowDao()
                         flowDao.insertDbFlows(
                             *(it.data?.map { it.toDbFlow() } ?: emptyList()).toTypedArray()
@@ -39,14 +40,13 @@ class FlowNetWork(
                         latch.countDown()
                     }
                 }, { throwable ->
-                    Log.e("TTAG", "error occured.", throwable)
+                    Log.e("TTAG", "error occur:", throwable)
                     latch.countDown()
                 })
             if (isOk) {
                 Result.success()
             } else {
                 Result.failure()
-
             }
         }
 }

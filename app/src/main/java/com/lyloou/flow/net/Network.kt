@@ -9,33 +9,23 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object Network {
     private var headerPairs: (() -> List<Pair<String, String>>)? = null
+    private val builder = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+
     fun withHeader(pairList: (() -> List<Pair<String, String>>)): Network {
         this.headerPairs = pairList
         return this
     }
 
-    private val map = HashMap<String, Any>()
-
     fun <T> get(baseUrl: String, clazz: Class<T>): T {
-        val key = clazz.simpleName.plus(baseUrl)
-        if (map.containsKey(key)) {
-            @Suppress("UNCHECKED_CAST")
-            return map[key] as T
-        }
-        val builder = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-        builder.baseUrl(baseUrl)
         val okHttpBuilder = OkHttpClient.Builder()
         headerPairs?.invoke()?.let {
             okHttpBuilder.addInterceptor(interceptor(it))
         }
-
-        builder.client(okHttpBuilder.build())
-
-        val t: T = builder.build().create(clazz)
-        map.put(key, t!!)
-        return t
+        return builder.baseUrl(baseUrl)
+            .client(okHttpBuilder.build())
+            .build().create(clazz)
     }
 
 }

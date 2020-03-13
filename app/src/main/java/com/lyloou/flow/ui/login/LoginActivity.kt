@@ -6,10 +6,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.lyloou.flow.R
 import com.lyloou.flow.databinding.ActivityLoginBinding
-import com.lyloou.flow.model.*
-import com.lyloou.flow.util.PasswordUtil
+import com.lyloou.flow.model.User
+import com.lyloou.flow.model.UserResult
+import com.lyloou.flow.repository.FlowNetWork
 
 class LoginActivity : AppCompatActivity() {
 
@@ -66,29 +69,22 @@ class LoginActivity : AppCompatActivity() {
 
     private fun doSuccess(it: UserResult) {
         if (it.data == null) {
-            Toast.makeText(
-                this,
-                "出现了不可思议的BUG",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(this, "出现了不可思议的BUG", Toast.LENGTH_SHORT).show()
             return
         }
 
         val user: User = it.data!!
-        Toast.makeText(
-            this,
-            "登录成功：${user.name}",
-            Toast.LENGTH_SHORT
-        ).show()
+        Toast.makeText(this, "登录成功：${user.name}", Toast.LENGTH_SHORT).show()
 
-        // 保存user信息
-        UserHelper.saveUser(user)
+        viewModel.saveUserInfo(user)
 
-        // 保存userPassword信息
-        val password = PasswordUtil.getEncodedPassword(viewModel.password.value)
-        UserPasswordHelper.saveUserPassword(UserPassword(user.id, user.name, password))
+        // 第一从网络获取数据
+        val workRequest = OneTimeWorkRequestBuilder<FlowNetWork>().build()
+        WorkManager.getInstance(this).enqueue(workRequest)
 
         // 退出
         onBackPressed()
     }
+
+
 }

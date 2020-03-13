@@ -10,6 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.lyloou.flow.R
 import com.lyloou.flow.databinding.FragmentMineBinding
+import com.lyloou.flow.model.Cache
+import com.lyloou.flow.model.DEFAULT_USER
+import com.lyloou.flow.model.UserHelper
+import com.lyloou.flow.repository.FlowDatabase
 import com.lyloou.flow.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.fragment_mine.*
 
@@ -38,7 +42,14 @@ class MineFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         ivAvatar.setOnClickListener {
-            startActivity(Intent(context, LoginActivity::class.java))
+            if (UserHelper.getUser().id == DEFAULT_USER.id) {
+                startActivity(Intent(context, LoginActivity::class.java))
+            } else {
+                Cache.clear()
+                Thread {
+                    FlowDatabase.getInstance(context!!.applicationContext).clearAllTables()
+                }.start()
+            }
         }
     }
 }

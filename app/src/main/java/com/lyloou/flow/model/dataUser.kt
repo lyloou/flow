@@ -47,7 +47,12 @@ object UserHelper {
     }
 
     fun saveUser(value: User) {
-        preferences.edit().putString(Key.USER.name, value.toJson()).apply()
+        var toJson = value.toJson()
+        preferences.edit().putString(Key.USER.name, toJson).apply()
+    }
+
+    fun clearUser() {
+        preferences.edit().remove(Key.USER.name).apply()
     }
 
 }
@@ -56,12 +61,12 @@ object UserPasswordHelper {
     private val preferences = App.instance
         .getSharedPreferences(SpName.NET_AUTHORIZATION.name, Application.MODE_PRIVATE)
 
-    private fun fromJson(str: String): UserPassword {
+    private fun fromJson(str: String?): UserPassword? {
         return gson.fromJson(str, UserPassword::class.java)
     }
 
-    fun getUserPassword(): UserPassword {
-        return fromJson(preferences.getString(Key.NET_AUTHORIZATION.name, "") ?: "")
+    fun getUserPassword(): UserPassword? {
+        return fromJson(preferences.getString(Key.NET_AUTHORIZATION.name, null))
     }
 
     fun saveUserPassword(value: UserPassword) {
@@ -71,7 +76,7 @@ object UserPasswordHelper {
     }
 
     fun clearUserPassword() {
-        preferences.edit().clear().apply()
+        preferences.edit().remove(Key.NET_AUTHORIZATION.name).apply()
     }
 
     private fun getPreferences(application: Application) =

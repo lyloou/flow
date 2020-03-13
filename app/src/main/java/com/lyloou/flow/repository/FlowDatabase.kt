@@ -5,8 +5,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 
 @Database(entities = [DbFlow::class], version = 1, exportSchema = false)
 abstract class FlowDatabase : RoomDatabase() {
@@ -37,9 +35,6 @@ abstract class FlowDatabase : RoomDatabase() {
                 .addCallback(object : Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
-                        // 第一从网络获取数据
-                        val workRequest = OneTimeWorkRequestBuilder<FlowNetWork>().build()
-                        WorkManager.getInstance(context).enqueue(workRequest)
                     }
                 })
                 .build()
