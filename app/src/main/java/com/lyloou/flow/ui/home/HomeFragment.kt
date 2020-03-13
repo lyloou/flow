@@ -26,7 +26,7 @@ class HomeFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        val schedule = ScheduleHelper.getSchedule(requireActivity().application)
+        val schedule = ScheduleHelper.getSchedule()
         val editTexts = arrayOf(editTextA, editTextB, editTextC, editTextD)
         val datas = arrayOf(
             schedule.a,

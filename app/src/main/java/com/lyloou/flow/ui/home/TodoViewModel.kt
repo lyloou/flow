@@ -10,7 +10,7 @@ import com.lyloou.flow.model.ScheduleHelper
 
 class TodoViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val schedule: Schedule = ScheduleHelper.getSchedule(application)
+    private val schedule: Schedule = ScheduleHelper.getSchedule()
 
     val name: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
@@ -37,6 +37,6 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
             Order.C.name -> schedule.c.content = content.value ?: ""
             Order.D.name -> schedule.d.content = content.value ?: ""
         }
-        ScheduleHelper.saveSchedule(getApplication(), schedule)
+        ScheduleHelper.saveSchedule(schedule)
     }
 }

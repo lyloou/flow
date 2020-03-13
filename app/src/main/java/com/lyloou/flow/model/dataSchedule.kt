@@ -1,6 +1,7 @@
 package com.lyloou.flow.model
 
 import android.app.Application
+import com.lyloou.flow.App
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.common.SpName
 
@@ -22,20 +23,19 @@ fun Schedule.toJson(): String {
 }
 
 object ScheduleHelper {
+    private val preferences = App.instance
+        .getSharedPreferences(SpName.SCHEDULE.name, Application.MODE_PRIVATE)
+
     private fun fromJson(string: String): Schedule {
         val fromJson = gson.fromJson(string, Schedule::class.java)
         return fromJson ?: Schedule()
     }
 
-
-    fun getSchedule(application: Application): Schedule {
-        return fromJson(getPreferences(application).getString(Key.SCHEDULE.name, "") ?: "")
+    fun getSchedule(): Schedule {
+        return fromJson(preferences.getString(Key.SCHEDULE.name, "") ?: "")
     }
 
-    fun saveSchedule(application: Application, value: Schedule) {
-        getPreferences(application).edit().putString(Key.SCHEDULE.name, value.toJson()).apply()
+    fun saveSchedule(value: Schedule) {
+        preferences.edit().putString(Key.SCHEDULE.name, value.toJson()).apply()
     }
-
-    private fun getPreferences(application: Application) =
-        application.getSharedPreferences(SpName.SCHEDULE.name, Application.MODE_PRIVATE)
 }
