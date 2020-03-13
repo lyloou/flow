@@ -25,6 +25,8 @@ enum class Action : Str {
 
 enum class SpName : Str {
     NET_AUTHORIZATION,
+    SCHEDULE,
+    USER,
 
     ;
 
@@ -39,6 +41,9 @@ enum class Key : Str {
     TODO,
     NET_AUTHORIZATION,
     NET_USER_ID,
+    SCHEDULE,
+    USER,
+
     ;
 
     override fun str(): String {

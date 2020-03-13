@@ -1,13 +1,40 @@
 package com.lyloou.flow.ui.mine
 
-import androidx.lifecycle.LiveData
+import android.app.Application
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.lyloou.flow.R
+import com.lyloou.flow.model.DEFAULT_USER
+import com.lyloou.flow.model.User
+import com.lyloou.flow.model.UserHelper
 
-class MineViewModel : ViewModel() {
+class MineViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is mine Fragment"
+    val user: MutableLiveData<User> by lazy {
+        MutableLiveData<User>()
     }
-    val text: LiveData<String> = _text
+
+    fun refreshData() {
+        user.value = UserHelper.getUser()
+    }
+
+    fun save(u: User?) {
+        user.value = u
+        UserHelper.saveUser(user.value ?: DEFAULT_USER)
+    }
+
 }
+
+@BindingAdapter("profileImage")
+fun loadImage(iv: ImageView, imgUrl: String) {
+    Glide.with(iv.context)
+        .load(imgUrl)
+        .placeholder(R.drawable.ic_very_satisfied)
+        .apply(RequestOptions().circleCrop())
+        .into(iv);
+}
+

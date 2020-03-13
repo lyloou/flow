@@ -8,7 +8,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.lyloou.flow.R
 import com.lyloou.flow.databinding.ActivityLoginBinding
-import com.lyloou.flow.model.UserResult
+import com.lyloou.flow.model.*
+import com.lyloou.flow.util.PasswordUtil
 
 class LoginActivity : AppCompatActivity() {
 
@@ -16,8 +17,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var viewModel: LoginViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding =
-            DataBindingUtil.setContentView<ActivityLoginBinding>(this, R.layout.activity_login)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
         binding.data = viewModel
         binding.lifecycleOwner = this
@@ -65,15 +65,30 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun doSuccess(it: UserResult) {
+        if (it.data == null) {
+            Toast.makeText(
+                this,
+                "出现了不可思议的BUG",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
+        val user: User = it.data!!
         Toast.makeText(
             this,
-            "登录成功：${it.data?.name}",
+            "登录成功：${user.name}",
             Toast.LENGTH_SHORT
         ).show()
 
-        // TODO
-        // 保存信息到 sp
+        // 保存user信息
+        UserHelper.saveUser(user)
+
+        // 保存userPassword信息
+        val password = PasswordUtil.getEncodedPassword(viewModel.password.value)
+        UserPasswordHelper.saveUserPassword(UserPassword(user.id, user.name, password))
+
         // 退出
-        // 重新加载mine页面信息
+        onBackPressed()
     }
 }

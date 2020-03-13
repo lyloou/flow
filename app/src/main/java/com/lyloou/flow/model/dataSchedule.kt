@@ -1,12 +1,9 @@
 package com.lyloou.flow.model
 
 import android.app.Application
-import android.util.Log
-import com.google.gson.GsonBuilder
+import com.lyloou.flow.common.Key
+import com.lyloou.flow.common.SpName
 
-private val gson = GsonBuilder()
-    .setLenient()
-    .create()
 
 data class ScheduleItem(val name: String, var content: String)
 enum class Order {
@@ -25,20 +22,20 @@ fun Schedule.toJson(): String {
 }
 
 object ScheduleHelper {
-    fun fromJson(string: String): Schedule {
+    private fun fromJson(string: String): Schedule {
         val fromJson = gson.fromJson(string, Schedule::class.java)
-        Log.i("TTAG", "string: $string");
-        Log.i("TTAG", "data: $fromJson");
         return fromJson ?: Schedule()
     }
 
-    const val key = "schedule_key"
+
     fun getSchedule(application: Application): Schedule {
-        val preferences = getPreferences(application)
-        val schedule: Schedule = ScheduleHelper.fromJson(preferences.getString(key, "") ?: "")
-        return schedule
+        return fromJson(getPreferences(application).getString(Key.SCHEDULE.name, "") ?: "")
     }
 
-    fun getPreferences(application: Application) =
-        application.getSharedPreferences("SP_SCHEDULE", Application.MODE_PRIVATE)
+    fun saveSchedule(application: Application, value: Schedule) {
+        getPreferences(application).edit().putString(Key.SCHEDULE.name, value.toJson()).apply()
+    }
+
+    private fun getPreferences(application: Application) =
+        application.getSharedPreferences(SpName.SCHEDULE.name, Application.MODE_PRIVATE)
 }

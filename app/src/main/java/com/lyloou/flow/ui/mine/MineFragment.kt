@@ -5,31 +5,34 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.lyloou.flow.R
+import com.lyloou.flow.databinding.FragmentMineBinding
 import com.lyloou.flow.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.fragment_mine.*
 
 class MineFragment : Fragment() {
 
-    private lateinit var mineViewModel: MineViewModel
-
+    private lateinit var viewModel: MineViewModel
+    lateinit var binding: FragmentMineBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mineViewModel =
+        viewModel =
             ViewModelProviders.of(this).get(MineViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_mine, container, false)
-        val textView: TextView = root.findViewById(R.id.tvName)
-        mineViewModel.text.observe(this, Observer {
-            textView.text = it
-        })
-        return root
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mine, container, false)
+        binding.data = viewModel
+        binding.lifecycleOwner = this
+        return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.refreshData()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

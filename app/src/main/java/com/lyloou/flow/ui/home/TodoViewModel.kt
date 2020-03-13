@@ -1,20 +1,16 @@
 package com.lyloou.flow.ui.home
 
 import android.app.Application
-import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.lyloou.flow.model.Order
 import com.lyloou.flow.model.Schedule
 import com.lyloou.flow.model.ScheduleHelper
-import com.lyloou.flow.model.ScheduleHelper.key
-import com.lyloou.flow.model.toJson
 
 
 class TodoViewModel(application: Application) : AndroidViewModel(application) {
 
-    val schedule: Schedule = ScheduleHelper.getSchedule(application)
-    val preferences: SharedPreferences = ScheduleHelper.getPreferences(application)
+    private val schedule: Schedule = ScheduleHelper.getSchedule(application)
 
     val name: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
@@ -41,6 +37,6 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
             Order.C.name -> schedule.c.content = content.value ?: ""
             Order.D.name -> schedule.d.content = content.value ?: ""
         }
-        preferences.edit().putString(key, schedule.toJson()).apply()
+        ScheduleHelper.saveSchedule(getApplication(), schedule)
     }
 }

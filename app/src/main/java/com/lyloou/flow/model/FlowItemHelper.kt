@@ -1,12 +1,8 @@
 package com.lyloou.flow.model
 
-import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 
 object FlowItemHelper {
-    private val gson = GsonBuilder()
-        .setLenient()
-        .create()
     private val type = object :
         TypeToken<List<FlowItem?>?>() {}.type
 
