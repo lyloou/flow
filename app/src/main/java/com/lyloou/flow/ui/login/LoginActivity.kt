@@ -1,6 +1,7 @@
 package com.lyloou.flow.ui.login
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -56,6 +57,7 @@ class LoginActivity : AppCompatActivity() {
                     ).show()
                     return@login
                 }
+                Log.i("TTAG", "user: ${it.data}");
                 doSuccess(it)
             },
             {

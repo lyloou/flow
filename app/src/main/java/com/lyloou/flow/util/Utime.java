@@ -81,9 +81,7 @@ public class Utime {
         if (timeStart == null || timeEnd == null) {
             return null;
         }
-        if (timeStart.compareTo(timeEnd) > 0) {
-            return null;
-        }
+
         int[] startArr = Utime.getValidTime(timeStart);
         int[] endArr = Utime.getValidTime(timeEnd);
 
@@ -92,7 +90,13 @@ public class Utime {
 
         int eH = endArr[0];
         int eM = endArr[1];
+        if (eH < sH) {
+            eH += 24;
+        }
         int spendAllMinute = (eH * 60 + eM) - (sH * 60 + sM);
+        if (spendAllMinute < 0) {
+            return null;
+        }
         int spendHour = spendAllMinute / 60;
         int spendMinute = spendAllMinute % 60;
         return Utime.getTimeString(spendHour, spendMinute);

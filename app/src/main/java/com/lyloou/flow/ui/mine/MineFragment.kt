@@ -44,12 +44,12 @@ class MineFragment : Fragment() {
         ivAvatar.setOnClickListener {
             if (UserHelper.getUser().id == DEFAULT_USER.id) {
                 startActivity(Intent(context, LoginActivity::class.java))
-            } else {
-                Cache.clear()
-                Thread {
-                    FlowDatabase.getInstance(context!!.applicationContext).clearAllTables()
-                }.start()
             }
+            Cache.clear()
+            viewModel.refreshData()
+            Thread {
+                FlowDatabase.getInstance(context!!.applicationContext).clearAllTables()
+            }.start()
         }
     }
 }

@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.lyloou.flow.R
-import com.lyloou.flow.model.DEFAULT_USER
 import com.lyloou.flow.model.User
 import com.lyloou.flow.model.UserHelper
 
@@ -20,11 +19,6 @@ class MineViewModel(application: Application) : AndroidViewModel(application) {
 
     fun refreshData() {
         user.value = UserHelper.getUser()
-    }
-
-    fun save(u: User?) {
-        user.value = u
-        UserHelper.saveUser(user.value ?: DEFAULT_USER)
     }
 
 }

@@ -26,19 +26,35 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/tvName"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:text="@{data.user.name}"
-                    android:textSize="20sp"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="@+id/ivAvatar"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/ivAvatar"
                     app:layout_constraintTop_toTopOf="@+id/ivAvatar"
-                    app:layout_constraintVertical_bias="0.52"
-                    tools:text="Lyloou" />
+                    app:layout_constraintVertical_bias="0.52">
+
+                    <TextView
+                        android:id="@+id/tvName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{data.user.name}"
+                        android:textSize="20sp"
+                        tools:text="Lyloou" />
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@{data.user.personalSignature}"
+                        tools:text="TextView" />
+                </LinearLayout>
+
 
                 <ImageView
                     android:id="@+id/ivAvatar"
@@ -49,6 +65,7 @@
                     app:layout_constraintTop_toTopOf="@+id/guideline6"
                     app:profileImage="@{data.user.avatar}"
                     app:srcCompat="@drawable/ic_very_satisfied" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

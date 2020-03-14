@@ -1,6 +1,7 @@
 package com.lyloou.flow.model
 
 import android.app.Application
+import com.google.gson.annotations.SerializedName
 import com.lyloou.flow.App
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.common.SpName
@@ -14,7 +15,9 @@ data class User(
     val email: String,
     val phone: Long,
     val avatar: String,
+    @SerializedName("personal_signature")
     val personalSignature: String,
+    @SerializedName("gmt_create")
     val gmtCreate: Date
 )
 
