@@ -33,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -51,6 +52,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.Objects;
 
 /**
  * Created by lyloou on 2019-04-19 14:24:23
@@ -142,7 +144,6 @@ public class NormalWebViewActivity extends AppCompatActivity {
 
         // https://www.jianshu.com/p/14ca454ab3d1
         WebSettings webSettings = mAgentWeb.getAgentWebSettings().getWebSettings();
-        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         webSettings.setUseWideViewPort(true);
         webSettings.setJavaScriptEnabled(true);
         webSettings.setLoadWithOverviewMode(true);
@@ -195,6 +196,10 @@ public class NormalWebViewActivity extends AppCompatActivity {
                         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, URLUtil.guessFileName(url1, contentDisposition, mimeType));
                         downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                        if (downloadManager == null) {
+                            Toast.makeText(getApplicationContext(), "不支付下载，请从浏览器中打开下载", Toast.LENGTH_LONG).show();
+                            return;
+                        }
                         downloadId = downloadManager.enqueue(request);
                         Toast.makeText(getApplicationContext(), "正在下载文件", Toast.LENGTH_LONG).show();
                     }
@@ -218,8 +223,9 @@ public class NormalWebViewActivity extends AppCompatActivity {
         // doubleClickToolbar scrollToTop
         Uview.setDoubleClickRunnable(mToolbar, () -> mWebView.scrollTo(0, 0));
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
         mToolbar.setNavigationOnClickListener(v -> onBackPressed());
         Uview.initStatusBar(this, R.color.colorPrimaryDark);
     }
@@ -362,10 +368,10 @@ public class NormalWebViewActivity extends AppCompatActivity {
 
     public static void copyString(Context context, String content) {
         ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-        if (manager == null) {
-            Toast.makeText(context, "不支持复制功能", Toast.LENGTH_SHORT).show();
-        } else {
+        if (manager != null) {
             manager.setPrimaryClip(ClipData.newPlainText("test", content));
+        } else {
+            Toast.makeText(context, "不支持复制功能", Toast.LENGTH_SHORT).show();
         }
     }
 

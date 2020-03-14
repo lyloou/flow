@@ -84,7 +84,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center_vertical"
-                        app:srcCompat="@drawable/ic_very_satisfied" />
+                        app:srcCompat="@drawable/ic_adjust" />
 
                     <TextView
                         android:id="@+id/tvFollow"
@@ -94,7 +94,7 @@
                         android:layout_marginLeft="16dp"
                         android:layout_weight="1"
                         android:gravity="center|start"
-                        android:text="关注"
+                        android:text="关注疫情"
                         android:textSize="20sp" />
 
                     <ImageView
@@ -121,7 +121,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center_vertical"
-                        app:srcCompat="@drawable/ic_very_satisfied" />
+                        app:srcCompat="@drawable/ic_assistant" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -130,7 +130,7 @@
                         android:layout_marginLeft="16dp"
                         android:layout_weight="1"
                         android:gravity="center|start"
-                        android:text="设置"
+                        android:text="我的网站"
                         android:textSize="20sp" />
 
                     <ImageView
@@ -142,41 +142,6 @@
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="16dp"
-                android:background="?selectableItemBackground">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_gravity="center_vertical"
-                        app:srcCompat="@drawable/ic_very_satisfied" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_weight="1"
-                        android:gravity="center|start"
-                        android:text="设置"
-                        android:textSize="20sp" />
-
-                    <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_gravity="center_vertical"
-                        app:srcCompat="@drawable/ic_navigate_next" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -193,9 +158,10 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center_vertical"
-                        app:srcCompat="@drawable/ic_very_satisfied" />
+                        app:srcCompat="@drawable/ic_settings" />
 
                     <TextView
+                        android:id="@+id/tvSetting"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="16dp"
@@ -229,7 +195,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center_vertical"
-                        app:srcCompat="@drawable/ic_very_satisfied" />
+                        app:srcCompat="@drawable/ic_help" />
 
                     <TextView
                         android:layout_width="0dp"

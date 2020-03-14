@@ -15,6 +15,7 @@ import com.lyloou.flow.model.DEFAULT_USER
 import com.lyloou.flow.model.UserHelper
 import com.lyloou.flow.repository.FlowDatabase
 import com.lyloou.flow.ui.login.LoginActivity
+import com.lyloou.flow.ui.setting.SettingsActivity
 import com.lyloou.flow.ui.web.NormalWebViewActivity
 import kotlinx.android.synthetic.main.fragment_mine.*
 
@@ -42,6 +43,10 @@ class MineFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initItem()
+    }
+
+    private fun initItem() {
         ivAvatar.setOnClickListener {
             if (UserHelper.getUser().id == DEFAULT_USER.id) {
                 startActivity(Intent(context, LoginActivity::class.java))
@@ -54,7 +59,14 @@ class MineFragment : Fragment() {
         }
 
         tvFollow.setOnClickListener {
-            NormalWebViewActivity.newInstance(context, "https://voice.baidu.com/act/newpneumonia/newpneumonia/?from=osari_pc_1")
+            NormalWebViewActivity.newInstance(
+                context,
+                "https://voice.baidu.com/act/newpneumonia/newpneumonia/?from=osari_pc_1"
+            )
+        }
+
+        tvSetting.setOnClickListener {
+            startActivity(Intent(context, SettingsActivity::class.java))
         }
     }
 }
