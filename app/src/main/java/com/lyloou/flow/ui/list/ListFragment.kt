@@ -24,7 +24,10 @@ import com.lyloou.flow.net.Network
 import com.lyloou.flow.net.kingSoftwareApi
 import com.lyloou.flow.ui.detail.DetailActivity
 import com.lyloou.flow.ui.kalendar.KalendarActivity
-import com.lyloou.flow.util.*
+import com.lyloou.flow.util.Uanimation
+import com.lyloou.flow.util.Ucolor
+import com.lyloou.flow.util.Utime
+import com.lyloou.flow.util.Uview
 import com.lyloou.flow.widget.ItemOffsetDecoration
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -137,7 +140,7 @@ class ListFragment : Fragment() {
         tv_header.setBackgroundColor(transparentColor)
         // https://stackoverflow.com/questions/6539879/how-to-convert-a-color-integer-to-a-hex-string-in-android
         val hexColor = String.format("#%06X", 0xFFFFFF and color)
-        Uscreen.setStatusBarColor(activity, Color.parseColor(hexColor))
+//        Uscreen.setStatusBarColor(activity, Color.parseColor(hexColor))
 
         fab.backgroundTintList = ColorStateList.valueOf(color)
         fab.setRippleColor(ColorStateList.valueOf(transparentColor))

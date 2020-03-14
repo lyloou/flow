@@ -84,14 +84,15 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center_vertical"
+                        android:padding="10dp"
                         app:srcCompat="@drawable/ic_adjust" />
 
                     <TextView
                         android:id="@+id/tvFollow"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginLeft="4dp"
                         android:layout_weight="1"
                         android:gravity="center|start"
                         android:text="关注疫情"
@@ -121,13 +122,14 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center_vertical"
+                        android:padding="10dp"
                         app:srcCompat="@drawable/ic_assistant" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginLeft="4dp"
                         android:layout_weight="1"
                         android:gravity="center|start"
                         android:text="我的网站"
@@ -158,14 +160,15 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center_vertical"
+                        android:padding="10dp"
                         app:srcCompat="@drawable/ic_settings" />
 
                     <TextView
                         android:id="@+id/tvSetting"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginLeft="4dp"
                         android:layout_weight="1"
                         android:gravity="center|start"
                         android:text="设置"
@@ -195,13 +198,14 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center_vertical"
+                        android:padding="10dp"
                         app:srcCompat="@drawable/ic_help" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginLeft="4dp"
                         android:layout_weight="1"
                         android:gravity="center|start"
                         android:text="关于我们"
