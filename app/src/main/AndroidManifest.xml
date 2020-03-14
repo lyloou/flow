@@ -21,7 +21,7 @@
         tools:targetApi="n">
         <activity
             android:name=".ui.login.LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
         <activity
             android:name=".ui.setting.SettingsActivity"
             android:label="@string/title_activity_settings" />
@@ -42,6 +42,9 @@
             android:theme="@style/NoActionBar" />
         <activity android:name=".temp.TempActivity" />
         <activity android:name=".ui.kalendar.KalendarActivity" />
+        <activity
+            android:name=".ui.web.NormalWebViewActivity"
+            android:theme="@style/NoActionBar" />
     </application>
 
 </manifest>

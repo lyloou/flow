@@ -18,9 +18,14 @@ package com.lyloou.flow.util;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
 import android.view.View;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.gyf.immersionbar.ImmersionBar;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Author:    Lou
@@ -30,6 +35,14 @@ import com.google.android.material.appbar.AppBarLayout;
  * Description:
  */
 public class Uview {
+    public static void initStatusBar(Activity context, int statusBarColor) {
+        ImmersionBar.with(context)
+                .statusBarDarkFont(false)
+                .navigationBarDarkIcon(false)
+                .statusBarColor(statusBarColor)
+                .init();
+    }
+
     public static void toggleViewVisibleWhenAppBarLayoutScrollChanged(AppBarLayout appBarLayout, final View view) {
         appBarLayout.addOnOffsetChangedListener((appBarLayout1, verticalOffset) -> {
             if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
@@ -65,5 +78,31 @@ public class Uview {
                         .start();
             }
         });
+    }
+
+
+    // 双击 view 执行 runnable
+    public static void setDoubleClickRunnable(View view, Runnable task) {
+        new DoubleClick().click(view, task);
+    }
+
+    private static class DoubleClick {
+        private int count = 0;
+
+        // 双击 View 触发 task
+        void click(View view, Runnable task) {
+            view.setOnClickListener(v -> {
+                if (++count >= 2) {
+                    task.run();
+                    return;
+                }
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        count = 0;
+                    }
+                }, 500);
+            });
+        }
     }
 }

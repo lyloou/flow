@@ -87,13 +87,14 @@
                         app:srcCompat="@drawable/ic_very_satisfied" />
 
                     <TextView
+                        android:id="@+id/tvFollow"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="16dp"
                         android:layout_marginLeft="16dp"
                         android:layout_weight="1"
                         android:gravity="center|start"
-                        android:text="设置"
+                        android:text="关注"
                         android:textSize="20sp" />
 
                     <ImageView
