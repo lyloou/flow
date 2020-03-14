@@ -50,6 +50,7 @@ class MineFragment : Fragment() {
         ivAvatar.setOnClickListener {
             if (UserHelper.getUser().id == DEFAULT_USER.id) {
                 startActivity(Intent(context, LoginActivity::class.java))
+                return@setOnClickListener
             }
             Cache.clear()
             viewModel.refreshData()
@@ -59,14 +60,18 @@ class MineFragment : Fragment() {
         }
 
         cvFollow.setOnClickListener {
-            NormalWebViewActivity.newInstance(
-                context,
-                "https://voice.baidu.com/act/newpneumonia/newpneumonia/?from=osari_pc_1"
-            )
+            val url = "https://voice.baidu.com/act/newpneumonia/newpneumonia/?from=osari_pc_1"
+            NormalWebViewActivity.newInstance(context, url)
         }
 
         cvSetting.setOnClickListener {
             startActivity(Intent(context, SettingsActivity::class.java))
         }
+
+        cvMine.setOnClickListener {
+            NormalWebViewActivity.newInstance(context, "")
+        }
+
+
     }
 }

@@ -2,16 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_kalendar"
-        android:icon="@android:drawable/ic_menu_my_calendar"
-        android:iconTint="@color/white"
-        android:title="时间表"
+        android:id="@+id/menu_today_flow_time"
+        android:icon="@drawable/ic_today"
+        android:title="今日时分流"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/menu_today_flow_time"
-        android:title="今日时分流"
+        android:id="@+id/menu_kalendar"
+        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:iconTint="@color/white"
+        android:title="时间表模式"
         app:showAsAction="never" />
+
 
     <item
         android:id="@+id/menu_add_shortcut"

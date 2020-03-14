@@ -1,7 +1,6 @@
 package com.lyloou.flow.ui.list
 
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
@@ -24,7 +23,6 @@ import com.lyloou.flow.net.Network
 import com.lyloou.flow.net.kingSoftwareApi
 import com.lyloou.flow.ui.detail.DetailActivity
 import com.lyloou.flow.ui.kalendar.KalendarActivity
-import com.lyloou.flow.util.Uanimation
 import com.lyloou.flow.util.Ucolor
 import com.lyloou.flow.util.Utime
 import com.lyloou.flow.util.Uview
@@ -101,10 +99,6 @@ class ListFragment : Fragment() {
             }
         };
 
-        fab.startAnimation(Uanimation.getRotateAnimation(3600))
-        fab.setOnClickListener {
-            toDetail()
-        }
     }
 
     private fun toDetail() {
@@ -137,13 +131,11 @@ class ListFragment : Fragment() {
 
     private fun resetThemeColor(color: Int) {
         val transparentColor = Ucolor.getTransparentColor(color)
-        tv_header.setBackgroundColor(transparentColor)
         // https://stackoverflow.com/questions/6539879/how-to-convert-a-color-integer-to-a-hex-string-in-android
-        val hexColor = String.format("#%06X", 0xFFFFFF and color)
-//        Uscreen.setStatusBarColor(activity, Color.parseColor(hexColor))
+        // val hexColor = String.format("#%06X", 0xFFFFFF and color)
+        // Uscreen.setStatusBarColor(activity, Color.parseColor(hexColor))
 
-        fab.backgroundTintList = ColorStateList.valueOf(color)
-        fab.setRippleColor(ColorStateList.valueOf(transparentColor))
+        tv_header.setBackgroundColor(transparentColor)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
