@@ -58,14 +58,14 @@ class MineFragment : Fragment() {
             }.start()
         }
 
-        tvFollow.setOnClickListener {
+        cvFollow.setOnClickListener {
             NormalWebViewActivity.newInstance(
                 context,
                 "https://voice.baidu.com/act/newpneumonia/newpneumonia/?from=osari_pc_1"
             )
         }
 
-        tvSetting.setOnClickListener {
+        cvSetting.setOnClickListener {
             startActivity(Intent(context, SettingsActivity::class.java))
         }
     }
