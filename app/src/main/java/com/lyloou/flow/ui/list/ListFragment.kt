@@ -201,7 +201,8 @@ class ListFragment : Fragment() {
                     dialog.findViewById<TextView>(R.id.tvSuccess)?.text =
                         result.successNum.toString()
                     dialog.findViewById<TextView>(R.id.tvFail)?.text = result.failNum.toString()
-                    dialog.findViewById<TextView>(R.id.tvFailMemo)?.text = result.failMemo
+                    dialog.findViewById<TextView>(R.id.tvFailMemo)?.text =
+                        if (result.failMemo.isEmpty()) "无" else result.failMemo
                 }
 
                 override fun progress(
