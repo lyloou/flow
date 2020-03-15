@@ -32,7 +32,6 @@ import com.lyloou.flow.ui.web.NormalWebViewActivity
 import com.lyloou.flow.util.Uapp
 import com.lyloou.flow.util.Ucolor
 import com.lyloou.flow.widget.TitleViewPagerAdapter
-import kotlinx.android.synthetic.main.dialog_sync.*
 import kotlinx.android.synthetic.main.fragment_list.*
 
 class ListFragment : Fragment() {
@@ -193,18 +192,23 @@ class ListFragment : Fragment() {
         dialog.setContentView(view)
         dialog.show()
 
-        dialog.findViewById<TextView>(R.id.btnSync)?.setOnClickListener {
+        val btnSync = dialog.findViewById<TextView>(R.id.btnSync)
+        btnSync?.setOnClickListener {
+            btnSync.isEnabled = false
             viewModel.syncFlows(flowList, object : SyncListener {
                 override fun handle(result: SyncResult) {
                     dialog.findViewById<TextView>(R.id.tvAll)?.text = result.all.toString()
                     dialog.findViewById<TextView>(R.id.tvSuccess)?.text =
                         result.successNum.toString()
                     dialog.findViewById<TextView>(R.id.tvFail)?.text = result.failNum.toString()
-
-                    dialog.findViewById<TextView>(R.id.tvFailMemo)?.text = tvFailMemo.toString()
+                    dialog.findViewById<TextView>(R.id.tvFailMemo)?.text = result.failMemo
                 }
 
-                override fun progress(successNum: Int, failedNum: Int, all: Int) {
+                override fun progress(
+                    all: Int,
+                    successNum: Int,
+                    failedNum: Int
+                ) {
                     dialog.findViewById<TextView>(R.id.tvAll)?.text = all.toString()
                     dialog.findViewById<TextView>(R.id.tvSuccess)?.text = successNum.toString()
                     dialog.findViewById<TextView>(R.id.tvFail)?.text = failedNum.toString()

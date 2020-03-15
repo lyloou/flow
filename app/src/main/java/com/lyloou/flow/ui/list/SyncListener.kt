@@ -2,7 +2,7 @@ package com.lyloou.flow.ui.list
 
 interface SyncListener {
     fun handle(result: SyncResult)
-    fun progress(successNum: Int, failedNum: Int, all: Int)
+    fun progress(all: Int, successNum: Int, failedNum: Int)
 }
 
 data class SyncResult(

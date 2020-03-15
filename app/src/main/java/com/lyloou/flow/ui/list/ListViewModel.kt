@@ -60,9 +60,9 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
                         successNum += flowReqs.size
                     } else {
                         failNum += flowReqs.size
-                        failMemo = "错误码"
+                        failMemo = "错误码:${rep.err_code}"
                     }
-                    syncListener.progress(successNum, failNum, data.size)
+                    syncListener.progress(data.size, successNum, failNum)
 
                     if ((successNum + failNum) == data.size) {
                         syncListener.handle(SyncResult(data.size, successNum, failNum, failMemo))
@@ -70,7 +70,7 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
                 }, { t ->
                     failMemo = "错误信息：${t.message}"
                     failNum += flowReqs.size
-                    syncListener.progress(successNum, failNum, data.size)
+                    syncListener.progress(data.size, successNum, failNum)
 
                     if ((successNum + failNum) == data.size) {
                         syncListener.handle(SyncResult(data.size, successNum, failNum, failMemo))
