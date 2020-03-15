@@ -40,6 +40,16 @@ class FlowRepository(private val context: Context) {
         WorkManager.getInstance(context).enqueue(workRequest)
     }
 
+    fun updateDbFlowsSyncStatus(days: Array<String>, status: Boolean) {
+        val workRequest = OneTimeWorkRequestBuilder<UpdateDbFlowSyncStatusWork>().setInputData(
+            Data.Builder()
+                .putStringArray(Keys.DAYS, days)
+                .putBoolean(Keys.STATUS, status)
+                .build()
+        ).build()
+        WorkManager.getInstance(context).enqueue(workRequest)
+    }
+
 
     fun insertDbFlow(vararg dbFlows: DbFlow) {
         InsertAsyncTask(flowDao).execute(*dbFlows)
@@ -47,6 +57,10 @@ class FlowRepository(private val context: Context) {
 
     fun getDbFlow(day: String): LiveData<DbFlow> {
         return flowDao.getDbFlow(day)
+    }
+
+    fun getDbFlowsBySyncStatus(status: Boolean): LiveData<MutableList<DbFlow>> {
+        return flowDao.getAllDbFlowBySyncStatus(status)
     }
 
     fun getActivePagedList(): LiveData<PagedList<DbFlow>> {
@@ -83,8 +97,12 @@ class FlowRepository(private val context: Context) {
     }
 
     object Keys {
+        const val SYNCED = "synced"
         const val DAY = "day"
         const val ITEMS = "ITEMS"
+
+        const val DAYS = "days"
+        const val STATUS = "status"
     }
 
     class UpdateFlowItemsWork(
@@ -95,7 +113,27 @@ class FlowRepository(private val context: Context) {
             val day = workerParameters.inputData.getString(Keys.DAY)
             val items = workerParameters.inputData.getString(Keys.ITEMS)
             val flowDao = FlowDatabase.getInstance(context).flowDao()
-            if (flowDao.updateDbFlowWithItems(day!!, items!!) >= 0) {
+            if (flowDao.updateDbFlowItems(day!!, items!!) >= 0) {
+                Result.success()
+            } else {
+                Result.failure()
+            }
+        }
+    }
+
+    class UpdateDbFlowSyncStatusWork(
+        private val context: Context,
+        private val workerParameters: WorkerParameters
+    ) : CoroutineWorker(context, workerParameters) {
+        override suspend fun doWork(): Result = coroutineScope {
+            val days = workerParameters.inputData.getStringArray(Keys.DAYS)
+            if (days == null || days.isEmpty()) {
+                Result.failure()
+            }
+            val status = workerParameters.inputData.getBoolean(Keys.STATUS, false)
+            val flowDao = FlowDatabase.getInstance(context).flowDao()
+            val nums = flowDao.updateDbFlowSyncStatus(days!!.toList(), status)
+            if (nums >= 0) {
                 Result.success()
             } else {
                 Result.failure()

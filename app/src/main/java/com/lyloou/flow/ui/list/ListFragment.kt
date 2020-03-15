@@ -1,5 +1,6 @@
 package com.lyloou.flow.ui.list
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -7,6 +8,9 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -16,20 +20,19 @@ import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.lyloou.flow.R
-import com.lyloou.flow.net.Network
-import com.lyloou.flow.net.kingSoftwareApi
+import com.lyloou.flow.model.Daily
+import com.lyloou.flow.repository.DbFlow
 import com.lyloou.flow.ui.detail.DetailActivity
 import com.lyloou.flow.ui.kalendar.KalendarActivity
 import com.lyloou.flow.ui.web.NormalWebViewActivity
 import com.lyloou.flow.util.Uapp
 import com.lyloou.flow.util.Ucolor
-import com.lyloou.flow.util.Utime
 import com.lyloou.flow.widget.TitleViewPagerAdapter
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.dialog_sync.*
 import kotlinx.android.synthetic.main.fragment_list.*
 
 class ListFragment : Fragment() {
@@ -88,16 +91,9 @@ class ListFragment : Fragment() {
         collapsing_toolbar_layout.setExpandedTitleColor(Color.TRANSPARENT)
         collapsing_toolbar_layout.setCollapsedTitleTextColor(Color.WHITE)
 
-        Network.kingSoftwareApi()
-            .getDaily(Utime.transferTwoToOne(Utime.getDayWithFormatOne()))
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                tv_header.text = it.content
-                tv_header.tag = it.note
-                tv_header.visibility = View.VISIBLE
-                initIvHeader(it.picture)
-            }, Throwable::printStackTrace)
+        viewModel.updateByKingSoftware("") {
+            initIvHeader(it)
+        }
 
         tv_header.setOnClickListener {
             val netString = it.tag
@@ -106,7 +102,7 @@ class ListFragment : Fragment() {
                 tv_header.text = netString
                 tv_header.tag = oldString
             }
-        };
+        }
 
     }
 
@@ -114,9 +110,12 @@ class ListFragment : Fragment() {
         startActivity(Intent(activity, DetailActivity::class.java))
     }
 
-    private fun initIvHeader(url: String?) {
+    private fun initIvHeader(daily: Daily) {
+        tv_header.text = daily.content
+        tv_header.tag = daily.note
+        tv_header.visibility = View.VISIBLE
         Glide.with(context!!).asBitmap()
-            .load(url)
+            .load(daily.picture)
             .placeholder(R.mipmap.ic_launcher)
             .centerCrop().into(object : CustomTarget<Bitmap>() {
                 override fun onLoadCleared(placeholder: Drawable?) {
@@ -159,7 +158,7 @@ class ListFragment : Fragment() {
                 startActivity(Intent(context, KalendarActivity::class.java))
             }
             R.id.menu_sync_all_tab -> {
-
+                syncData()
             }
             R.id.menu_add_shortcut -> {
                 addShortcut()
@@ -170,6 +169,54 @@ class ListFragment : Fragment() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun syncData() {
+        var synced = false
+        viewModel.getDbFlowsBySyncStatus(false)
+            .observe(requireActivity(), Observer {
+                if (synced) {
+                    return@Observer
+                }
+                synced = true
+                if (it.size == 0) {
+                    Toast.makeText(context, "无需同步", Toast.LENGTH_SHORT).show()
+                    return@Observer
+                }
+                showSyncDialog(it)
+            })
+    }
+
+    @SuppressLint("InflateParams")
+    private fun showSyncDialog(flowList: MutableList<DbFlow>) {
+        val dialog = BottomSheetDialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.dialog_sync, null, false)
+        dialog.setContentView(view)
+        dialog.show()
+
+        dialog.findViewById<TextView>(R.id.btnSync)?.setOnClickListener {
+            viewModel.syncFlows(flowList, object : SyncListener {
+                override fun handle(result: SyncResult) {
+                    dialog.findViewById<TextView>(R.id.tvAll)?.text = result.all.toString()
+                    dialog.findViewById<TextView>(R.id.tvSuccess)?.text =
+                        result.successNum.toString()
+                    dialog.findViewById<TextView>(R.id.tvFail)?.text = result.failNum.toString()
+
+                    dialog.findViewById<TextView>(R.id.tvFailMemo)?.text = tvFailMemo.toString()
+                }
+
+                override fun progress(successNum: Int, failedNum: Int, all: Int) {
+                    dialog.findViewById<TextView>(R.id.tvAll)?.text = all.toString()
+                    dialog.findViewById<TextView>(R.id.tvSuccess)?.text = successNum.toString()
+                    dialog.findViewById<TextView>(R.id.tvFail)?.text = failedNum.toString()
+                    dialog.findViewById<ProgressBar>(R.id.progressBar)?.progress =
+                        100 * (successNum + failedNum) / all
+                }
+
+            })
+        }
+
+    }
+
 
     private fun addShortcut() {
         Uapp.addShortCutCompat(

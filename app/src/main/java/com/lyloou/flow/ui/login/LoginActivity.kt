@@ -35,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
         return true
     }
 
-    fun login(view: View) {
+    fun login(v: View) {
         if (viewModel.name.value.isNullOrEmpty()) {
             Toast.makeText(this, "用户名为空", Toast.LENGTH_SHORT).show()
             return

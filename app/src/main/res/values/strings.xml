@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Flow</string>
     <string name="flow_time_day">time flow</string>
+    <string name="not_sync" translatable="false">Not Synced</string>
     <!--  argument key  -->
     <string name="arg_key_list_to_detail" translatable="false">arg_key_list_to_detail</string>
 

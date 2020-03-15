@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,7 @@ class ListAdapter : PagedListAdapter<DbFlow, ListAdapter.MyViewHolder>(DIFF_CALL
     class MyViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val textView: TextView = itemView.findViewById(R.id.textView)
         val imageView: ImageView = itemView.findViewById(R.id.imageView)
+        val ivSyncStatus: ImageView = itemView.findViewById(R.id.ivSyncStatus)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -56,10 +58,12 @@ class ListAdapter : PagedListAdapter<DbFlow, ListAdapter.MyViewHolder>(DIFF_CALL
             holder.itemView.setOnClickListener {
                 doOnClickItem(flow, holder.imageView)
             }
+            holder.ivSyncStatus.setImageResource(if (flow.isSynced) 0 else R.drawable.ic_sync_problem)
         }
     }
 
     private fun doOnClickItem(flow: DbFlow, imageView: ImageView) {
+        Log.i("TTAG", "synced?: ${flow.toString()}");
         val intent = Intent(imageView.context, DetailActivity::class.java)
         var day = flow.day
         intent.putExtra(Key.DAY.name, day)
