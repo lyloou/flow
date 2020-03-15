@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -54,13 +53,11 @@ class ListFragment : Fragment() {
         viewModel.activeDbFlowList.observe(requireActivity(), Observer {
             it?.let {
                 partActive.adapter.submitList(it)
-                Log.i("TTAG", "-------->1: ${partActive.adapter.currentList}");
             }
         })
         viewModel.archivedDbFlowList.observe(requireActivity(), Observer {
             it?.let {
                 partArchived.adapter.submitList(it)
-                Log.i("TTAG", "-------->2: ${partArchived.adapter.currentList}");
             }
         })
 
@@ -82,7 +79,7 @@ class ListFragment : Fragment() {
     private fun initToolbar() {
         val appCompatActivity = activity as AppCompatActivity
         appCompatActivity.setSupportActionBar(toolbar);
-        appCompatActivity.supportActionBar?.title = "夫路";
+        appCompatActivity.supportActionBar?.title = resources.getString(R.string.app_name);
     }
 
     private fun initView() {
