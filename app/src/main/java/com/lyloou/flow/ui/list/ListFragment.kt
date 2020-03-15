@@ -27,7 +27,6 @@ import com.lyloou.flow.ui.web.NormalWebViewActivity
 import com.lyloou.flow.util.Uapp
 import com.lyloou.flow.util.Ucolor
 import com.lyloou.flow.util.Utime
-import com.lyloou.flow.util.Uview
 import com.lyloou.flow.widget.TitleViewPagerAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -88,7 +87,6 @@ class ListFragment : Fragment() {
     private fun initView() {
         collapsing_toolbar_layout.setExpandedTitleColor(Color.TRANSPARENT)
         collapsing_toolbar_layout.setCollapsedTitleTextColor(Color.WHITE)
-        Uview.toggleViewVisibleWhenAppBarLayoutScrollChanged(app_bar, tv_header)
 
         Network.kingSoftwareApi()
             .getDaily(Utime.transferTwoToOne(Utime.getDayWithFormatOne()))

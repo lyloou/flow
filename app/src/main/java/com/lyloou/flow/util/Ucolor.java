@@ -1,6 +1,8 @@
 package com.lyloou.flow.util;
 
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 
 public class Ucolor {
 
@@ -19,5 +21,9 @@ public class Ucolor {
 
     public static int getTransparentColor(int color) {
         return getTransparentColor(color, 0.55);
+    }
+
+    public static Drawable getDrawable(int color) {
+        return new ColorDrawable(color);
     }
 }

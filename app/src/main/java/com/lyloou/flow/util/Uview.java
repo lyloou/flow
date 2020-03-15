@@ -16,12 +16,9 @@
 
 package com.lyloou.flow.util;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.view.View;
 
-import com.google.android.material.appbar.AppBarLayout;
 import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.Timer;
@@ -46,44 +43,6 @@ public class Uview {
     public static View getRootView(Activity activity) {
         return activity.findViewById(android.R.id.content);
     }
-
-    public static void toggleViewVisibleWhenAppBarLayoutScrollChanged(AppBarLayout appBarLayout, final View view) {
-        appBarLayout.addOnOffsetChangedListener((appBarLayout1, verticalOffset) -> {
-            if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
-                //Collapsed
-                if (view.getVisibility() == View.GONE) {
-                    return;
-                }
-
-                view.animate().alpha(0.0f)
-                        .setDuration(300)
-                        .setListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                super.onAnimationEnd(animation);
-                                view.setVisibility(View.GONE);
-                            }
-                        })
-                        .start();
-            } else {
-                //Expanded
-                if (view.getVisibility() == View.VISIBLE) {
-                    return;
-                }
-                view.setVisibility(View.VISIBLE);
-                view.animate().alpha(1.0f)
-                        .setDuration(300)
-                        .setListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                super.onAnimationEnd(animation);
-                            }
-                        })
-                        .start();
-            }
-        });
-    }
-
 
     // 双击 view 执行 runnable
     public static void setDoubleClickRunnable(View view, Runnable task) {

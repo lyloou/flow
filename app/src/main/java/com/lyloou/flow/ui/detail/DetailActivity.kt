@@ -64,7 +64,7 @@ class DetailActivity : BaseCompatActivity() {
             bounds.duration = 280
             bounds.interpolator = DecelerateInterpolator()
             window.sharedElementEnterTransition = bounds
-        };
+        }
 
         initData()
         initView()
@@ -97,7 +97,6 @@ class DetailActivity : BaseCompatActivity() {
 
         collapsing_toolbar_layout.setExpandedTitleColor(Color.TRANSPARENT)
         collapsing_toolbar_layout.setCollapsedTitleTextColor(Color.WHITE)
-        Uview.toggleViewVisibleWhenAppBarLayoutScrollChanged(app_bar, tv_header)
 
         intent?.let {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -191,9 +190,9 @@ class DetailActivity : BaseCompatActivity() {
     }
 
     private fun resetThemeColor(color: Int) {
+        collapsing_toolbar_layout.contentScrim = Ucolor.getDrawable(color)
         val transparentColor = Ucolor.getTransparentColor(color)
         tv_header.setBackgroundColor(transparentColor)
-        // [Android Material Design - How to change background color of Toolbar after CollapsingToolbarLayout is collapsed - Stack Overflow](https://stackoverflow.com/questions/30619598/android-material-design-how-to-change-background-color-of-toolbar-after-collap)
 
         // https://stackoverflow.com/questions/6539879/how-to-convert-a-color-integer-to-a-hex-string-in-android
         val hexColor = String.format("#%06X", 0xFFFFFF and color)
