@@ -49,16 +49,16 @@ class LoginActivity : AppCompatActivity() {
             viewModel.name.value!!,
             viewModel.password.value!!,
             {
-                if (it.err_code != 0) {
+                if (it.err_code == 0) {
+                    Log.i("TTAG", "user: ${it.data}");
+                    doSuccess(it)
+                } else {
                     Toast.makeText(
                         this,
                         "错误代码:${it.err_code}，错误信息：${it.err_msg}",
                         Toast.LENGTH_SHORT
                     ).show()
-                    return@login
                 }
-                Log.i("TTAG", "user: ${it.data}");
-                doSuccess(it)
             },
             {
                 Toast.makeText(

@@ -43,20 +43,19 @@ class HomeFragment : Fragment() {
 
         val onClickListener = View.OnClickListener {
             when (it.id) {
-                R.id.editTextA -> enterMode(schedule.a)
-                R.id.editTextB -> enterMode(schedule.b)
-                R.id.editTextC -> enterMode(schedule.c)
-                R.id.editTextD -> enterMode(schedule.d)
+                R.id.textViewA -> enterMode(schedule.a)
+                R.id.textViewB -> enterMode(schedule.b)
+                R.id.textViewC -> enterMode(schedule.c)
+                R.id.textViewD -> enterMode(schedule.d)
             }
         }
-        editTextA.setOnClickListener(onClickListener)
-        editTextB.setOnClickListener(onClickListener)
-        editTextC.setOnClickListener(onClickListener)
-        editTextD.setOnClickListener(onClickListener)
+        textViewA.setOnClickListener(onClickListener)
+        textViewB.setOnClickListener(onClickListener)
+        textViewC.setOnClickListener(onClickListener)
+        textViewD.setOnClickListener(onClickListener)
     }
 
-
-    fun enterMode(data: ScheduleItem) {
+    private fun enterMode(data: ScheduleItem) {
         val intent = Intent(context, TodoActivity::class.java)
         intent.putExtra(Key.TODO.name, data.name)
         startActivity(intent)

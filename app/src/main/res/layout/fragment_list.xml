@@ -62,12 +62,20 @@
                 app:layout_collapseMode="pin" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_collapseMode="pin"
+            app:tabSelectedTextColor="@color/colorAccent"
+            app:tabTextColor="#666666" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vpFlow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/cell_list" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

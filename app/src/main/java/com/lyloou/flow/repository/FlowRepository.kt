@@ -49,9 +49,20 @@ class FlowRepository(private val context: Context) {
         return flowDao.getDbFlow(day)
     }
 
-    fun getPagedList(): LiveData<PagedList<DbFlow>> {
+    fun getActivePagedList(): LiveData<PagedList<DbFlow>> {
         return LivePagedListBuilder(
-            flowDao.getAllDbFlows(),
+            flowDao.getActiveDbFlows(),
+            PagedList.Config.Builder()
+                .setPageSize(5)
+                .setEnablePlaceholders(true)
+                .setInitialLoadSizeHint(5)
+                .build()
+        ).build()
+    }
+
+    fun getArchivedPagedList(): LiveData<PagedList<DbFlow>> {
+        return LivePagedListBuilder(
+            flowDao.getArchivedDbFlows(),
             PagedList.Config.Builder()
                 .setPageSize(5)
                 .setEnablePlaceholders(true)

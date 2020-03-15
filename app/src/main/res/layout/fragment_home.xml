@@ -60,7 +60,8 @@
                 android:background="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="@+id/textViewA" />
 
-            <TextView
+            <EditText
+                android:editable="false"
                 android:id="@+id/editTextA"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -109,7 +110,8 @@
                 android:background="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="@+id/textViewB" />
 
-            <TextView
+            <EditText
+                android:editable="false"
                 android:id="@+id/editTextB"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -158,7 +160,8 @@
                 android:background="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="@+id/textViewC" />
 
-            <TextView
+            <EditText
+                android:editable="false"
                 android:id="@+id/editTextC"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -207,7 +210,8 @@
                 android:background="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="@+id/textViewD" />
 
-            <TextView
+            <EditText
+                android:editable="false"
                 android:id="@+id/editTextD"
                 android:layout_width="0dp"
                 android:layout_height="0dp"

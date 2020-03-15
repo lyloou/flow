@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -13,12 +14,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.palette.graphics.Palette
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.tabs.TabLayout
 import com.lyloou.flow.R
-import com.lyloou.flow.extension.dp2px
 import com.lyloou.flow.net.Network
 import com.lyloou.flow.net.kingSoftwareApi
 import com.lyloou.flow.ui.detail.DetailActivity
@@ -26,7 +26,7 @@ import com.lyloou.flow.ui.kalendar.KalendarActivity
 import com.lyloou.flow.util.Ucolor
 import com.lyloou.flow.util.Utime
 import com.lyloou.flow.util.Uview
-import com.lyloou.flow.widget.ItemOffsetDecoration
+import com.lyloou.flow.widget.TitleViewPagerAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_list.*
@@ -48,19 +48,30 @@ class ListFragment : Fragment() {
         setHasOptionsMenu(true)
         viewModel = ViewModelProviders.of(requireActivity()).get(ListViewModel::class.java)
         initView()
+        val partActive = Part(context, "进行中")
+        val partArchived = Part(context, "已归档")
 
-        recyclerView.apply {
-            val adapter = ListAdapter()
-            recyclerView.adapter = adapter
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            recyclerView.addItemDecoration(ItemOffsetDecoration(dp2px(16f)))
+        viewModel.activeDbFlowList.observe(requireActivity(), Observer {
+            it?.let {
+                partActive.adapter.submitList(it)
+                Log.i("TTAG", "-------->1: ${partActive.adapter.currentList}");
+            }
+        })
+        viewModel.archivedDbFlowList.observe(requireActivity(), Observer {
+            it?.let {
+                partArchived.adapter.submitList(it)
+                Log.i("TTAG", "-------->2: ${partArchived.adapter.currentList}");
+            }
+        })
 
-            viewModel.dbFlowList.observe(requireActivity(), Observer {
-                it?.let {
-                    adapter.submitList(it)
-                }
-            })
-        }
+        val pagerAdapter = TitleViewPagerAdapter()
+        pagerAdapter.addView(partActive.title, partActive.view)
+        pagerAdapter.addView(partArchived.title, partArchived.view)
+        vpFlow.adapter = pagerAdapter
+
+        tabLayout.setupWithViewPager(vpFlow)
+        tabLayout.tabMode = TabLayout.MODE_FIXED
+        tabLayout.tabGravity = TabLayout.GRAVITY_FILL
     }
 
     override fun onResume() {

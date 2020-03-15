@@ -1,6 +1,7 @@
 package com.lyloou.flow.model
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import com.lyloou.flow.repository.DbFlow
 import com.lyloou.flow.util.Utime
 import kotlinx.android.parcel.Parcelize
@@ -22,7 +23,9 @@ data class FlowRep(
     val userId: Long,
     val day: String,
     val item: String? = null,
+    @SerializedName("is_archived")
     val isArchived: Boolean = false,
+    @SerializedName("is_disabled")
     val isDisabled: Boolean = false
 )
 

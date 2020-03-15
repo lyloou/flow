@@ -18,8 +18,11 @@ interface FlowDao {
     @Query("DELETE FROM $TABLE_FLOW")
     fun deleteAllDbFlows()
 
-    @Query("SELECT * FROM $TABLE_FLOW ORDER BY $COL_FLOW_DAY DESC")
-    fun getAllDbFlows(): DataSource.Factory<Int, DbFlow>;
+    @Query("SELECT * FROM $TABLE_FLOW WHERE $COL_FLOW_IS_ARCHIVED=0 ORDER BY $COL_FLOW_DAY DESC")
+    fun getActiveDbFlows(): DataSource.Factory<Int, DbFlow>;
+
+    @Query("SELECT * FROM $TABLE_FLOW WHERE $COL_FLOW_IS_ARCHIVED=1 ORDER BY $COL_FLOW_DAY DESC")
+    fun getArchivedDbFlows(): DataSource.Factory<Int, DbFlow>;
 
     @Query("SELECT * FROM $TABLE_FLOW WHERE $COL_FLOW_DAY = :day")
     fun getDbFlow(day: String): LiveData<DbFlow>

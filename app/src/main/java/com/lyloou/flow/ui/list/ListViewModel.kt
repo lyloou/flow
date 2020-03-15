@@ -11,8 +11,11 @@ import com.lyloou.flow.repository.FlowRepository
 
 class ListViewModel(application: Application) : AndroidViewModel(application) {
     private val flowRepository = FlowRepository.getInstance(application)
-    val dbFlowList: LiveData<PagedList<DbFlow>> by lazy {
-        flowRepository.getPagedList()
+    val activeDbFlowList: LiveData<PagedList<DbFlow>> by lazy {
+        flowRepository.getActivePagedList()
+    }
+    val archivedDbFlowList: LiveData<PagedList<DbFlow>> by lazy {
+        flowRepository.getArchivedPagedList()
     }
 
     fun getDbFlow(day: String): LiveData<DbFlow> {

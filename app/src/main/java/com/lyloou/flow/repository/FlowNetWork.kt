@@ -35,7 +35,8 @@ class FlowNetWork(
                         database.clearAllTables()
                         val flowDao = database.flowDao()
                         flowDao.insertDbFlows(
-                            *(it.data?.map { it.toDbFlow() } ?: emptyList()).toTypedArray()
+                            *(it.data?.map { data -> data.toDbFlow() }
+                                ?: emptyList()).toTypedArray()
                         )
                         latch.countDown()
                     }
