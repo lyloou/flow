@@ -43,6 +43,10 @@ public class Uview {
                 .init();
     }
 
+    public static View getRootView(Activity activity) {
+        return activity.findViewById(android.R.id.content);
+    }
+
     public static void toggleViewVisibleWhenAppBarLayoutScrollChanged(AppBarLayout appBarLayout, final View view) {
         appBarLayout.addOnOffsetChangedListener((appBarLayout1, verticalOffset) -> {
             if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {

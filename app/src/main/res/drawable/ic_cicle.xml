@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval">
-    <size
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
         android:width="14dp"
-        android:height="14dp" />
-    <solid android:color="@color/darkGrayTransparent" />
+        android:height="14dp"
+        android:gravity="center">
+        <shape android:shape="oval">
+            <solid android:color="@color/darkGrayTransparent" />
+        </shape>
+    </item>
 
-</shape>
+    <item
+        android:width="6dp"
+        android:height="6dp"
+        android:gravity="center"
+        tools:ignore="UnusedAttribute">
+
+        <shape android:shape="oval">
+            <solid android:color="@color/white" />
+
+        </shape>
+    </item>
+</layer-list>

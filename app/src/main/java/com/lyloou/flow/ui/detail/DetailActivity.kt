@@ -16,7 +16,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.TimePicker
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -110,7 +109,7 @@ class DetailActivity : BaseCompatActivity() {
             .asBitmap()
             .load(ImageHelper.getBigImage(day))
             .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .placeholder(R.mipmap.ic_launcher)
+            .placeholder(R.drawable.ic_launcher_background)
             .listener(object : RequestListener<Bitmap> {
                 override fun onLoadFailed(
                     e: GlideException?,
@@ -225,8 +224,14 @@ class DetailActivity : BaseCompatActivity() {
             R.id.add -> {
                 addNewItem()
             }
-            R.id.about -> {
-                Toast.makeText(this, "hihi", Toast.LENGTH_SHORT).show()
+            R.id.copy -> {
+                Usystem.doCopy(this, day, itemList, false)
+            }
+            R.id.share -> {
+                Usystem.shareText(this, day, FlowItemHelper.toPrettyText(itemList))
+            }
+            R.id.share_to_wps -> {
+                Usystem.doCopy(this, day, itemList, true)
             }
         }
         return super.onOptionsItemSelected(item)

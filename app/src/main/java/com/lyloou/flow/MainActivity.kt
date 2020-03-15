@@ -52,4 +52,8 @@ class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
     override fun onPageSelected(position: Int) {
         nav_view.menu.getItem(position).isChecked = true
     }
+
+    override fun onBackPressed() {
+        moveTaskToBack(false)
+    }
 }

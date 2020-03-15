@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
@@ -13,7 +14,34 @@ import androidx.core.content.pm.ShortcutInfoCompat;
 import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.core.graphics.drawable.IconCompat;
 
+import com.lyloou.flow.common.Consumer;
+
 public class Uapp {
+    public static void handlePackageIntent(Context context, String packageName, Consumer<Intent> intentConsumer) {
+        PackageManager packageManager = context.getPackageManager();
+        if (Uapp.checkPackInfo(context, packageName)) {
+            Intent intent = packageManager.getLaunchIntentForPackage(packageName);
+            intentConsumer.accept(intent);
+        } else {
+            intentConsumer.accept(null);
+        }
+    }
+
+    /**
+     * 检查包是否存在
+     *
+     * @param packname 包名
+     * @return 结果
+     */
+    public static boolean checkPackInfo(Context context, String packname) {
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = context.getPackageManager().getPackageInfo(packname, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return packageInfo != null;
+    }
 
     /**
      * //    原文链接：https://blog.csdn.net/lyabc123456/article/details/86716857
