@@ -16,12 +16,15 @@ import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.lyloou.flow.R
 import com.lyloou.flow.net.Network
 import com.lyloou.flow.net.kingSoftwareApi
 import com.lyloou.flow.ui.detail.DetailActivity
 import com.lyloou.flow.ui.kalendar.KalendarActivity
+import com.lyloou.flow.ui.web.NormalWebViewActivity
+import com.lyloou.flow.util.Uapp
 import com.lyloou.flow.util.Ucolor
 import com.lyloou.flow.util.Utime
 import com.lyloou.flow.util.Uview
@@ -161,12 +164,31 @@ class ListFragment : Fragment() {
 
             }
             R.id.menu_add_shortcut -> {
-
+                addShortcut()
             }
             R.id.menu_today_flow_time -> {
                 toDetail()
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun addShortcut() {
+        Uapp.addShortCutCompat(
+            requireActivity(),
+            DetailActivity::class.java.canonicalName,
+            "flow_time_day",
+            R.mipmap.ic_launcher_round,
+            resources.getString(R.string.flow_time_day)
+        )
+        val snackbar: Snackbar =
+            Snackbar.make(requireView(), "已添加到桌面", Snackbar.LENGTH_LONG)
+        snackbar.setAction("了解详情") {
+            NormalWebViewActivity.newInstance(
+                context,
+                "https://kf.qq.com/touch/sappfaq/180705A3IB3Y1807056fMr6V.html"
+            )
+        }
+        snackbar.show()
     }
 }
