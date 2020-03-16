@@ -34,12 +34,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.lyloou.flow.R
 import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.Key
-import com.lyloou.flow.model.Flow
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.model.FlowItemHelper
-import com.lyloou.flow.model.toDbFlow
 import com.lyloou.flow.net.Network
 import com.lyloou.flow.net.kingSoftwareApi
+import com.lyloou.flow.net.weatherApi
+import com.lyloou.flow.repository.DbFlow
 import com.lyloou.flow.ui.list.ListViewModel
 import com.lyloou.flow.util.*
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -77,7 +77,7 @@ class DetailActivity : BaseCompatActivity() {
         // 没有数据的时候，初始化默认的
         viewModel.getDbFlow(day).observe(this, Observer {
             if (it == null) {
-                viewModel.insertDbFlow(Flow(1L, day).toDbFlow())
+                viewModel.insertDbFlow(DbFlow(0, -1, day, "[]"))
                 return@Observer
             }
             if (!observed) {
@@ -86,6 +86,15 @@ class DetailActivity : BaseCompatActivity() {
             }
         })
 
+        Network.weatherApi().getWeather("101280601")
+            .subscribeOn(Schedulers.io())
+            .unsubscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                tvWeather.text = it?.cityInfo?.city
+            }, {
+
+            })
     }
 
     private fun initView() {

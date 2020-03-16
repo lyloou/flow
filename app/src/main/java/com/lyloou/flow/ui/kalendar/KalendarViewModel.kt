@@ -4,19 +4,19 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.lyloou.flow.model.Flow
 import com.lyloou.flow.model.FlowItemHelper
 import com.lyloou.flow.model.FlowResult
-import com.lyloou.flow.model.toFlow
+import com.lyloou.flow.model.toDbFlow
 import com.lyloou.flow.net.Network
 import com.lyloou.flow.net.flowApi
+import com.lyloou.flow.repository.DbFlow
 import com.lyloou.flow.util.Utime
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class KalendarViewModel(application: Application) : AndroidViewModel(application) {
-    val flow: MutableLiveData<Flow> by lazy {
-        MutableLiveData<Flow>().also {
+    val flow: MutableLiveData<DbFlow> by lazy {
+        MutableLiveData<DbFlow>().also {
             loadFromNet(Utime.getDayWithFormatTwo())
         }
     }
@@ -31,11 +31,12 @@ class KalendarViewModel(application: Application) : AndroidViewModel(application
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(fun(it: FlowResult) {
                 if (it.err_code == 0) {
-                    flow.value = it.data?.toFlow()
-                    flow.value = flow.value ?: Flow(
+                    flow.value = it.data?.toDbFlow()
+                    flow.value = flow.value ?: DbFlow(
                         0,
+                        -1,
                         day,
-                        arrayListOf()
+                        "[]"
                     )
                     Log.e("TTAG", "flow.value=${flow.value}")
 
@@ -46,11 +47,7 @@ class KalendarViewModel(application: Application) : AndroidViewModel(application
                             append("\n(\tA: ${value.isArchived}")
                             append("\t\tD: ${value.isDisabled}")
                             append(")\n\n")
-                            append(
-                                FlowItemHelper.toPrettyText(
-                                    value.items
-                                )
-                            )
+                            append(FlowItemHelper.toPrettyText(FlowItemHelper.fromJsonArray(value.items)))
                         }
                     }.toString()
                     Log.e("TTAG", "error_code=${it.err_code}")

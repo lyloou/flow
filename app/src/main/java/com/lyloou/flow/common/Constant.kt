@@ -7,6 +7,7 @@ var FALSE = 0
 
 enum class Url(val url: String) : Str {
     Kingsoftware("http://open.iciba.com/"),
+    WeatherApi("http://t.weather.sojson.com/"),
     FlowApi("http://114.67.95.131:8888/api/v1/flow/");
 
     override fun str(): String {

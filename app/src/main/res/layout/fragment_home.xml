@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/toolbar">
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimaryDark" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -30,6 +34,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/item_schedule_a_bg"
@@ -42,11 +47,11 @@
                 android:id="@+id/textViewA"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
+                android:foreground="?selectableItemBackground"
                 android:gravity="center"
                 android:padding="6dp"
                 android:text="A"
                 android:textSize="18sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -54,6 +59,7 @@
 
 
             <View
+                android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_margin="2dp"
@@ -61,16 +67,18 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textViewA" />
 
             <EditText
-                android:editable="false"
                 android:id="@+id/editTextA"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@null"
+                android:editable="false"
                 android:ems="10"
                 android:gravity="start|top"
                 android:importantForAutofill="no"
                 android:inputType="none"
                 android:padding="10dp"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,6 +88,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout3"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/item_schedule_b_bg"
@@ -92,11 +101,11 @@
                 android:id="@+id/textViewB"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
+                android:foreground="?selectableItemBackground"
                 android:gravity="center"
                 android:padding="6dp"
                 android:text="B"
                 android:textSize="18sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -104,6 +113,7 @@
 
 
             <View
+                android:id="@+id/view2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_margin="2dp"
@@ -111,16 +121,18 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textViewB" />
 
             <EditText
-                android:editable="false"
                 android:id="@+id/editTextB"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@null"
+                android:editable="false"
                 android:ems="10"
                 android:gravity="start|top"
                 android:importantForAutofill="no"
                 android:inputType="none"
                 android:padding="10dp"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -130,6 +142,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout4"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/item_schedule_c_bg"
@@ -142,11 +155,11 @@
                 android:id="@+id/textViewC"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
+                android:foreground="?selectableItemBackground"
                 android:gravity="center"
                 android:padding="6dp"
                 android:text="C"
                 android:textSize="18sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -154,6 +167,7 @@
 
 
             <View
+                android:id="@+id/view3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_margin="2dp"
@@ -161,16 +175,18 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textViewC" />
 
             <EditText
-                android:editable="false"
                 android:id="@+id/editTextC"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@null"
+                android:editable="false"
                 android:ems="10"
                 android:gravity="start|top"
                 android:importantForAutofill="no"
                 android:inputType="none"
                 android:padding="10dp"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -180,6 +196,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout5"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/item_schedule_d_bg"
@@ -192,11 +209,11 @@
                 android:id="@+id/textViewD"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
+                android:foreground="?selectableItemBackground"
                 android:gravity="center"
                 android:padding="6dp"
                 android:text="D"
                 android:textSize="18sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -204,6 +221,7 @@
 
 
             <View
+                android:id="@+id/view4"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_margin="2dp"
@@ -211,16 +229,18 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textViewD" />
 
             <EditText
-                android:editable="false"
                 android:id="@+id/editTextD"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@null"
+                android:editable="false"
                 android:ems="10"
                 android:gravity="start|top"
                 android:importantForAutofill="no"
                 android:inputType="none"
                 android:padding="10dp"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -228,4 +248,4 @@
                 tools:text="Name" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

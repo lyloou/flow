@@ -4,8 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.lyloou.flow.model.Flow
-import com.lyloou.flow.model.FlowItemHelper
 import com.lyloou.flow.model.FlowReq
 
 const val TABLE_FLOW = "flow"
@@ -34,14 +32,6 @@ data class DbFlow(
     var isSynced: Boolean = false,
     @ColumnInfo(name = COL_FLOW_IS_DISABLED)
     val isDisabled: Boolean = false
-)
-
-fun DbFlow.toFlow(): Flow = Flow(
-    userId,
-    day,
-    FlowItemHelper.fromJsonArray(this.items),
-    isArchived,
-    isDisabled
 )
 
 fun DbFlow.toFlowRq(): FlowReq = FlowReq(

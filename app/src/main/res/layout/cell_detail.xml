@@ -68,6 +68,7 @@
         android:hint="@string/et_content"
         android:importantForAutofill="no"
         android:inputType="none"
+        android:textSize="14sp"
         android:textColor="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline3"

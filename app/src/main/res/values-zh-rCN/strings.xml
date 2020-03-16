@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">夫路</string>
     <string name="flow_time_day">时分流</string>
+    <string name="event">事件</string>
 </resources>

@@ -37,3 +37,4 @@ interface KingSoftwareApi {
 fun Network.kingSoftwareApi(): KingSoftwareApi {
     return get(Url.Kingsoftware.url, KingSoftwareApi::class.java)
 }
+

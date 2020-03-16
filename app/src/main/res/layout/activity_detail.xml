@@ -58,16 +58,77 @@
                 app:layout_collapseMode="pin" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+
+            <TextView
+                android:id="@+id/tvWetherDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:text="天气："
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvWeather"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_toEndOf="@id/tvWetherDesc"
+                android:layout_toRightOf="@id/tvWetherDesc"
+                android:gravity="center_vertical"
+                android:text="多云"
+                android:textSize="14sp" />
+
+
+            <View
+                android:id="@+id/vSp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/tvWeather"
+                android:background="@color/grayTransparent" />
+
+            <TextView
+                android:id="@+id/tvMemo"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_below="@id/vSp"
+                android:gravity="center_vertical"
+                android:text="备忘："
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/editText2"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@id/vSp"
+                android:layout_toEndOf="@id/tvMemo"
+                android:layout_toRightOf="@id/tvMemo"
+                android:backgroundTint="@color/grayTransparent"
+                android:gravity="center_vertical"
+                android:inputType="none"
+                android:maxLines="1"
+                android:text="每天都要开心"
+                android:textColor="@color/gray"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
-        app:fabSize="normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="48dp"
         android:src="@android:drawable/ic_input_add"
         android:tint="@color/white"
+        app:fabSize="normal"
         app:layout_anchor="@id/recyclerView"
         app:layout_anchorGravity="center|bottom" />
 

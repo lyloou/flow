@@ -30,15 +30,6 @@ data class FlowRep(
 )
 
 @Parcelize
-data class Flow(
-    val userId: Long,
-    var day: String,
-    val items: MutableList<FlowItem> = mutableListOf(),
-    val isArchived: Boolean = false,
-    val isDisabled: Boolean = false
-) : Parcelable
-
-@Parcelize
 data class FlowItem(
     var timeStart: String? = null,
     var timeEnd: String? = null,
@@ -47,15 +38,6 @@ data class FlowItem(
     var spend: String = Utime.getInterval(timeStart, timeEnd) ?: "--:--"
 ) : Parcelable
 
-fun FlowRep.toFlow(): Flow {
-    return Flow(
-        userId,
-        day,
-        FlowItemHelper.fromJsonArray(item),
-        isArchived,
-        isDisabled
-    )
-}
 
 fun FlowRep.toDbFlow(): DbFlow {
     return DbFlow(
@@ -69,16 +51,4 @@ fun FlowRep.toDbFlow(): DbFlow {
     )
 }
 
-
-fun Flow.toDbFlow(): DbFlow {
-    return DbFlow(
-        0,
-        userId,
-        day,
-        FlowItemHelper.toJsonArray(items),
-        isArchived,
-        isDisabled,
-        true
-    )
-}
 
