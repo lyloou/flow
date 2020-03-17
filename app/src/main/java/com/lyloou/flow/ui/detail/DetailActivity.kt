@@ -37,13 +37,12 @@ import com.lyloou.flow.common.Key
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.model.FlowItemHelper
 import com.lyloou.flow.net.Network
-import com.lyloou.flow.net.kingSoftwareApi
+import com.lyloou.flow.net.defaultScheduler
+import com.lyloou.flow.net.getKingSoftwareDaily
 import com.lyloou.flow.net.weatherApi
 import com.lyloou.flow.repository.DbFlow
 import com.lyloou.flow.ui.list.ListViewModel
 import com.lyloou.flow.util.*
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : BaseCompatActivity() {
@@ -86,23 +85,35 @@ class DetailActivity : BaseCompatActivity() {
             }
         })
 
-        Network.weatherApi().getWeather("101280601")
-            .subscribeOn(Schedulers.io())
-            .unsubscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                tvWeather.text = it?.cityInfo?.city
-            }, {
-
-            })
+        Network.weatherApi()
+            .getWeather("101280601")
+            .defaultScheduler()
+            .subscribe {
+                val fbs = it?.data?.forecast
+                if (fbs != null && fbs.isNotEmpty()) {
+                    val fb = fbs[0]
+                    val sb = StringBuilder()
+                    sb.append(fb.week)
+                        .append("\t")
+                        .append(fb.type)
+                        .append("\t(")
+                        .append(fb.low)
+                        .append(" ~ ")
+                        .append(fb.high)
+                        .append("\t")
+                        .append(")\n")
+                        .append(fb.notice)
+                    tvWeather.text = sb
+                }
+            }
     }
 
     private fun initView() {
-        setSupportActionBar(toolbar);
-        supportActionBar?.title = day;
-        toolbar.setNavigationOnClickListener { onBackPressed() };
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        supportActionBar?.setDisplayShowHomeEnabled(true);
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = day
+        toolbar.setNavigationOnClickListener { onBackPressed() }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         collapsing_toolbar_layout.setExpandedTitleColor(Color.TRANSPARENT)
         collapsing_toolbar_layout.setCollapsedTitleTextColor(Color.WHITE)
@@ -125,7 +136,7 @@ class DetailActivity : BaseCompatActivity() {
                     target: Target<Bitmap>?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    return false;
+                    return false
                 }
 
                 override fun onResourceReady(
@@ -152,17 +163,13 @@ class DetailActivity : BaseCompatActivity() {
                     resetThemeColor(color)
 
                 }
-            });
+            })
 
-        Network.kingSoftwareApi()
-            .getDaily(Utime.transferTwoToOne(day))
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                tv_header.text = it.content
-                tv_header.tag = it.note
-                tv_header.visibility = View.VISIBLE
-            }, Throwable::printStackTrace)
+        getKingSoftwareDaily(Utime.transferTwoToOne(day)) {
+            tv_header.text = it.content
+            tv_header.tag = it.note
+            tv_header.visibility = View.VISIBLE
+        }
 
         tv_header.setOnClickListener {
             val netString = it.tag
@@ -171,7 +178,7 @@ class DetailActivity : BaseCompatActivity() {
                 tv_header.text = netString
                 tv_header.tag = oldString
             }
-        };
+        }
 
         fab.setOnClickListener {
             addNewItem()
@@ -269,9 +276,9 @@ class DetailActivity : BaseCompatActivity() {
             }
             newItem.timeStart = currentTime
             add(0, newItem)
-            recyclerView.scrollToPosition(0)
             adapter.notifyItemInserted(0)
             delayUpdateDb()
+            recyclerView.scrollToPosition(0)
         }
     }
 

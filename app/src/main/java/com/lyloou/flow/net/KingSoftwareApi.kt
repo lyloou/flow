@@ -18,6 +18,8 @@ package com.lyloou.flow.net
 import com.lyloou.flow.common.Url
 import com.lyloou.flow.model.Daily
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -38,3 +40,10 @@ fun Network.kingSoftwareApi(): KingSoftwareApi {
     return get(Url.Kingsoftware.url, KingSoftwareApi::class.java)
 }
 
+fun getKingSoftwareDaily(day: String, doFunc: (Daily) -> Unit) {
+    Network.kingSoftwareApi()
+        .getDaily(day)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(doFunc, Throwable::printStackTrace)
+}

@@ -4,18 +4,15 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.lyloou.flow.model.Daily
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.model.FlowItemHelper
 import com.lyloou.flow.net.Network
+import com.lyloou.flow.net.defaultScheduler
 import com.lyloou.flow.net.flowApi
-import com.lyloou.flow.net.kingSoftwareApi
 import com.lyloou.flow.repository.DbFlow
 import com.lyloou.flow.repository.FlowRepository
 import com.lyloou.flow.repository.toFlowRq
 import com.lyloou.flow.util.Ulist
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class ListViewModel(application: Application) : AndroidViewModel(application) {
     private val flowRepository = FlowRepository.getInstance(application)
@@ -50,9 +47,7 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
             val flowReqs = list.map { it.toFlowRq() }.toList()
             Network.flowApi()
                 .batchSync(flowReqs)
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .defaultScheduler()
                 .subscribe({ rep ->
                     if (rep.err_code == 0) {
                         val days = flowReqs.map { it.day }.toTypedArray()
@@ -83,11 +78,4 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
         return flowRepository.getDbFlowsBySyncStatus(status)
     }
 
-    fun updateByKingSoftware(day: String, doFunc: (Daily) -> Unit) {
-        Network.kingSoftwareApi()
-            .getDaily(day)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(doFunc, Throwable::printStackTrace)
-    }
 }

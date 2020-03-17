@@ -1,5 +1,8 @@
 package com.lyloou.flow.model
 
+import com.google.gson.annotations.SerializedName
+import com.google.gson.reflect.TypeToken
+
 class CityInfoBean {
     /**
      * city : 天津市
@@ -110,3 +113,20 @@ class ForecastBean {
     var notice: String? = null
 
 }
+
+
+data class City(
+    val id: Long,
+    val pid: Long,
+    @SerializedName("city_code")
+    val cityCode: String,
+    @SerializedName("city_name")
+    val cityName: String,
+    @SerializedName("post_code")
+    val postCode: String,
+    @SerializedName("area_code")
+    val areaCode: String,
+    val ctime: String
+)
+
+private val type = object : TypeToken<List<City?>?>() {}.type

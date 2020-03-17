@@ -4,10 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lyloou.flow.model.*
 import com.lyloou.flow.net.Network
+import com.lyloou.flow.net.defaultScheduler
 import com.lyloou.flow.net.flowApiWithoutAuth
 import com.lyloou.flow.util.PasswordUtil
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class LoginViewModel : ViewModel() {
     val name: MutableLiveData<String> by lazy {
@@ -26,9 +25,7 @@ class LoginViewModel : ViewModel() {
         val encodedPassword = PasswordUtil.getEncodedPassword(password)
         Network.flowApiWithoutAuth()
             .login(name, encodedPassword)
-            .subscribeOn(Schedulers.io())
-            .unsubscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .defaultScheduler()
             .subscribe(okFun, failFun)
     }
 

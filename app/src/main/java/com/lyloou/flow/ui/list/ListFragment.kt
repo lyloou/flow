@@ -25,6 +25,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.lyloou.flow.R
 import com.lyloou.flow.model.Daily
+import com.lyloou.flow.net.getKingSoftwareDaily
 import com.lyloou.flow.repository.DbFlow
 import com.lyloou.flow.ui.detail.DetailActivity
 import com.lyloou.flow.ui.kalendar.KalendarActivity
@@ -90,7 +91,7 @@ class ListFragment : Fragment() {
         collapsing_toolbar_layout.setExpandedTitleColor(Color.TRANSPARENT)
         collapsing_toolbar_layout.setCollapsedTitleTextColor(Color.WHITE)
 
-        viewModel.updateByKingSoftware("") {
+        getKingSoftwareDaily("") {
             initIvHeader(it)
         }
 

@@ -1,5 +1,8 @@
 package com.lyloou.flow.net
 
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -38,4 +41,10 @@ fun interceptor(headers: List<Pair<String, String>>): (Interceptor.Chain) -> Res
         }
         it.proceed(newBuilder.build())
     }
+}
+
+fun <T> Observable<T>.defaultScheduler(): Observable<T> {
+    return this.subscribeOn(Schedulers.io())
+        .unsubscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
 }

@@ -8,11 +8,10 @@ import com.lyloou.flow.model.FlowItemHelper
 import com.lyloou.flow.model.FlowResult
 import com.lyloou.flow.model.toDbFlow
 import com.lyloou.flow.net.Network
+import com.lyloou.flow.net.defaultScheduler
 import com.lyloou.flow.net.flowApi
 import com.lyloou.flow.repository.DbFlow
 import com.lyloou.flow.util.Utime
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class KalendarViewModel(application: Application) : AndroidViewModel(application) {
     val flow: MutableLiveData<DbFlow> by lazy {
@@ -26,9 +25,7 @@ class KalendarViewModel(application: Application) : AndroidViewModel(application
     fun loadFromNet(day: String) {
         Network.flowApi()
             .get(day)
-            .subscribeOn(Schedulers.io())
-            .unsubscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .defaultScheduler()
             .subscribe(fun(it: FlowResult) {
                 if (it.err_code == 0) {
                     flow.value = it.data?.toDbFlow()
