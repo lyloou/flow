@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.gson.reflect.TypeToken
+import com.lyloou.flow.App
 import com.lyloou.flow.R
 import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.model.City
@@ -32,7 +33,7 @@ class SettingsActivity : BaseCompatActivity() {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
             val lp: ListPreference? = findPreference("reply")
             Log.i("TTAG", "lp: ${lp}");
-            val cityFile = requireActivity().assets.open("city.json")
+            val cityFile = App.instance.assets.open("city.json")
             Log.i("TTAG", "cityFile: $cityFile");
             val size = cityFile.available()
             Log.i("TTAG", "size: $cityFile");
