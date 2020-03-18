@@ -1,7 +1,14 @@
 package com.lyloou.flow.net
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
+import com.lyloou.flow.App
+import com.lyloou.flow.common.toast
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -33,6 +40,27 @@ object Network {
 
 }
 
+fun isNetworkAvailable(context: Context): Boolean {
+    val connectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val nw = connectivityManager.activeNetwork ?: return false
+        val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
+        return when {
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            //for other device how are able to connect with Ethernet
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            //for check internet over Bluetooth
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
+            else -> false
+        }
+    } else {
+        val nwInfo = connectivityManager.activeNetworkInfo ?: return false
+        return nwInfo.isConnected
+    }
+}
+
 fun interceptor(headers: List<Pair<String, String>>): (Interceptor.Chain) -> Response {
     return {
         val newBuilder = it.request().newBuilder()
@@ -40,6 +68,23 @@ fun interceptor(headers: List<Pair<String, String>>): (Interceptor.Chain) -> Res
             newBuilder.addHeader(header.first, header.second)
         }
         it.proceed(newBuilder.build())
+    }
+}
+
+fun <T> Observable<T>.defaultSubscribe(
+    onNext: (T) -> Unit
+): Disposable {
+    return this.subscribe(onNext, { doError(it) })
+}
+
+private fun doError(it: Throwable) {
+    it.printStackTrace()
+    if (!isNetworkAvailable(App.instance)) {
+        toast("网络不可用，请检查网络")
+    } else {
+        it.message?.let {
+            toast(it)
+        }
     }
 }
 

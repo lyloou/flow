@@ -36,10 +36,7 @@ import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.model.FlowItemHelper
-import com.lyloou.flow.net.Network
-import com.lyloou.flow.net.defaultScheduler
-import com.lyloou.flow.net.getKingSoftwareDaily
-import com.lyloou.flow.net.weatherApi
+import com.lyloou.flow.net.*
 import com.lyloou.flow.repository.DbFlow
 import com.lyloou.flow.ui.list.ListViewModel
 import com.lyloou.flow.util.*
@@ -88,8 +85,8 @@ class DetailActivity : BaseCompatActivity() {
         Network.weatherApi()
             .getWeather("101280601")
             .defaultScheduler()
-            .subscribe {
-                val fbs = it?.data?.forecast
+            .defaultSubscribe {
+                val fbs = it.data?.forecast
                 if (fbs != null && fbs.isNotEmpty()) {
                     val fb = fbs[0]
                     val sb = StringBuilder()

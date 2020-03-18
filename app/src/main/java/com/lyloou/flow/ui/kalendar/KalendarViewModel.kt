@@ -5,10 +5,10 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.lyloou.flow.model.FlowItemHelper
-import com.lyloou.flow.model.FlowResult
 import com.lyloou.flow.model.toDbFlow
 import com.lyloou.flow.net.Network
 import com.lyloou.flow.net.defaultScheduler
+import com.lyloou.flow.net.defaultSubscribe
 import com.lyloou.flow.net.flowApi
 import com.lyloou.flow.repository.DbFlow
 import com.lyloou.flow.util.Utime
@@ -26,7 +26,7 @@ class KalendarViewModel(application: Application) : AndroidViewModel(application
         Network.flowApi()
             .get(day)
             .defaultScheduler()
-            .subscribe(fun(it: FlowResult) {
+            .defaultSubscribe {
                 if (it.err_code == 0) {
                     flow.value = it.data?.toDbFlow()
                     flow.value = flow.value ?: DbFlow(
@@ -50,9 +50,7 @@ class KalendarViewModel(application: Application) : AndroidViewModel(application
                     Log.e("TTAG", "error_code=${it.err_code}")
 
                 }
-            }, { throwable ->
-                Log.e("TTAG", "error occured.", throwable)
-            })
+            }
     }
 
 }
