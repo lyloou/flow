@@ -36,7 +36,7 @@ class ListAdapter : PagedListAdapter<DbFlow, ListAdapter.MyViewHolder>(DIFF_CALL
     }
 
     class MyViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        val textView: TextView = itemView.findViewById(R.id.textView)
+        val textView: TextView = itemView.findViewById(R.id.tvName)
         val imageView: ImageView = itemView.findViewById(R.id.imageView)
         val ivSyncStatus: ImageView = itemView.findViewById(R.id.ivSyncStatus)
     }

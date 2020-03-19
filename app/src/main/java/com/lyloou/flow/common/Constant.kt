@@ -28,6 +28,7 @@ enum class SpName : Str {
     NET_AUTHORIZATION,
     SCHEDULE,
     USER,
+    WEATHER_CITY,
 
     ;
 
@@ -44,6 +45,7 @@ enum class Key : Str {
     NET_USER_ID,
     SCHEDULE,
     USER,
+    WEATHER_CITY
 
     ;
 

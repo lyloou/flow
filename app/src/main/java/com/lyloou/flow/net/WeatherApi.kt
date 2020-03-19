@@ -8,7 +8,7 @@ import retrofit2.http.Path
 
 interface WeatherApi {
     @GET("/api/weather/city/{city_code}")
-    fun getWeather(@Path("city_code") cityCode: String?): Observable<WeatherResult>
+    fun getWeather(@Path("city_code") cityCode: String): Observable<WeatherResult>
 }
 
 fun Network.weatherApi(): WeatherApi {

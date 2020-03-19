@@ -16,7 +16,7 @@
         tools:context=".temp.TempActivity">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{data.stringData.toString()}"

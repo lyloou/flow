@@ -1,7 +1,11 @@
 package com.lyloou.flow.model
 
+import android.app.Application
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
+import com.lyloou.flow.App
+import com.lyloou.flow.common.Key
+import com.lyloou.flow.common.SpName
 
 class CityInfoBean {
     /**
@@ -128,5 +132,33 @@ data class City(
     val areaCode: String,
     val ctime: String
 )
+
+fun City.toJson(): String {
+    return gson.toJson(this)
+}
+
+object CityHelper {
+    private fun fromJson(str: String): City? {
+        return gson.fromJson(str, City::class.java)
+    }
+
+    private val preferences = App.instance
+        .getSharedPreferences(SpName.WEATHER_CITY.name, Application.MODE_PRIVATE)
+
+    fun saveCity(city: City?) {
+        city?.let {
+            val toJson = it.toJson()
+            preferences.edit().putString(Key.WEATHER_CITY.name, toJson).apply()
+        }
+    }
+
+    fun getCity(): City? {
+        return fromJson(preferences.getString(Key.WEATHER_CITY.name, "") ?: "")
+    }
+
+    fun clearCity() {
+        preferences.edit().remove(Key.USER.name).apply()
+    }
+}
 
 private val type = object : TypeToken<List<City?>?>() {}.type

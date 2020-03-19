@@ -6,10 +6,15 @@ import androidx.lifecycle.ViewModel
 import com.google.gson.reflect.TypeToken
 import com.lyloou.flow.App
 import com.lyloou.flow.model.City
+import com.lyloou.flow.model.CityHelper
 import com.lyloou.flow.model.gson
 import java.nio.charset.Charset
 
 class CitySelectorViewModel : ViewModel() {
+
+    val key: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
 
     val data: LiveData<List<City>> by lazy {
         getData()
@@ -32,6 +37,10 @@ class CitySelectorViewModel : ViewModel() {
     }
 
     fun filter(filter: String) {
-        list.value = data.value?.filter { it.cityName.contains(filter) }
+        list.value = data.value?.filter { it.cityName.contains(filter) && it.cityCode.isNotEmpty() }
+    }
+
+    fun saveCity(city: City) {
+        CityHelper.saveCity(city)
     }
 }

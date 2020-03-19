@@ -2,11 +2,13 @@ package com.lyloou.flow.util;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -15,6 +17,8 @@ import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.core.graphics.drawable.IconCompat;
 
 import com.lyloou.flow.common.Consumer;
+
+import java.util.List;
 
 public class Uapp {
     public static void handlePackageIntent(Context context, String packageName, Consumer<Intent> intentConsumer) {
@@ -94,4 +98,26 @@ public class Uapp {
         }
     }
 
+    /**
+     * 程序是否在前台运行
+     *
+     * @return
+     */
+    public static boolean isRunOnForeground(Context context) {
+        // Returns a list of application processes that are running on the device
+        ActivityManager activityManager = (ActivityManager) context.getApplicationContext().getSystemService(
+                Context.ACTIVITY_SERVICE);
+        String packageName = context.getApplicationContext().getPackageName();
+
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+        if (appProcesses == null)
+            return false;
+
+
+        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+            Log.i("TTAG", "isRunOnForeground: ${appProcess.processName}:::" + appProcess.processName);
+        }
+
+        return false;
+    }
 }

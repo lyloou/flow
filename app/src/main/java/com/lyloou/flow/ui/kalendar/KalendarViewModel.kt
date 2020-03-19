@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import com.lyloou.flow.model.FlowItemHelper
 import com.lyloou.flow.model.toDbFlow
 import com.lyloou.flow.net.Network
-import com.lyloou.flow.net.defaultScheduler
 import com.lyloou.flow.net.defaultSubscribe
 import com.lyloou.flow.net.flowApi
 import com.lyloou.flow.repository.DbFlow
@@ -25,7 +24,6 @@ class KalendarViewModel(application: Application) : AndroidViewModel(application
     fun loadFromNet(day: String) {
         Network.flowApi()
             .get(day)
-            .defaultScheduler()
             .defaultSubscribe {
                 if (it.err_code == 0) {
                     flow.value = it.data?.toDbFlow()

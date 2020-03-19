@@ -74,7 +74,7 @@ fun interceptor(headers: List<Pair<String, String>>): (Interceptor.Chain) -> Res
 fun <T> Observable<T>.defaultSubscribe(
     onNext: (T) -> Unit
 ): Disposable {
-    return this.subscribe(onNext, { doError(it) })
+    return this.defaultScheduler().subscribe(onNext, { doError(it) })
 }
 
 private fun doError(it: Throwable) {
