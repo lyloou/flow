@@ -23,18 +23,46 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars[0]" />
 
-        <TextView
-            android:id="@+id/tvName"
+        <LinearLayout
+            android:id="@+id/llytContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="start"
-            android:padding="16dp"
-            android:text="TextView"
-            android:textSize="18sp"
+            android:orientation="vertical"
+            android:padding="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="20200319"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tvWeather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:textSize="14sp"
+                tools:text="天气" />
+
+            <TextView
+                android:id="@+id/tvDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:textSize="14sp"
+                android:visibility="gone"
+                tools:text="多么美好的太阳" />
+        </LinearLayout>
+
 
         <ImageView
             android:id="@+id/ivSyncStatus"
@@ -43,9 +71,9 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:contentDescription="@string/not_sync"
-            app:layout_constraintBottom_toBottomOf="@+id/tvName"
-            app:layout_constraintEnd_toEndOf="@+id/tvName"
-            app:layout_constraintTop_toTopOf="@+id/tvName"
+            app:layout_constraintBottom_toBottomOf="@+id/llytContainer"
+            app:layout_constraintEnd_toEndOf="@+id/llytContainer"
+            app:layout_constraintTop_toTopOf="@+id/llytContainer"
             tools:src="@drawable/ic_sync_problem" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -1,5 +1,6 @@
 package com.lyloou.flow.ui.city
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -49,6 +50,8 @@ class CitySelectorActivity : AppCompatActivity(), OnClickItemListener {
     override fun onClick(city: City) {
         viewModel.saveCity(city)
         toast("已选择${city.cityName}")
+
+        setResult(Activity.RESULT_OK)
         onBackPressed()
     }
 

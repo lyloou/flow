@@ -1,6 +1,8 @@
 package com.lyloou.flow.ui.detail
 
+import android.app.Activity
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -42,6 +44,7 @@ import com.lyloou.flow.net.defaultSubscribe
 import com.lyloou.flow.net.getKingSoftwareDaily
 import com.lyloou.flow.net.weatherApi
 import com.lyloou.flow.repository.DbFlow
+import com.lyloou.flow.ui.city.CitySelectorActivity
 import com.lyloou.flow.ui.list.ListViewModel
 import com.lyloou.flow.util.*
 import kotlinx.android.synthetic.main.activity_detail.*
@@ -86,6 +89,17 @@ class DetailActivity : BaseCompatActivity() {
             }
         })
 
+        loadWeather()
+        tvWeather.setOnClickListener {
+            // 当天的才可以修改天气
+            if (day != Utime.getDayWithFormatTwo()) {
+                return@setOnClickListener
+            }
+            startActivityForResult(Intent(context, CitySelectorActivity::class.java), 100)
+        }
+    }
+
+    private fun loadWeather() {
         Network.weatherApi()
             .getWeather(CityHelper.getCity()?.cityCode ?: "101280601")
             .defaultSubscribe {
@@ -106,6 +120,17 @@ class DetailActivity : BaseCompatActivity() {
                     tvWeather.text = sb
                 }
             }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            100 -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    loadWeather()
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun initView() {
