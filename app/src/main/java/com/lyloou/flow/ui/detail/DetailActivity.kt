@@ -13,12 +13,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
 import android.transition.ChangeBounds
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.TimePicker
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.palette.graphics.Palette
@@ -36,6 +38,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.lyloou.flow.R
 import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.Key
+import com.lyloou.flow.databinding.ActivityDetailBinding
 import com.lyloou.flow.model.CityHelper
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.model.FlowItemHelper
@@ -56,11 +59,15 @@ class DetailActivity : BaseCompatActivity() {
     private lateinit var itemList: MutableList<FlowItem>
     private lateinit var adapter: DetailAdapter
     private var handler: Handler = Handler()
+    private lateinit var binding: ActivityDetailBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
+        viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
+        binding.data = viewModel
+        binding.lifecycleOwner = this
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val bounds = ChangeBounds()
@@ -76,20 +83,29 @@ class DetailActivity : BaseCompatActivity() {
     private var observed: Boolean = false
     private fun initData() {
         day = intent?.getStringExtra(Key.DAY.name) ?: Utime.today()
-        viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
         // 没有数据的时候，初始化默认的
         viewModel.getDbFlow(day).observe(this, Observer {
             if (it == null) {
-                viewModel.insertDbFlow(DbFlow(0, -1, day, "[]"))
+                viewModel.insertDbFlow(DbFlow(0, -1, day, "[]", "", ""))
                 return@Observer
             }
             if (!observed) {
                 observed = true
                 initRecyclerView(it.items)
+                initWeatherAndMemo(it)
             }
         })
 
-        loadWeather()
+
+    }
+
+    private fun initWeatherAndMemo(flow: DbFlow) {
+        Log.i("TTAG", "------->: 2222222222:${flow.weather}");
+        if (flow.weather.isEmpty()) {
+            loadWeather()
+        } else {
+        }
+        viewModel.weather.value = flow.weather
         tvWeather.setOnClickListener {
             // 当天的才可以修改天气
             if (day != Utime.getDayWithFormatTwo()) {
@@ -97,6 +113,10 @@ class DetailActivity : BaseCompatActivity() {
             }
             startActivityForResult(Intent(context, CitySelectorActivity::class.java), 100)
         }
+
+        viewModel.memo.observe(this, Observer {
+            viewModel.updateDbFlowMemo(day, it)
+        })
     }
 
     private fun loadWeather() {
@@ -117,7 +137,8 @@ class DetailActivity : BaseCompatActivity() {
                         .append(" ~ ")
                         .append(fb.high)
                         .append(") ")
-                    tvWeather.text = sb
+                    viewModel.weather.value = sb.toString()
+                    viewModel.updateDbFlowWeather(day, sb.toString())
                 }
             }
     }

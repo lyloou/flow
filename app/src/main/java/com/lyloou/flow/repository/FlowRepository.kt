@@ -40,6 +40,26 @@ class FlowRepository(private val context: Context) {
         WorkManager.getInstance(context).enqueue(workRequest)
     }
 
+    fun updateDbFlowsWeather(day: String, weather: String) {
+        val workRequest = OneTimeWorkRequestBuilder<UpdateDbFlowWeatherWork>().setInputData(
+            Data.Builder()
+                .putString(Keys.DAY, day)
+                .putString(Keys.WEATHER, weather)
+                .build()
+        ).build()
+        WorkManager.getInstance(context).enqueue(workRequest)
+    }
+
+    fun updateDbFlowsMemo(day: String, memo: String) {
+        val workRequest = OneTimeWorkRequestBuilder<UpdateDbFlowMemoWork>().setInputData(
+            Data.Builder()
+                .putString(Keys.DAY, day)
+                .putString(Keys.MEMO, memo)
+                .build()
+        ).build()
+        WorkManager.getInstance(context).enqueue(workRequest)
+    }
+
     fun updateDbFlowsSyncStatus(days: Array<String>, status: Boolean) {
         val workRequest = OneTimeWorkRequestBuilder<UpdateDbFlowSyncStatusWork>().setInputData(
             Data.Builder()
@@ -49,7 +69,6 @@ class FlowRepository(private val context: Context) {
         ).build()
         WorkManager.getInstance(context).enqueue(workRequest)
     }
-
 
     fun insertDbFlow(vararg dbFlows: DbFlow) {
         InsertAsyncTask(flowDao).execute(*dbFlows)
@@ -97,12 +116,14 @@ class FlowRepository(private val context: Context) {
     }
 
     object Keys {
-        const val SYNCED = "synced"
-        const val DAY = "day"
+        const val SYNCED = "SYNCED"
+        const val DAY = "DAY"
         const val ITEMS = "ITEMS"
+        const val WEATHER = "WEATHER"
+        const val MEMO = "MEMO"
 
-        const val DAYS = "days"
-        const val STATUS = "status"
+        const val DAYS = "DAYS"
+        const val STATUS = "STATUS"
     }
 
     class UpdateFlowItemsWork(
@@ -133,6 +154,42 @@ class FlowRepository(private val context: Context) {
             val status = workerParameters.inputData.getBoolean(Keys.STATUS, false)
             val flowDao = FlowDatabase.getInstance(context).flowDao()
             val nums = flowDao.updateDbFlowSyncStatus(days!!.toList(), status)
+            if (nums >= 0) {
+                Result.success()
+            } else {
+                Result.failure()
+            }
+        }
+    }
+
+    class UpdateDbFlowWeatherWork(
+        private val context: Context,
+        private val workerParameters: WorkerParameters
+    ) : CoroutineWorker(context, workerParameters) {
+        override suspend fun doWork(): Result = coroutineScope {
+            val day = workerParameters.inputData.getString(Keys.DAY)
+            val weather = workerParameters.inputData.getString(Keys.WEATHER)
+
+            val flowDao = FlowDatabase.getInstance(context).flowDao()
+            val nums = flowDao.updateDbFlowWeather(day!!, weather ?: "")
+            if (nums >= 0) {
+                Result.success()
+            } else {
+                Result.failure()
+            }
+        }
+    }
+
+    class UpdateDbFlowMemoWork(
+        private val context: Context,
+        private val workerParameters: WorkerParameters
+    ) : CoroutineWorker(context, workerParameters) {
+        override suspend fun doWork(): Result = coroutineScope {
+            val day = workerParameters.inputData.getString(Keys.DAY)
+            val memo = workerParameters.inputData.getString(Keys.MEMO)
+
+            val flowDao = FlowDatabase.getInstance(context).flowDao()
+            val nums = flowDao.updateDbFlowMemo(day!!, memo ?: "")
             if (nums >= 0) {
                 Result.success()
             } else {

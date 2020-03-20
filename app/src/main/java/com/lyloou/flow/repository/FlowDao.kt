@@ -35,4 +35,10 @@ interface FlowDao {
 
     @Query("UPDATE  $TABLE_FLOW SET $COL_FLOW_IS_SYNCED=:status WHERE $COL_FLOW_DAY in (:days)")
     fun updateDbFlowSyncStatus(days: List<String>, status: Boolean): Int
+
+    @Query("UPDATE  $TABLE_FLOW SET $COL_FLOW_WEATHER=:weather WHERE $COL_FLOW_DAY=:day")
+    fun updateDbFlowWeather(day: String, weather: String): Int
+
+    @Query("UPDATE  $TABLE_FLOW SET $COL_FLOW_MEMO=:memo WHERE $COL_FLOW_DAY=:day")
+    fun updateDbFlowMemo(day: String, memo: String): Int
 }

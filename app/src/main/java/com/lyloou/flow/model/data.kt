@@ -15,6 +15,8 @@ data class FlowReq(
     val userId: Long,
     val day: String,
     val item: String? = null,
+    val weather: String? = null,
+    val memo: String? = null,
     val isArchived: Boolean = false,
     val isDisabled: Boolean = false
 )
@@ -23,6 +25,8 @@ data class FlowRep(
     val userId: Long,
     val day: String,
     val item: String? = null,
+    val weather: String? = null,
+    val memo: String? = null,
     @SerializedName("is_archived")
     val isArchived: Boolean = false,
     @SerializedName("is_disabled")
@@ -45,6 +49,8 @@ fun FlowRep.toDbFlow(): DbFlow {
         userId,
         day,
         item ?: "[]",
+        weather ?: "",
+        memo ?: "",
         isArchived,
         isDisabled,
         true

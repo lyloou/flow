@@ -3,6 +3,7 @@ package com.lyloou.flow.ui.list
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.model.FlowItemHelper
@@ -15,6 +16,14 @@ import com.lyloou.flow.repository.toFlowRq
 import com.lyloou.flow.util.Ulist
 
 class ListViewModel(application: Application) : AndroidViewModel(application) {
+    val memo: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+
+    val weather: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+
     private val flowRepository = FlowRepository.getInstance(application)
     val activeDbFlowList: LiveData<PagedList<DbFlow>> by lazy {
         flowRepository.getActivePagedList()
@@ -35,6 +44,14 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
         val items = FlowItemHelper.toJsonArray(itemList)
         flowRepository.updateDbFlowItems(day, items)
         flowRepository.updateDbFlowsSyncStatus(arrayOf(day), false)
+    }
+
+    fun updateDbFlowWeather(day: String, weather: String) {
+        flowRepository.updateDbFlowsWeather(day, weather)
+    }
+
+    fun updateDbFlowMemo(day: String, memo: String) {
+        flowRepository.updateDbFlowsMemo(day, memo)
     }
 
     fun syncFlows(data: MutableList<DbFlow>, syncListener: SyncListener) {
