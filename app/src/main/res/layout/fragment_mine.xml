@@ -101,7 +101,7 @@
                         android:layout_weight="1"
                         android:gravity="center|start"
                         android:text="关注疫情"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="36dp"
@@ -144,7 +144,7 @@
                         android:layout_weight="1"
                         android:gravity="center|start"
                         android:text="我的网站"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="36dp"
@@ -188,7 +188,7 @@
                         android:layout_weight="1"
                         android:gravity="center|start"
                         android:text="设置"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="36dp"
@@ -231,7 +231,7 @@
                         android:layout_weight="1"
                         android:gravity="center|start"
                         android:text="关于我们"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="36dp"
