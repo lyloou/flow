@@ -36,7 +36,9 @@ class ListAdapter : PagedListAdapter<DbFlow, ListAdapter.MyViewHolder>(DIFF_CALL
     }
 
     class MyViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        val textView: TextView = itemView.findViewById(R.id.tvName)
+        val tvName: TextView = itemView.findViewById(R.id.tvName)
+        val tvWeather: TextView = itemView.findViewById(R.id.tvWeather)
+        val tvMemo: TextView = itemView.findViewById(R.id.tvMemo)
         val imageView: ImageView = itemView.findViewById(R.id.imageView)
         val ivSyncStatus: ImageView = itemView.findViewById(R.id.ivSyncStatus)
     }
@@ -50,7 +52,18 @@ class ListAdapter : PagedListAdapter<DbFlow, ListAdapter.MyViewHolder>(DIFF_CALL
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         getItem(position)?.let { flow ->
             val day = flow.day
-            holder.textView.text = day
+            with(holder) {
+                this.tvName.text = day
+                var weather = flow.weather.replace("高温", "").replace("低温", "")
+                this.tvWeather.text = weather
+                this.tvWeather.visibility =
+                    if (weather.isNotEmpty()) View.VISIBLE else View.GONE
+
+                this.tvMemo.text = flow.memo
+                this.tvMemo.visibility =
+                    if (flow.memo.isNotEmpty()) View.VISIBLE else View.GONE
+            }
+
             Glide.with(holder.imageView.context)
                 .load(ImageHelper.getBigImage(day))
                 .into(holder.imageView)

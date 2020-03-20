@@ -13,7 +13,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
 import android.transition.ChangeBounds
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -100,24 +99,25 @@ class DetailActivity : BaseCompatActivity() {
     }
 
     private fun initWeatherAndMemo(flow: DbFlow) {
-        Log.i("TTAG", "------->: 2222222222:${flow.weather}");
-        if (flow.weather.isEmpty()) {
-            loadWeather()
-        } else {
-        }
         viewModel.weather.value = flow.weather
+        if (flow.weather.isEmpty() && isToday()) {
+            loadWeather()
+        }
         tvWeather.setOnClickListener {
             // 当天的才可以修改天气
-            if (day != Utime.getDayWithFormatTwo()) {
+            if (!isToday()) {
                 return@setOnClickListener
             }
             startActivityForResult(Intent(context, CitySelectorActivity::class.java), 100)
         }
 
+        viewModel.memo.value = flow.memo
         viewModel.memo.observe(this, Observer {
             viewModel.updateDbFlowMemo(day, it)
         })
     }
+
+    private fun isToday() = day == Utime.getDayWithFormatTwo()
 
     private fun loadWeather() {
         Network.weatherApi()
