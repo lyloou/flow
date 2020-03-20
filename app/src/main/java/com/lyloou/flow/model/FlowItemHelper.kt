@@ -20,6 +20,10 @@ object FlowItemHelper {
         return gson.fromJson(items, type)
     }
 
+    fun toPrettyText(items: String?): String {
+        return toPrettyText(fromJsonArray(items))
+    }
+
     fun toPrettyText(items: List<FlowItem>?): String {
         if (items == null) {
             return ""
