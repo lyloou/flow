@@ -33,12 +33,15 @@ class FlowNetWork(
                         Log.i("TTAG", "get data:${it.data}")
 
                         val database = FlowDatabase.getInstance(applicationContext)
-                        database.clearAllTables()
                         val flowDao = database.flowDao()
-                        flowDao.insertDbFlows(
-                            *(it.data?.map { data -> data.toDbFlow() }
-                                ?: emptyList()).toTypedArray()
-                        )
+
+                        val listOrigin = (it.data?.map { data -> data.toDbFlow() } ?: emptyList())
+                        val listLocal = flowDao.getAllDbFlow()
+
+                        val newList = getNewList(listLocal.toList(), listOrigin)
+
+                        database.clearAllTables()
+                        flowDao.insertDbFlows(*newList.toTypedArray())
                         latch.countDown()
                     }
                 }, { throwable ->
@@ -52,4 +55,9 @@ class FlowNetWork(
                 Result.failure()
             }
         }
+
+    private fun getNewList(listLocal: List<DbFlow>, listOrigin: List<DbFlow>): List<DbFlow> {
+        return listOrigin
+    }
+
 }

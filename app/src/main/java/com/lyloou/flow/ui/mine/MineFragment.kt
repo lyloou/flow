@@ -10,10 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.lyloou.flow.R
 import com.lyloou.flow.databinding.FragmentMineBinding
-import com.lyloou.flow.model.Cache
 import com.lyloou.flow.model.DEFAULT_USER
 import com.lyloou.flow.model.UserHelper
-import com.lyloou.flow.repository.FlowDatabase
 import com.lyloou.flow.ui.login.LoginActivity
 import com.lyloou.flow.ui.setting.SettingsActivity
 import com.lyloou.flow.ui.web.NormalWebViewActivity
@@ -52,11 +50,7 @@ class MineFragment : Fragment() {
                 startActivity(Intent(context, LoginActivity::class.java))
                 return@setOnClickListener
             }
-            Cache.clear()
-            viewModel.refreshData()
-            Thread {
-                FlowDatabase.getInstance(context!!.applicationContext).clearAllTables()
-            }.start()
+
         }
 
         cvFollow.setOnClickListener {

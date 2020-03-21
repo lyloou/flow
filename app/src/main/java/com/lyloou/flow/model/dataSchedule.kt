@@ -38,4 +38,8 @@ object ScheduleHelper {
     fun saveSchedule(value: Schedule) {
         preferences.edit().putString(Key.SCHEDULE.name, value.toJson()).apply()
     }
+
+    fun clearSchedule() {
+        preferences.edit().remove(Key.SCHEDULE.name).apply()
+    }
 }

@@ -30,6 +30,9 @@ interface FlowDao {
     @Query("SELECT * FROM $TABLE_FLOW WHERE $COL_FLOW_IS_SYNCED = :status")
     fun getAllDbFlowBySyncStatus(status: Boolean): LiveData<MutableList<DbFlow>>
 
+    @Query("SELECT * FROM $TABLE_FLOW")
+    fun getAllDbFlow(): Array<DbFlow>
+
     @Query("UPDATE  $TABLE_FLOW SET $COL_FLOW_ITEMS=:items WHERE $COL_FLOW_DAY = :day")
     fun updateDbFlowItems(day: String, items: String): Int
 
