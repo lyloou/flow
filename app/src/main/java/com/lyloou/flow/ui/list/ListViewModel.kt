@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.model.FlowItemHelper
+import com.lyloou.flow.model.UserHelper
 import com.lyloou.flow.net.Network
 import com.lyloou.flow.net.defaultScheduler
 import com.lyloou.flow.net.flowApi
@@ -48,10 +49,17 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
 
     fun updateDbFlowWeather(day: String, weather: String) {
         flowRepository.updateDbFlowsWeather(day, weather)
+        flowRepository.updateDbFlowsSyncStatus(arrayOf(day), false)
     }
 
     fun updateDbFlowMemo(day: String, memo: String) {
         flowRepository.updateDbFlowsMemo(day, memo)
+        flowRepository.updateDbFlowsSyncStatus(arrayOf(day), false)
+    }
+
+    fun updateDbFlowArchiveStatus(days: Array<String>, archived: Boolean) {
+        flowRepository.updateDbFlowsArchivedStatus(days, archived)
+        flowRepository.updateDbFlowsSyncStatus(days, false)
     }
 
     fun syncFlows(data: MutableList<DbFlow>, syncListener: SyncListener) {
@@ -61,7 +69,10 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
         var failNum = 0;
         var failMemo = ""
         for (list in partition) {
-            val flowReqs = list.map { it.toFlowRq() }.toList()
+            val flowReqs = list.map {
+                it.userId = UserHelper.getUser().id
+                it.toFlowRq()
+            }.toList()
             Network.flowApi()
                 .batchSync(flowReqs)
                 .defaultScheduler()

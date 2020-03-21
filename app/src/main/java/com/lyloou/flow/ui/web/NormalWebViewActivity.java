@@ -48,6 +48,7 @@ import com.lyloou.flow.util.Udialog;
 import com.lyloou.flow.util.Usp;
 import com.lyloou.flow.util.Uview;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -61,7 +62,7 @@ import java.util.Objects;
  */
 
 public class NormalWebViewActivity extends AppCompatActivity {
-    public static final String TEST_AUTHORITY = "com.lyloou.test.fileprovider";
+    public static final String TEST_AUTHORITY = "com.lyloou.flow.fileprovider";
     private static final int MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE2 = 1;
     public static final String EXTRA_URL = "url";
     public static final String EXTRA_IS_DOWNLOAD = "isDownload";
@@ -265,7 +266,7 @@ public class NormalWebViewActivity extends AppCompatActivity {
                     break;
                 case DownloadManager.STATUS_SUCCESSFUL:
                     title = "下载完成";
-                    installAPK(mContext, TEST_AUTHORITY);
+                    installAPK(mContext);
                     break;
                 case DownloadManager.STATUS_FAILED:
                     title = "下载失败";
@@ -283,7 +284,7 @@ public class NormalWebViewActivity extends AppCompatActivity {
     }
 
     //下载到本地后执行安装
-    private void installAPK(Activity activity, String authority) {
+    private void installAPK(Activity activity) {
         Intent intent = new Intent();
         File apkFile = queryDownloadedFile();
         if (!apkFile.getName().endsWith(".apk")) { // 非apk文件不做处理
@@ -294,7 +295,7 @@ public class NormalWebViewActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             //7.0启动姿势<pre name="code" class="html">
             // com.xxx.xxx.fileprovider为上述manifest中provider所配置相同；apkFile为问题1中的外部存储apk文件</pre>
-            uri = FileProvider.getUriForFile(activity, authority, apkFile);
+            uri = FileProvider.getUriForFile(activity, NormalWebViewActivity.TEST_AUTHORITY, apkFile);
             intent.setAction(Intent.ACTION_INSTALL_PACKAGE);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);//7.0以后，系统要求授予临时uri读取权限，安装完毕以后，系统会自动收回权限，次过程没有用户交互
         } else {//7.0以下启动姿势
@@ -317,7 +318,7 @@ public class NormalWebViewActivity extends AppCompatActivity {
                 if (cur.moveToFirst()) {
                     String uriString = cur.getString(cur.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
                     if (!uriString.isEmpty()) {
-                        file = new File(Uri.parse(uriString).getPath());
+                        file = new File(Objects.requireNonNull(Uri.parse(uriString).getPath()));
                     }
                 }
                 cur.close();
@@ -328,16 +329,7 @@ public class NormalWebViewActivity extends AppCompatActivity {
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE2: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permission granted
-                } else {
-                    // Permission denied
-                }
-            }
-        }
+    public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
     }
 
 

@@ -8,9 +8,9 @@
         android:title="添加"
         app:showAsAction="always" />
     <item
-        android:id="@+id/list"
-        android:icon="@drawable/ic_view_list"
-        android:title="列表"
+        android:id="@+id/home"
+        android:icon="@drawable/ic_home"
+        android:title="首页"
         app:showAsAction="always" />
     <item
         android:id="@+id/copy"

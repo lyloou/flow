@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +33,8 @@ class ListAdapter : PagedListAdapter<DbFlow, ListAdapter.MyViewHolder>(DIFF_CALL
 
         }
     }
+
+    var onItemLongClickListener: OnItemLongClickListener? = null
 
     class MyViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val tvName: TextView = itemView.findViewById(R.id.tvName)
@@ -71,24 +72,30 @@ class ListAdapter : PagedListAdapter<DbFlow, ListAdapter.MyViewHolder>(DIFF_CALL
             holder.itemView.setOnClickListener {
                 doOnClickItem(flow, holder.imageView)
             }
+            holder.itemView.setOnLongClickListener {
+                onItemLongClickListener?.invoke(flow)
+                true
+            }
             holder.ivSyncStatus.setImageResource(if (flow.isSynced) 0 else R.drawable.ic_sync_problem)
         }
     }
 
     private fun doOnClickItem(flow: DbFlow, imageView: ImageView) {
-        Log.i("TTAG", "synced?: ${flow.toString()}");
         val intent = Intent(imageView.context, DetailActivity::class.java)
-        var day = flow.day
-        intent.putExtra(Key.DAY.name, day)
+        intent.putExtra(Key.DAY.name, flow.day)
 
         var options: ActivityOptions? = null
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             options = ActivityOptions.makeSceneTransitionAnimation(
                 imageView.context as Activity,
                 imageView,
-                day
+                flow.day
             )
         }
         imageView.context.startActivity(intent, options?.toBundle())
     }
+}
+
+interface OnItemLongClickListener {
+    operator fun invoke(flow: DbFlow);
 }

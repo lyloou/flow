@@ -16,6 +16,7 @@ class FlowNetWork(
     workerParameters: WorkerParameters
 ) : CoroutineWorker(context, workerParameters) {
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun doWork(): Result =
         coroutineScope {
             val latch = CountDownLatch(1)
@@ -44,6 +45,7 @@ class FlowNetWork(
                     Log.e("TTAG", "error occur:", throwable)
                     latch.countDown()
                 })
+            latch.await()
             if (isOk) {
                 Result.success()
             } else {

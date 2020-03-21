@@ -6,7 +6,9 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.*
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -24,20 +26,27 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.lyloou.flow.R
+import com.lyloou.flow.extension.snackbar
 import com.lyloou.flow.model.Daily
+import com.lyloou.flow.model.UserHelper
 import com.lyloou.flow.net.getKingSoftwareDaily
 import com.lyloou.flow.repository.DbFlow
+import com.lyloou.flow.repository.toPrettyText
 import com.lyloou.flow.ui.detail.DetailActivity
 import com.lyloou.flow.ui.kalendar.KalendarActivity
-import com.lyloou.flow.ui.web.NormalWebViewActivity
+import com.lyloou.flow.ui.login.LoginActivity
 import com.lyloou.flow.util.Uapp
 import com.lyloou.flow.util.Ucolor
+import com.lyloou.flow.util.Udialog
+import com.lyloou.flow.util.Usystem
 import com.lyloou.flow.widget.TitleViewPagerAdapter
 import kotlinx.android.synthetic.main.fragment_list.*
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), OnItemLongClickListener {
 
     private lateinit var viewModel: ListViewModel
+    private lateinit var partActive: Part
+    private lateinit var partArchived: Part
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,8 +61,25 @@ class ListFragment : Fragment() {
         setHasOptionsMenu(true)
         viewModel = ViewModelProviders.of(requireActivity()).get(ListViewModel::class.java)
         initView()
-        val partActive = Part(context, "进行中")
-        val partArchived = Part(context, "已归档")
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initToolbar()
+    }
+
+    private fun initToolbar() {
+        val appCompatActivity = activity as AppCompatActivity
+        appCompatActivity.setSupportActionBar(toolbar);
+        appCompatActivity.supportActionBar?.title = resources.getString(R.string.app_name);
+    }
+
+    private fun initView() {
+        partActive = Part(context, "进行中")
+        partArchived = Part(context, "已归档")
+        partActive.adapter.onItemLongClickListener = this
+        partArchived.adapter.onItemLongClickListener = this
 
         viewModel.activeDbFlowList.observe(requireActivity(), Observer {
             it?.let {
@@ -74,20 +100,7 @@ class ListFragment : Fragment() {
         tabLayout.setupWithViewPager(vpFlow)
         tabLayout.tabMode = TabLayout.MODE_FIXED
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
-    }
 
-    override fun onResume() {
-        super.onResume()
-        initToolbar()
-    }
-
-    private fun initToolbar() {
-        val appCompatActivity = activity as AppCompatActivity
-        appCompatActivity.setSupportActionBar(toolbar);
-        appCompatActivity.supportActionBar?.title = resources.getString(R.string.app_name);
-    }
-
-    private fun initView() {
         collapsing_toolbar_layout.setExpandedTitleColor(Color.TRANSPARENT)
         collapsing_toolbar_layout.setCollapsedTitleTextColor(Color.WHITE)
 
@@ -171,6 +184,14 @@ class ListFragment : Fragment() {
     }
 
     private fun syncData() {
+        if (UserHelper.getUser().id == 0L) {
+            snackbar("还没登录哦")
+                .setAction("去登录") {
+                    toLogin()
+                }
+                .show()
+            return
+        }
         var synced = false
         viewModel.getDbFlowsBySyncStatus(false)
             .observe(requireActivity(), Observer {
@@ -184,6 +205,10 @@ class ListFragment : Fragment() {
                 }
                 showSyncDialog(it)
             })
+    }
+
+    private fun toLogin() {
+        startActivity(Intent(context, LoginActivity::class.java))
     }
 
     @SuppressLint("InflateParams")
@@ -229,17 +254,30 @@ class ListFragment : Fragment() {
             requireActivity(),
             DetailActivity::class.java.canonicalName,
             "flow_time_day",
-            R.mipmap.ic_launcher_round,
+            R.mipmap.lyloou,
             resources.getString(R.string.flow_time_day)
         )
-        val snackbar: Snackbar =
-            Snackbar.make(requireView(), "已添加到桌面", Snackbar.LENGTH_LONG)
-        snackbar.setAction("了解详情") {
-            NormalWebViewActivity.newInstance(
-                context,
-                "https://kf.qq.com/touch/sappfaq/180705A3IB3Y1807056fMr6V.html"
-            )
+        val snackbar: Snackbar = snackbar("已添加到桌面", Snackbar.LENGTH_LONG)
+        snackbar.setAction("添加失败？去授权") {
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.data = Uri.fromParts("package", context!!.packageName, null);
+            startActivity(intent);
         }
         snackbar.show()
+    }
+
+    override fun invoke(flow: DbFlow) {
+        val content = if (flow.isArchived) "恢复到进行中" else "加入归档"
+        Udialog.AlertMultiItem.builder(context)
+            .add("复制内容") {
+                Usystem.copyString(context!!, flow.toPrettyText())
+                snackbar("已复制到剪切板").show()
+            }
+            .add(content) {
+                viewModel.updateDbFlowArchiveStatus(arrayOf(flow.day), !flow.isArchived)
+                snackbar("已$content").show()
+            }
+            .show()
     }
 }

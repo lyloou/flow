@@ -88,9 +88,7 @@ class HomeFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_kalendar -> {
 
-            }
         }
         return super.onOptionsItemSelected(item)
     }

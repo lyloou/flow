@@ -34,6 +34,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.snackbar.Snackbar
+import com.lyloou.flow.MainActivity
 import com.lyloou.flow.R
 import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.Key
@@ -41,6 +42,7 @@ import com.lyloou.flow.databinding.ActivityDetailBinding
 import com.lyloou.flow.model.CityHelper
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.model.FlowItemHelper
+import com.lyloou.flow.model.UserHelper
 import com.lyloou.flow.net.Network
 import com.lyloou.flow.net.defaultSubscribe
 import com.lyloou.flow.net.getKingSoftwareDaily
@@ -85,7 +87,7 @@ class DetailActivity : BaseCompatActivity() {
         // 没有数据的时候，初始化默认的
         viewModel.getDbFlow(day).observe(this, Observer {
             if (it == null) {
-                viewModel.insertDbFlow(DbFlow(0, -1, day, "[]", "", ""))
+                viewModel.insertDbFlow(DbFlow(0, UserHelper.getUser().id, day, "[]", "", ""))
                 return@Observer
             }
             if (!observed) {
@@ -285,6 +287,9 @@ class DetailActivity : BaseCompatActivity() {
             R.id.add -> {
                 addNewItem()
             }
+            R.id.home -> {
+                toHome()
+            }
             R.id.copy -> {
                 Usystem.doCopy(this, day, itemList, false)
             }
@@ -296,6 +301,11 @@ class DetailActivity : BaseCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun toHome() {
+        val intent = Intent(context, MainActivity::class.java)
+        startActivity(intent)
     }
 
     private fun delayUpdateDb() {

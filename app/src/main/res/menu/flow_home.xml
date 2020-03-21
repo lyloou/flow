@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_event_list"
+        android:icon="@drawable/ic_view_list"
         android:title="列表"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/menu_event_sync"
         android:title="同步数据" />

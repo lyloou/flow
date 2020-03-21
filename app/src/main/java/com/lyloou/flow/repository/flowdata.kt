@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.lyloou.flow.model.FlowItemHelper
 import com.lyloou.flow.model.FlowReq
 
 const val TABLE_FLOW = "flow"
@@ -24,7 +25,7 @@ data class DbFlow(
     val id: Int,
 
     @ColumnInfo(name = COL_FLOW_USER_ID)
-    val userId: Long,
+    var userId: Long,
 
     @ColumnInfo(name = COL_FLOW_DAY)
     val day: String,
@@ -57,3 +58,14 @@ fun DbFlow.toFlowRq(): FlowReq = FlowReq(
     isArchived,
     isDisabled
 )
+
+fun DbFlow.toPrettyText(): String = StringBuilder().apply {
+    append(day)
+    append("\n")
+    append(weather)
+    append("\n")
+    append(memo)
+    append("\n")
+    append(FlowItemHelper.toPrettyText(items))
+    append("\n")
+}.toString()

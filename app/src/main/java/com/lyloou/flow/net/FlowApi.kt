@@ -18,9 +18,6 @@ interface FlowApi {
     @GET("list")
     fun list(@Query("limit") limit: Int = 10, @Query("offset") offset: Int = 0): Observable<FlowListResult>
 
-    @POST("sync")
-    fun sync(@Body flowReq: FlowReq): Observable<CommonResult>
-
     @POST("batch_sync")
     fun batchSync(@Body flowReqs: List<FlowReq>): Observable<CommonResult>
 }

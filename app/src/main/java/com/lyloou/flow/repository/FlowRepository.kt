@@ -70,6 +70,16 @@ class FlowRepository(private val context: Context) {
         WorkManager.getInstance(context).enqueue(workRequest)
     }
 
+    fun updateDbFlowsArchivedStatus(days: Array<String>, status: Boolean) {
+        val workRequest = OneTimeWorkRequestBuilder<UpdateDbFlowArchivedStatusWork>().setInputData(
+            Data.Builder()
+                .putStringArray(Keys.DAYS, days)
+                .putBoolean(Keys.STATUS, status)
+                .build()
+        ).build()
+        WorkManager.getInstance(context).enqueue(workRequest)
+    }
+
     fun insertDbFlow(vararg dbFlows: DbFlow) {
         InsertAsyncTask(flowDao).execute(*dbFlows)
     }
@@ -154,6 +164,26 @@ class FlowRepository(private val context: Context) {
             val status = workerParameters.inputData.getBoolean(Keys.STATUS, false)
             val flowDao = FlowDatabase.getInstance(context).flowDao()
             val nums = flowDao.updateDbFlowSyncStatus(days!!.toList(), status)
+            if (nums >= 0) {
+                Result.success()
+            } else {
+                Result.failure()
+            }
+        }
+    }
+
+    class UpdateDbFlowArchivedStatusWork(
+        private val context: Context,
+        private val workerParameters: WorkerParameters
+    ) : CoroutineWorker(context, workerParameters) {
+        override suspend fun doWork(): Result = coroutineScope {
+            val days = workerParameters.inputData.getStringArray(Keys.DAYS)
+            if (days == null || days.isEmpty()) {
+                Result.failure()
+            }
+            val status = workerParameters.inputData.getBoolean(Keys.STATUS, false)
+            val flowDao = FlowDatabase.getInstance(context).flowDao()
+            val nums = flowDao.updateDbFlowArchivedStatus(days!!.toList(), status)
             if (nums >= 0) {
                 Result.success()
             } else {

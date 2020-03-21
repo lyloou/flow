@@ -52,8 +52,8 @@ fun FlowRep.toDbFlow(): DbFlow {
         weather ?: "",
         memo ?: "",
         isArchived,
-        isDisabled,
-        true
+        true,
+        isDisabled
     )
 }
 
