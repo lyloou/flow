@@ -61,7 +61,9 @@ class SettingsActivity : BaseCompatActivity() {
                 "clearAll" -> clearAll()
             }
 
-            toast("已经${preference.summary}")
+            if (preference.key != "city") {
+                toast("已清除")
+            }
             return true
         }
 
