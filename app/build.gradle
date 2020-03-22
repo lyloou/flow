@@ -20,12 +20,51 @@ android {
 
         multiDexEnabled true  //ADD THIS LINE
     }
+
+    def fileDebug = file(rootDir.getAbsolutePath() + '/keyDebug.properties')
+    def fileRelease = file(rootDir.getAbsolutePath() + '/keyRelease.properties')
+    if (fileDebug.canRead() || fileRelease.canRead()) {
+        Properties propDebug = new Properties()
+        propDebug.load(new FileInputStream(fileRelease.canRead() ? fileRelease : fileDebug))
+        signingConfigs {
+            sign {
+                storeFile file(propDebug['storeFile'])
+                keyAlias propDebug['alias']
+                keyPassword propDebug['keyPassword']
+                storePassword propDebug['storePassword']
+                v2SigningEnabled propDebug['v2Enable'] as boolean
+            }
+        }
+    } else {
+        throw new GradleException("Could not read keyXXX.properties!")
+    }
+
     buildTypes {
-        release {
+        debug {
+            debuggable true
+            applicationIdSuffix ".debug"
+            signingConfig signingConfigs.sign // 密钥配置
+            shrinkResources false // 删除不必要的源文件
+            zipAlignEnabled false // 压缩对齐
             minifyEnabled false
+        }
+
+        release {
+            debuggable false
+            signingConfig signingConfigs.sign // 密钥配置
+            shrinkResources true // 删除不必要的源文件
+            zipAlignEnabled true // 压缩对齐
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "FLOW_${releaseTime()}_V${defaultConfig.versionName}.apk"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -34,6 +73,10 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+}
+
+static def releaseTime() {
+    return new Date().format("yyyMMdd_HHmm", TimeZone.getTimeZone("GMT+8"))
 }
 
 dependencies {

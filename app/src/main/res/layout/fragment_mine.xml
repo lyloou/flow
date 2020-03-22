@@ -60,9 +60,8 @@
                     android:id="@+id/ivAvatar"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    app:layout_constraintBottom_toTopOf="@+id/guideline7"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/guideline6"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:profileImage="@{data.user.avatar}"
                     app:srcCompat="@drawable/ic_very_satisfied" />
 
