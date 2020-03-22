@@ -115,8 +115,15 @@ class DetailActivity : BaseCompatActivity() {
 
         viewModel.memo.value = flow.memo
         viewModel.memo.observe(this, Observer {
-            viewModel.updateDbFlowMemo(day, it)
+            if (it.isNotEmpty()) {
+                delayUpdateMemo()
+            }
         })
+    }
+
+    private fun delayUpdateMemo() {
+        handler.removeCallbacks(updateDbMemo)
+        handler.postDelayed(updateDbMemo, 800)
     }
 
     private fun isToday() = day == Utime.getDayWithFormatTwo()
@@ -275,6 +282,9 @@ class DetailActivity : BaseCompatActivity() {
 
     private val updateDbTask = Runnable {
         viewModel.updateDbFlowItems(day, itemList)
+    }
+    private val updateDbMemo = Runnable {
+        viewModel.updateDbFlowMemo(day, viewModel.memo.value ?: "")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

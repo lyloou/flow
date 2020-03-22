@@ -106,4 +106,8 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
         return flowRepository.getDbFlowsBySyncStatus(status)
     }
 
+    fun deleteDbFlow(vararg dbFlow: DbFlow) {
+        flowRepository.deleteDbFlow(*dbFlow)
+    }
+
 }

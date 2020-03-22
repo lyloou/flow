@@ -5,7 +5,10 @@ import android.os.AsyncTask
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import androidx.work.*
+import androidx.work.CoroutineWorker
+import androidx.work.Data
+import androidx.work.WorkerParameters
+import com.lyloou.flow.common.enqueueWork
 import kotlinx.coroutines.coroutineScope
 
 class FlowRepository(private val context: Context) {
@@ -31,57 +34,51 @@ class FlowRepository(private val context: Context) {
     }
 
     fun updateDbFlowItems(day: String, items: String) {
-        val workRequest = OneTimeWorkRequestBuilder<UpdateFlowItemsWork>().setInputData(
-            Data.Builder()
-                .putString(Keys.DAY, day)
-                .putString(Keys.ITEMS, items)
-                .build()
-        ).build()
-        WorkManager.getInstance(context).enqueue(workRequest)
+        val data = Data.Builder()
+            .putString(Keys.DAY, day)
+            .putString(Keys.ITEMS, items)
+            .build()
+        enqueueWork<UpdateFlowItemsWork>(context, data)
     }
 
     fun updateDbFlowsWeather(day: String, weather: String) {
-        val workRequest = OneTimeWorkRequestBuilder<UpdateDbFlowWeatherWork>().setInputData(
-            Data.Builder()
-                .putString(Keys.DAY, day)
-                .putString(Keys.WEATHER, weather)
-                .build()
-        ).build()
-        WorkManager.getInstance(context).enqueue(workRequest)
+        val data = Data.Builder()
+            .putString(Keys.DAY, day)
+            .putString(Keys.WEATHER, weather)
+            .build()
+        enqueueWork<UpdateDbFlowWeatherWork>(context, data)
     }
 
     fun updateDbFlowsMemo(day: String, memo: String) {
-        val workRequest = OneTimeWorkRequestBuilder<UpdateDbFlowMemoWork>().setInputData(
-            Data.Builder()
-                .putString(Keys.DAY, day)
-                .putString(Keys.MEMO, memo)
-                .build()
-        ).build()
-        WorkManager.getInstance(context).enqueue(workRequest)
+        val data = Data.Builder()
+            .putString(Keys.DAY, day)
+            .putString(Keys.MEMO, memo)
+            .build()
+        enqueueWork<UpdateDbFlowMemoWork>(context, data)
     }
 
     fun updateDbFlowsSyncStatus(days: Array<String>, status: Boolean) {
-        val workRequest = OneTimeWorkRequestBuilder<UpdateDbFlowSyncStatusWork>().setInputData(
-            Data.Builder()
-                .putStringArray(Keys.DAYS, days)
-                .putBoolean(Keys.STATUS, status)
-                .build()
-        ).build()
-        WorkManager.getInstance(context).enqueue(workRequest)
+        val data = Data.Builder()
+            .putStringArray(Keys.DAYS, days)
+            .putBoolean(Keys.STATUS, status)
+            .build()
+        enqueueWork<UpdateDbFlowSyncStatusWork>(context, data)
     }
 
     fun updateDbFlowsArchivedStatus(days: Array<String>, status: Boolean) {
-        val workRequest = OneTimeWorkRequestBuilder<UpdateDbFlowArchivedStatusWork>().setInputData(
-            Data.Builder()
-                .putStringArray(Keys.DAYS, days)
-                .putBoolean(Keys.STATUS, status)
-                .build()
-        ).build()
-        WorkManager.getInstance(context).enqueue(workRequest)
+        val data = Data.Builder()
+            .putStringArray(Keys.DAYS, days)
+            .putBoolean(Keys.STATUS, status)
+            .build()
+        enqueueWork<UpdateDbFlowArchivedStatusWork>(context, data)
     }
 
     fun insertDbFlow(vararg dbFlows: DbFlow) {
         InsertAsyncTask(flowDao).execute(*dbFlows)
+    }
+
+    fun deleteDbFlow(vararg dbFlows: DbFlow) {
+        DeleteAsyncTask(flowDao).execute(*dbFlows)
     }
 
     fun getDbFlow(day: String): LiveData<DbFlow> {
@@ -125,8 +122,18 @@ class FlowRepository(private val context: Context) {
 
     }
 
+    class DeleteAsyncTask(private val flowDao: FlowDao) : AsyncTask<DbFlow, Unit, Unit>() {
+
+        override fun doInBackground(vararg flows: DbFlow) {
+            if (flows.size < 0) {
+                return
+            }
+            flowDao.deleteDbFlows(*flows)
+        }
+
+    }
+
     object Keys {
-        const val SYNCED = "SYNCED"
         const val DAY = "DAY"
         const val ITEMS = "ITEMS"
         const val WEATHER = "WEATHER"
@@ -150,7 +157,9 @@ class FlowRepository(private val context: Context) {
                 Result.failure()
             }
         }
+
     }
+
 
     class UpdateDbFlowSyncStatusWork(
         private val context: Context,

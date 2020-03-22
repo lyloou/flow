@@ -278,6 +278,10 @@ class ListFragment : Fragment(), OnItemLongClickListener {
                 viewModel.updateDbFlowArchiveStatus(arrayOf(flow.day), !flow.isArchived)
                 snackbar("已$content").show()
             }
+            .add("删除") {
+                viewModel.deleteDbFlow(flow)
+                snackbar("已删除").show()
+            }
             .show()
     }
 }

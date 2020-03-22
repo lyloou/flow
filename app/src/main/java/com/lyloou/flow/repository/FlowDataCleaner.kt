@@ -13,7 +13,6 @@ class FlowDataCleaner(
     workerParameters: WorkerParameters
 ) : CoroutineWorker(context, workerParameters) {
 
-    @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun doWork(): Result =
         coroutineScope {
             val database = FlowDatabase.getInstance(applicationContext)
