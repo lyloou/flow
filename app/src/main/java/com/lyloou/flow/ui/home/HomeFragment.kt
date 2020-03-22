@@ -8,13 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.lyloou.flow.R
 import com.lyloou.flow.common.Key
+import com.lyloou.flow.model.Schedule
 import com.lyloou.flow.model.ScheduleHelper
 import com.lyloou.flow.model.ScheduleItem
 import io.noties.markwon.Markwon
 import io.noties.markwon.ext.tasklist.TaskListPlugin
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), View.OnClickListener {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,14 +36,22 @@ class HomeFragment : Fragment() {
     }
 
     private fun initToolbar() {
+        toolbar.setTitleTextColor(Color.WHITE)
         val appCompatActivity = activity as AppCompatActivity
         appCompatActivity.setSupportActionBar(toolbar)
-        appCompatActivity.supportActionBar?.title = resources.getString(R.string.event);
+        appCompatActivity.supportActionBar?.let {
+            it.title = resources.getString(R.string.todo);
+        }
     }
 
     override fun onStart() {
         super.onStart()
-        val schedule = ScheduleHelper.getSchedule()
+        initView()
+    }
+
+    private lateinit var schedule: Schedule
+    private fun initView() {
+        schedule = ScheduleHelper.getSchedule()
         val editTexts = arrayOf(editTextA, editTextB, editTextC, editTextD)
         val datas = arrayOf(
             schedule.a,
@@ -54,24 +63,13 @@ class HomeFragment : Fragment() {
         editTexts.forEachIndexed { index, editText ->
             Markwon.builder(context!!)
                 .usePlugin(TaskListPlugin.create(context!!))
-                .build().setMarkdown(editText, datas[index].content);
+                .build().setMarkdown(editText, datas[index].content)
         }
 
-        val onClickListener = View.OnClickListener {
-            when (it.id) {
-                R.id.textViewA -> enterMode(schedule.a)
-                R.id.textViewB -> enterMode(schedule.b)
-                R.id.textViewC -> enterMode(schedule.c)
-                R.id.textViewD -> enterMode(schedule.d)
-            }
-        }
-        textViewA.setOnClickListener(onClickListener)
-        textViewB.setOnClickListener(onClickListener)
-        textViewC.setOnClickListener(onClickListener)
-        textViewD.setOnClickListener(onClickListener)
-
-        toolbar.title = "HOME"
-        toolbar.setTitleTextColor(Color.WHITE)
+        textViewA.setOnClickListener(this)
+        textViewB.setOnClickListener(this)
+        textViewC.setOnClickListener(this)
+        textViewD.setOnClickListener(this)
     }
 
     private fun enterMode(data: ScheduleItem) {
@@ -88,9 +86,20 @@ class HomeFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-
+            R.id.menu_todo_list -> {
+                startActivity(Intent(requireContext(), TodoListActivity::class.java))
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onClick(it: View?) {
+        when (it?.id) {
+            R.id.textViewA -> enterMode(schedule.a)
+            R.id.textViewB -> enterMode(schedule.b)
+            R.id.textViewC -> enterMode(schedule.c)
+            R.id.textViewD -> enterMode(schedule.d)
+        }
     }
 
 }

@@ -30,7 +30,7 @@ class KalendarViewModel(application: Application) : AndroidViewModel(application
                     detail.value = StringBuilder().apply {
                         val value = flow.value
                         if (value != null) {
-                            append("【${value.day}】")
+                            append(value.day)
                             append("\n天气:\t${value.weather.replace("高温", "").replace("低温", "")}")
                             append("\n备忘:\t${value.memo}")
                             append("\n\n")

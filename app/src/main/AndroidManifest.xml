@@ -24,7 +24,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".ui.city.CitySelectorActivity"></activity>
+        <activity android:name=".ui.home.TodoListActivity"></activity>
+        <activity android:name=".ui.city.CitySelectorActivity" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login" />

@@ -4,6 +4,7 @@ import android.app.Application
 import com.lyloou.flow.App
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.common.SpName
+import com.lyloou.flow.util.Utime
 
 
 data class ScheduleItem(val name: String, var content: String)
@@ -12,6 +13,7 @@ enum class Order {
 }
 
 data class Schedule(
+    val date: String,
     val a: ScheduleItem = ScheduleItem(Order.A.name, ""),
     val b: ScheduleItem = ScheduleItem(Order.B.name, ""),
     val c: ScheduleItem = ScheduleItem(Order.C.name, ""),
@@ -28,7 +30,7 @@ object ScheduleHelper {
 
     private fun fromJson(string: String): Schedule {
         val fromJson = gson.fromJson(string, Schedule::class.java)
-        return fromJson ?: Schedule()
+        return fromJson ?: Schedule(Utime.today())
     }
 
     fun getSchedule(): Schedule {
