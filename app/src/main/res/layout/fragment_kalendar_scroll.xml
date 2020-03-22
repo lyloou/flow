@@ -67,8 +67,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{data.detail}"
-                    android:textColor="@color/cardview_dark_background"
-                    android:textSize="14sp" />
+                    android:textColor="@color/gray"
+                    android:textSize="15sp" />
             </androidx.core.widget.NestedScrollView>
         </com.haibin.calendarview.CalendarLayout>
 

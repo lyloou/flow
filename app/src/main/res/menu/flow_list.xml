@@ -9,10 +9,10 @@
 
     <item
         android:id="@+id/menu_kalendar"
-        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:icon="@drawable/ic_analyze"
         android:iconTint="@color/white"
-        android:title="时间表模式"
-        app:showAsAction="never" />
+        android:title="分析模式"
+        app:showAsAction="always" />
 
 
     <item

@@ -55,7 +55,7 @@ class ListAdapter : PagedListAdapter<DbFlow, ListAdapter.MyViewHolder>(DIFF_CALL
             val day = flow.day
             with(holder) {
                 this.tvName.text = day
-                var weather = flow.weather.replace("高温", "").replace("低温", "")
+                val weather = flow.weather.replace("高温", "").replace("低温", "")
                 this.tvWeather.text = weather
                 this.tvWeather.visibility =
                     if (weather.isNotEmpty()) View.VISIBLE else View.GONE

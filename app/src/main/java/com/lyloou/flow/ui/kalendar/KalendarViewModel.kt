@@ -1,7 +1,6 @@
 package com.lyloou.flow.ui.kalendar
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.lyloou.flow.model.FlowItemHelper
@@ -26,29 +25,18 @@ class KalendarViewModel(application: Application) : AndroidViewModel(application
             .get(day)
             .defaultSubscribe {
                 if (it.err_code == 0) {
-                    flow.value = it.data?.toDbFlow()
-                    flow.value = flow.value ?: DbFlow(
-                        0,
-                        -1,
-                        day,
-                        "[]",
-                        "",
-                        ""
-                    )
-                    Log.e("TTAG", "flow.value=${flow.value}")
+                    flow.value = it.data?.toDbFlow() ?: DbFlow(0, -1, day, "[]", "", "")
 
                     detail.value = StringBuilder().apply {
                         val value = flow.value
                         if (value != null) {
                             append("【${value.day}】")
-                            append("\n(\tA: ${value.isArchived}")
-                            append("\t\tD: ${value.isDisabled}")
-                            append(")\n\n")
-                            append(FlowItemHelper.toPrettyText(FlowItemHelper.fromJsonArray(value.items)))
+                            append("\n天气:\t${value.weather.replace("高温", "").replace("低温", "")}")
+                            append("\n备忘:\t${value.memo}")
+                            append("\n\n")
+                            append(FlowItemHelper.toPrettyText(value.items))
                         }
                     }.toString()
-                    Log.e("TTAG", "error_code=${it.err_code}")
-
                 }
             }
     }
