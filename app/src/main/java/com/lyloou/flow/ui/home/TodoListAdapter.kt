@@ -26,13 +26,13 @@ class TodoListAdapter(val list: List<Schedule>) :
     override fun onBindViewHolder(holder: TodoListHolder, position: Int) {
         val schedule = list[position]
         with(holder) {
-            this.tvName.text = schedule.date
+            this.tvName.text = schedule.title
 
             val context = holder.itemView.context
-            renderWithMarkdown(context, tvA, schedule.a.content)
-            renderWithMarkdown(context, tvB, schedule.b.content)
-            renderWithMarkdown(context, tvC, schedule.c.content)
-            renderWithMarkdown(context, tvD, schedule.d.content)
+            renderWithMarkdown(context, tvA, schedule.a)
+            renderWithMarkdown(context, tvB, schedule.b)
+            renderWithMarkdown(context, tvC, schedule.c)
+            renderWithMarkdown(context, tvD, schedule.d)
         }
     }
 

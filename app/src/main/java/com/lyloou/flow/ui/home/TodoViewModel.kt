@@ -22,20 +22,20 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
 
     fun refreshContent() {
         content.value = when (name.value) {
-            Order.A.name -> schedule.a.content
-            Order.B.name -> schedule.b.content
-            Order.C.name -> schedule.c.content
-            Order.D.name -> schedule.d.content
+            Order.A.name -> schedule.a
+            Order.B.name -> schedule.b
+            Order.C.name -> schedule.c
+            Order.D.name -> schedule.d
             else -> ""
         }
     }
 
     fun save() {
         when (name.value) {
-            Order.A.name -> schedule.a.content = content.value ?: ""
-            Order.B.name -> schedule.b.content = content.value ?: ""
-            Order.C.name -> schedule.c.content = content.value ?: ""
-            Order.D.name -> schedule.d.content = content.value ?: ""
+            Order.A.name -> schedule.a = content.value ?: ""
+            Order.B.name -> schedule.b = content.value ?: ""
+            Order.C.name -> schedule.c = content.value ?: ""
+            Order.D.name -> schedule.d = content.value ?: ""
         }
         ScheduleHelper.saveSchedule(schedule)
     }

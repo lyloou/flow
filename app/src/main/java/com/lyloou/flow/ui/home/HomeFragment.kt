@@ -8,9 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.lyloou.flow.R
 import com.lyloou.flow.common.Key
+import com.lyloou.flow.model.Order
 import com.lyloou.flow.model.Schedule
 import com.lyloou.flow.model.ScheduleHelper
-import com.lyloou.flow.model.ScheduleItem
 import io.noties.markwon.Markwon
 import io.noties.markwon.ext.tasklist.TaskListPlugin
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -40,7 +40,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         val appCompatActivity = activity as AppCompatActivity
         appCompatActivity.setSupportActionBar(toolbar)
         appCompatActivity.supportActionBar?.let {
-            it.title = resources.getString(R.string.todo);
+            it.title = resources.getString(R.string.todo)
         }
     }
 
@@ -53,17 +53,12 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private fun initView() {
         schedule = ScheduleHelper.getSchedule()
         val editTexts = arrayOf(editTextA, editTextB, editTextC, editTextD)
-        val datas = arrayOf(
-            schedule.a,
-            schedule.b,
-            schedule.c,
-            schedule.d
-        )
+        val list = arrayOf(schedule.a, schedule.b, schedule.c, schedule.d)
 
         editTexts.forEachIndexed { index, editText ->
-            Markwon.builder(context!!)
-                .usePlugin(TaskListPlugin.create(context!!))
-                .build().setMarkdown(editText, datas[index].content)
+            Markwon.builder(requireContext())
+                .usePlugin(TaskListPlugin.create(requireContext()))
+                .build().setMarkdown(editText, list[index])
         }
 
         textViewA.setOnClickListener(this)
@@ -72,9 +67,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
         textViewD.setOnClickListener(this)
     }
 
-    private fun enterMode(data: ScheduleItem) {
+    private fun enterMode(name: String) {
         val intent = Intent(context, TodoActivity::class.java)
-        intent.putExtra(Key.TODO.name, data.name)
+        intent.putExtra(Key.TODO.name, name)
         startActivity(intent)
     }
 
@@ -95,10 +90,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(it: View?) {
         when (it?.id) {
-            R.id.textViewA -> enterMode(schedule.a)
-            R.id.textViewB -> enterMode(schedule.b)
-            R.id.textViewC -> enterMode(schedule.c)
-            R.id.textViewD -> enterMode(schedule.d)
+            R.id.textViewA -> enterMode(Order.A.name)
+            R.id.textViewB -> enterMode(Order.B.name)
+            R.id.textViewC -> enterMode(Order.C.name)
+            R.id.textViewD -> enterMode(Order.D.name)
         }
     }
 

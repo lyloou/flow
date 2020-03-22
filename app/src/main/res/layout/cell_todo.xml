@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
@@ -18,12 +19,12 @@
             android:id="@+id/tvName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:gravity="center"
-            android:text="20201011"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="20201011" />
 
         <TextView
             android:id="@+id/tvA"
@@ -34,8 +35,8 @@
             android:paddingTop="8dp"
             android:paddingEnd="16dp"
             android:paddingBottom="8dp"
-            android:text="A"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:text="A" />
 
         <TextView
             android:id="@+id/tvB"
@@ -46,8 +47,8 @@
             android:paddingTop="8dp"
             android:paddingEnd="16dp"
             android:paddingBottom="8dp"
-            android:text="B"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:text="B" />
 
         <TextView
             android:id="@+id/tvC"
@@ -58,8 +59,8 @@
             android:paddingTop="8dp"
             android:paddingEnd="16dp"
             android:paddingBottom="8dp"
-            android:text="C"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:text="C" />
 
         <TextView
             android:id="@+id/tvD"
@@ -70,7 +71,7 @@
             android:paddingTop="8dp"
             android:paddingEnd="16dp"
             android:paddingBottom="8dp"
-            android:text="D"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:text="D" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

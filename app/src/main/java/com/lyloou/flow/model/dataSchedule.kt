@@ -7,17 +7,16 @@ import com.lyloou.flow.common.SpName
 import com.lyloou.flow.util.Utime
 
 
-data class ScheduleItem(val name: String, var content: String)
 enum class Order {
     A, B, C, D
 }
 
 data class Schedule(
-    val date: String,
-    val a: ScheduleItem = ScheduleItem(Order.A.name, ""),
-    val b: ScheduleItem = ScheduleItem(Order.B.name, ""),
-    val c: ScheduleItem = ScheduleItem(Order.C.name, ""),
-    val d: ScheduleItem = ScheduleItem(Order.D.name, "")
+    val title: String,
+    var a: String = "",
+    var b: String = "",
+    var c: String = "",
+    var d: String = ""
 )
 
 fun Schedule.toJson(): String {
