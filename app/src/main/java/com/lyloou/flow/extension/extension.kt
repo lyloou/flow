@@ -2,9 +2,12 @@ package com.lyloou.flow.extension
 
 import android.app.Activity
 import android.content.Context
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.snackbar.Snackbar
+import java.text.DateFormat
+import java.util.*
 
 
 fun Context.dp2px(dpValue: Float): Int {
@@ -30,3 +33,15 @@ fun <T> MutableLiveData<T>.notifyObserver() {
     this.value = this.value
 }
 
+fun Long.toDateString(dateFormat: Int = DateFormat.MEDIUM): String {
+    val df = DateFormat.getDateInstance(dateFormat, Locale.getDefault())
+    return df.format(this)
+}
+
+fun View.slideExit() {
+    if (translationY == 0f) animate().translationY(-height.toFloat())
+}
+
+fun View.slideEnter() {
+    if (translationY < 0f) animate().translationY(0f)
+}

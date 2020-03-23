@@ -1,11 +1,12 @@
 package com.lyloou.flow.model
 
-import android.app.Application
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import com.lyloou.flow.App
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.common.SpName
+import com.lyloou.flow.extension.Preference
+import com.lyloou.flow.extension.clear
 
 class CityInfoBean {
     /**
@@ -142,22 +143,23 @@ object CityHelper {
         return gson.fromJson(str, City::class.java)
     }
 
-    private val preferences = App.instance
-        .getSharedPreferences(SpName.WEATHER_CITY.name, Application.MODE_PRIVATE)
+    private var preference =
+        Preference(App.instance, Key.WEATHER_CITY.name, "", SpName.WEATHER_CITY.name)
+    private var data: String by preference
+
 
     fun saveCity(city: City?) {
         city?.let {
-            val toJson = it.toJson()
-            preferences.edit().putString(Key.WEATHER_CITY.name, toJson).apply()
+            data = it.toJson()
         }
     }
 
     fun getCity(): City? {
-        return fromJson(preferences.getString(Key.WEATHER_CITY.name, "") ?: "")
+        return fromJson(data)
     }
 
     fun clearCity() {
-        preferences.edit().remove(Key.USER.name).apply()
+        preference.clear()
     }
 }
 

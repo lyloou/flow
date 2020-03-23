@@ -1,9 +1,10 @@
 package com.lyloou.flow.model
 
-import android.app.Application
 import com.lyloou.flow.App
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.common.SpName
+import com.lyloou.flow.extension.Preference
+import com.lyloou.flow.extension.clear
 import com.lyloou.flow.util.Utime
 
 
@@ -24,8 +25,9 @@ fun Schedule.toJson(): String {
 }
 
 object ScheduleHelper {
-    private val preferences = App.instance
-        .getSharedPreferences(SpName.SCHEDULE.name, Application.MODE_PRIVATE)
+    private var preference =
+        Preference(App.instance, Key.SCHEDULE.name, "", SpName.SCHEDULE.name)
+    private var data: String by preference
 
     private fun fromJson(string: String): Schedule {
         val fromJson = gson.fromJson(string, Schedule::class.java)
@@ -33,14 +35,14 @@ object ScheduleHelper {
     }
 
     fun getSchedule(): Schedule {
-        return fromJson(preferences.getString(Key.SCHEDULE.name, "") ?: "")
+        return fromJson(data)
     }
 
     fun saveSchedule(value: Schedule) {
-        preferences.edit().putString(Key.SCHEDULE.name, value.toJson()).apply()
+        data = value.toJson()
     }
 
     fun clearSchedule() {
-        preferences.edit().remove(Key.SCHEDULE.name).apply()
+        preference.clear()
     }
 }
