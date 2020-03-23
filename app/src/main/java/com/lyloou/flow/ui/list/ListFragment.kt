@@ -10,8 +10,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.*
-import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -40,6 +38,7 @@ import com.lyloou.flow.util.Ucolor
 import com.lyloou.flow.util.Udialog
 import com.lyloou.flow.util.Usystem
 import com.lyloou.flow.widget.TitleViewPagerAdapter
+import kotlinx.android.synthetic.main.dialog_sync.view.*
 import kotlinx.android.synthetic.main.fragment_list.*
 
 class ListFragment : Fragment(), OnItemLongClickListener {
@@ -218,16 +217,16 @@ class ListFragment : Fragment(), OnItemLongClickListener {
         dialog.setContentView(view)
         dialog.show()
 
-        val btnSync = dialog.findViewById<TextView>(R.id.btnSync)
+        val btnSync = view.btnSync
         btnSync?.setOnClickListener {
             btnSync.isEnabled = false
             viewModel.syncFlows(flowList, object : SyncListener {
                 override fun handle(result: SyncResult) {
-                    dialog.findViewById<TextView>(R.id.tvAll)?.text = result.all.toString()
-                    dialog.findViewById<TextView>(R.id.tvSuccess)?.text =
+                    view.tvAll?.text = result.all.toString()
+                    view.tvSuccess?.text =
                         result.successNum.toString()
-                    dialog.findViewById<TextView>(R.id.tvFail)?.text = result.failNum.toString()
-                    dialog.findViewById<TextView>(R.id.tvFailMemo)?.text =
+                    view.tvFail?.text = result.failNum.toString()
+                    view.tvFailMemo?.text =
                         if (result.failMemo.isEmpty()) "无" else result.failMemo
                 }
 
@@ -236,10 +235,10 @@ class ListFragment : Fragment(), OnItemLongClickListener {
                     successNum: Int,
                     failedNum: Int
                 ) {
-                    dialog.findViewById<TextView>(R.id.tvAll)?.text = all.toString()
-                    dialog.findViewById<TextView>(R.id.tvSuccess)?.text = successNum.toString()
-                    dialog.findViewById<TextView>(R.id.tvFail)?.text = failedNum.toString()
-                    dialog.findViewById<ProgressBar>(R.id.progressBar)?.progress =
+                    view.tvAll?.text = all.toString()
+                    view.tvSuccess?.text = successNum.toString()
+                    view.tvFail?.text = failedNum.toString()
+                    view.progressBar?.progress =
                         100 * (successNum + failedNum) / all
                 }
 

@@ -10,6 +10,7 @@ import com.lyloou.flow.R
 import com.lyloou.flow.model.Schedule
 import io.noties.markwon.Markwon
 import io.noties.markwon.ext.tasklist.TaskListPlugin
+import kotlinx.android.synthetic.main.cell_todo.view.*
 
 
 class TodoListAdapter(val list: List<Schedule>) :
@@ -26,13 +27,13 @@ class TodoListAdapter(val list: List<Schedule>) :
     override fun onBindViewHolder(holder: TodoListHolder, position: Int) {
         val schedule = list[position]
         with(holder) {
-            this.tvName.text = schedule.title
+            itemView.tvName.text = schedule.title
 
             val context = holder.itemView.context
-            renderWithMarkdown(context, tvA, schedule.a)
-            renderWithMarkdown(context, tvB, schedule.b)
-            renderWithMarkdown(context, tvC, schedule.c)
-            renderWithMarkdown(context, tvD, schedule.d)
+            renderWithMarkdown(context, itemView.tvA, schedule.a)
+            renderWithMarkdown(context, itemView.tvB, schedule.b)
+            renderWithMarkdown(context, itemView.tvC, schedule.c)
+            renderWithMarkdown(context, itemView.tvD, schedule.d)
         }
     }
 
@@ -43,12 +44,6 @@ class TodoListAdapter(val list: List<Schedule>) :
     }
 
 
-    class TodoListHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvName: TextView = view.findViewById(R.id.tvName)
-        val tvA: TextView = view.findViewById(R.id.tvA)
-        val tvB: TextView = view.findViewById(R.id.tvB)
-        val tvC: TextView = view.findViewById(R.id.tvC)
-        val tvD: TextView = view.findViewById(R.id.tvD)
-    }
+    class TodoListHolder(view: View) : RecyclerView.ViewHolder(view)
 
 }

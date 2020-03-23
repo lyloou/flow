@@ -18,6 +18,7 @@ import com.lyloou.flow.common.Key
 import com.lyloou.flow.repository.DbFlow
 import com.lyloou.flow.ui.detail.DetailActivity
 import com.lyloou.flow.util.ImageHelper
+import kotlinx.android.synthetic.main.cell_list.view.*
 
 class ListAdapter : PagedListAdapter<DbFlow, ListAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
@@ -37,11 +38,11 @@ class ListAdapter : PagedListAdapter<DbFlow, ListAdapter.MyViewHolder>(DIFF_CALL
     var onItemLongClickListener: OnItemLongClickListener? = null
 
     class MyViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        val tvName: TextView = itemView.findViewById(R.id.tvName)
-        val tvWeather: TextView = itemView.findViewById(R.id.tvWeather)
-        val tvMemo: TextView = itemView.findViewById(R.id.tvMemo)
-        val imageView: ImageView = itemView.findViewById(R.id.imageView)
-        val ivSyncStatus: ImageView = itemView.findViewById(R.id.ivSyncStatus)
+        val tvName: TextView = itemView.tvName
+        val tvWeather: TextView = itemView.tvWeather
+        val tvMemo: TextView = itemView.tvMemo
+        val imageView: ImageView = itemView.imageView
+        val ivSyncStatus: ImageView = itemView.ivSyncStatus
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

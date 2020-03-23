@@ -33,12 +33,12 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
-import com.google.android.material.snackbar.Snackbar
 import com.lyloou.flow.MainActivity
 import com.lyloou.flow.R
 import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.databinding.ActivityDetailBinding
+import com.lyloou.flow.extension.snackbar
 import com.lyloou.flow.model.CityHelper
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.model.FlowItemHelper
@@ -333,7 +333,7 @@ class DetailActivity : BaseCompatActivity() {
                 val item = this[0]
                 // 当前时间已经存在，则不在新建
                 if (currentTime == item.timeStart) {
-                    showTips("该时间点已经有了一个哦")
+                    snackbar("该时间点已经有了一个哦")
                     return
                 }
                 if (!TextUtils.isEmpty(item.timeEnd)) {
@@ -346,10 +346,6 @@ class DetailActivity : BaseCompatActivity() {
             delayUpdateDb()
             recyclerView.scrollToPosition(0)
         }
-    }
-
-    private fun showTips(text: String) {
-        Snackbar.make(findViewById(android.R.id.content), text, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun getItemListener() = object :

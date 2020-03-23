@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lyloou.flow.R
 import com.lyloou.flow.model.FlowItem
 import com.lyloou.flow.util.Utime
+import kotlinx.android.synthetic.main.cell_detail.view.*
 
 class DetailAdapter(private val data: MutableList<FlowItem>) :
     RecyclerView.Adapter<DetailAdapter.MyViewHolder>() {
@@ -19,11 +20,11 @@ class DetailAdapter(private val data: MutableList<FlowItem>) :
     var detailListener: OnDetailListener? = null
 
     class MyViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        val tvTimeStart: TextView = itemView.findViewById(R.id.tv_time_start)
-        val tvTimeSep: TextView = itemView.findViewById(R.id.tv_time_sep)
-        val tvTimeEnd: TextView = itemView.findViewById(R.id.tv_time_end)
-        val tvSpend: TextView = itemView.findViewById(R.id.tv_spend)
-        val etContent: EditText = itemView.findViewById(R.id.et_content)
+        val tvTimeStart: TextView = itemView.tv_time_start
+        val tvTimeSep: TextView = itemView.tv_time_sep
+        val tvTimeEnd: TextView = itemView.tv_time_end
+        val tvSpend: TextView = itemView.tv_spend
+        val etContent: EditText = itemView.et_content
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
