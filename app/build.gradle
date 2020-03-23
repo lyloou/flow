@@ -8,12 +8,20 @@ apply plugin: "kotlin-kapt"
 
 android {
     compileSdkVersion 29
+
+    def versionPropsFile = file(rootDir.getAbsolutePath() + '/version.properties')
+    if (!versionPropsFile.canRead()) {
+        throw new GradleException("Could not read version.properties!")
+    }
+    Properties versionProps = new Properties()
+    versionProps.load(new FileInputStream(versionPropsFile))
+
     defaultConfig {
         applicationId "com.lyloou.flow"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode versionProps['VERSION_CODE'].toInteger()
+        versionName versionProps['VERSION_NAME']
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         dataBinding.enabled = true
         vectorDrawables.useSupportLibrary = true
