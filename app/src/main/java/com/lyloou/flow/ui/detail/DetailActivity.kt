@@ -272,13 +272,6 @@ class DetailActivity : BaseCompatActivity() {
         fab.setRippleColor(ColorStateList.valueOf(transparentColor))
     }
 
-    fun updateDb(vararg noDelay: Boolean) {
-        if (noDelay.isNotEmpty() && noDelay[0]) {
-            updateDbTask.run()
-            return
-        }
-        delayUpdateDb()
-    }
 
     private val updateDbTask = Runnable {
         viewModel.updateDbFlowItems(day, itemList)
@@ -318,7 +311,18 @@ class DetailActivity : BaseCompatActivity() {
         startActivity(intent)
     }
 
-    private fun delayUpdateDb() {
+    fun updateDb(vararg noDelay: Boolean) {
+        if (noDelay.isNotEmpty() && noDelay[0]) {
+            updateDbTask.run()
+            return
+        }
+        updateUIAndDelayUpdateDb()
+    }
+
+    private fun updateUIAndDelayUpdateDb() {
+        Utransfer.sortItems(itemList)
+        adapter.notifyDataSetChanged()
+
         handler.removeCallbacks(updateDbTask)
         handler.postDelayed(updateDbTask, 800)
     }
@@ -330,20 +334,20 @@ class DetailActivity : BaseCompatActivity() {
             var currentTime = Utime.getTimeString(startArr[0], startArr[1])
 
             if (this.size > 0) {
-                val item = this[0]
-                // 当前时间已经存在，则不在新建
-                if (currentTime == item.timeStart) {
-                    snackbar("该时间点已经有了一个哦")
+                // 当前时间已经存在，不在则新建
+                if (itemList.any { it.timeStart == currentTime }) {
+                    snackbar("该时间点已经有了一个哦").show()
                     return
                 }
+                // 以上一个的结束时间作为当前的开始时间
+                val item = this[0]
                 if (!TextUtils.isEmpty(item.timeEnd)) {
                     currentTime = item.timeEnd
                 }
             }
             newItem.timeStart = currentTime
-            add(0, newItem)
-            adapter.notifyItemInserted(0)
-            delayUpdateDb()
+            add(newItem)
+            updateUIAndDelayUpdateDb()
             recyclerView.scrollToPosition(0)
         }
     }
@@ -364,8 +368,7 @@ class DetailActivity : BaseCompatActivity() {
                 }
                 .add("删除此项") {
                     itemList.remove(item)
-                    adapter.notifyDataSetChanged()
-                    delayUpdateDb()
+                    updateUIAndDelayUpdateDb()
                 }
                 .show()
         }
@@ -375,9 +378,7 @@ class DetailActivity : BaseCompatActivity() {
             val listener =
                 TimePickerDialog.OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
                     item.timeStart = Utime.getTimeString(hourOfDay, minute)
-                    Utransfer.sortItems(itemList)
-                    adapter.notifyItemChanged(position)
-                    delayUpdateDb()
+                    updateUIAndDelayUpdateDb()
                 }
             Udialog.showTimePicker(context, listener, Utime.getValidTime(item.timeStart))
         }
@@ -386,9 +387,7 @@ class DetailActivity : BaseCompatActivity() {
             val listener =
                 TimePickerDialog.OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
                     item.timeEnd = Utime.getTimeString(hourOfDay, minute)
-                    Utransfer.sortItems(itemList)
-                    adapter.notifyItemChanged(position)
-                    delayUpdateDb()
+                    updateUIAndDelayUpdateDb()
                 }
             Udialog.showTimePicker(context, listener, Utime.getValidTime(item.timeEnd))
         }
@@ -398,9 +397,7 @@ class DetailActivity : BaseCompatActivity() {
                 .consumer {
                     if (it) {
                         item.timeStart = null
-                        Utransfer.sortItems(itemList)
-                        adapter.notifyItemChanged(position)
-                        delayUpdateDb()
+                        updateUIAndDelayUpdateDb()
                     }
                 }
                 .message("清空开始时间")
@@ -412,9 +409,7 @@ class DetailActivity : BaseCompatActivity() {
                 .consumer {
                     if (it) {
                         item.timeEnd = null
-                        Utransfer.sortItems(itemList)
-                        adapter.notifyItemChanged(position)
-                        delayUpdateDb()
+                        updateUIAndDelayUpdateDb()
                     }
                 }
                 .message("清空结束时间")
@@ -424,7 +419,7 @@ class DetailActivity : BaseCompatActivity() {
         override fun onTextChanged(item: FlowItem, s: CharSequence, position: Int) {
             item.content = s.toString()
             // 只需要更新数据即可
-            updateDb()
+            updateDb(true)
         }
 
         override fun onEditTextFocused(hasFocus: Boolean, item: FlowItem, position: Int) {
