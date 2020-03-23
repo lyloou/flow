@@ -1,7 +1,9 @@
 package com.lyloou.flow.ui.home
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -10,9 +12,11 @@ import com.lyloou.flow.R
 import com.lyloou.flow.databinding.ActivityTodoListBinding
 import com.lyloou.flow.util.Uscreen
 import com.lyloou.flow.widget.ItemOffsetDecoration
+import com.lyloou.flow.widget.ToolbarManager
 import kotlinx.android.synthetic.main.activity_todo_list.*
+import kotlinx.android.synthetic.main.item_toolbar.*
 
-class TodoListActivity : AppCompatActivity() {
+class TodoListActivity : AppCompatActivity(), ToolbarManager {
     private lateinit var binding: ActivityTodoListBinding
     private lateinit var viewModel: TodoListViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,10 +29,11 @@ class TodoListActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        supportActionBar?.let {
-            it.setDisplayHomeAsUpEnabled(true)
-            it.title = resources.getString(R.string.todo)
-        }
+        toolbarTitle = resources.getString(R.string.todo)
+        toolbar.setTitleTextColor(Color.WHITE)
+        enableHomeAsUp { onBackPressed() }
+        attachToScroll(rvTodoList)
+
         rvTodoList.layoutManager = LinearLayoutManager(this)
         rvTodoList.addItemDecoration(ItemOffsetDecoration(Uscreen.dp2Px(this, 16f)))
 
@@ -42,8 +47,6 @@ class TodoListActivity : AppCompatActivity() {
         viewModel.add()
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return super.onSupportNavigateUp()
-    }
+
+    override val toolbar: Toolbar by lazy { myToolbar }
 }

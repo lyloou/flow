@@ -27,7 +27,6 @@ class LoginActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true);
     }
 
     override fun onSupportNavigateUp(): Boolean {

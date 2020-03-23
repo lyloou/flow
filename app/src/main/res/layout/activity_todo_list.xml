@@ -9,10 +9,19 @@
             type="com.lyloou.flow.ui.home.TodoListViewModel" />
     </data>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvTodoList"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.home.TodoListActivity"
-        tools:layout="@layout/cell_todo" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTodoList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="?actionBarSize"
+            tools:context=".ui.home.TodoListActivity"
+            tools:layout="@layout/cell_todo" />
+
+        <include layout="@layout/item_toolbar" />
+    </FrameLayout>
 </layout>
