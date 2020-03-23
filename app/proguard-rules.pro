@@ -23,3 +23,6 @@
 -keepclasseswithmembers class * {
     public <init>(android.content.Context);
 }
+
+
+-keep class com.lyloou.flow.model.**{*;}
