@@ -1,45 +1,21 @@
 package com.lyloou.flow.ui.home
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.paging.PagedList
 import com.lyloou.flow.model.Schedule
+import com.lyloou.flow.repository.schedule.DbSchedule
+import com.lyloou.flow.repository.schedule.ScheduleRepository
 
-class TodoListViewModel : ViewModel() {
+class TodoListViewModel(application: Application) : AndroidViewModel(application) {
 
     val data: MutableLiveData<List<Schedule>> by lazy {
         MutableLiveData<List<Schedule>>()
     }
 
-    fun add() {
-        data.value = listOf(
-            Schedule(
-                "20200301",
-                "A- [ ] A content\n - [ ] this is your \n- [x] 多么美好的太阳",
-                "BB content",
-                "CC content",
-                "DD content"
-            ),
-            Schedule(
-                "20200302",
-                "AA content",
-                "BB content",
-                "CC content",
-                "DD content"
-            ),
-            Schedule(
-                "20200303",
-                "AA content",
-                "BB content",
-                "CC content",
-                "DD content"
-            ),
-            Schedule(
-                "20200304",
-                "AA content",
-                "BB content",
-                "CC content",
-                "DD content"
-            )
-        )
+    val dbScheduleList: LiveData<PagedList<DbSchedule>> by lazy {
+        ScheduleRepository.getInstance(application).getAllPagedList()
     }
 }

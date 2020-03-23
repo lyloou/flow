@@ -4,8 +4,10 @@ import android.app.Application
 import com.lyloou.flow.App
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.common.SpName
+import com.lyloou.flow.repository.schedule.DbSchedule
 import com.lyloou.flow.util.Utime
 
+data class ScheduleListResult(var err_code: Int, var err_msg: String, var data: List<DbSchedule>?)
 
 enum class Order {
     A, B, C, D
@@ -27,8 +29,8 @@ object ScheduleHelper {
     private val preferences = App.instance
         .getSharedPreferences(SpName.SCHEDULE.name, Application.MODE_PRIVATE)
 
-    private fun fromJson(string: String): Schedule {
-        val fromJson = gson.fromJson(string, Schedule::class.java)
+    fun fromJson(data: String?): Schedule {
+        val fromJson = gson.fromJson(data, Schedule::class.java)
         return fromJson ?: Schedule(Utime.today())
     }
 
