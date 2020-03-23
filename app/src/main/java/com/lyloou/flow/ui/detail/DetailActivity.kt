@@ -110,7 +110,10 @@ class DetailActivity : BaseCompatActivity() {
             if (!isToday()) {
                 return@setOnClickListener
             }
-            startActivityForResult(Intent(context, CitySelectorActivity::class.java), 100)
+            startActivityForResult(
+                Intent(context, CitySelectorActivity::class.java),
+                REQUEST_CODE_WEATHER
+            )
         }
 
         viewModel.memo.value = flow.memo
@@ -123,7 +126,7 @@ class DetailActivity : BaseCompatActivity() {
 
     private fun delayUpdateMemo() {
         handler.removeCallbacks(updateDbMemo)
-        handler.postDelayed(updateDbMemo, 800)
+        handler.postDelayed(updateDbMemo, DELAY_TIME)
     }
 
     private fun isToday() = day == Utime.getDayWithFormatTwo()
@@ -152,9 +155,14 @@ class DetailActivity : BaseCompatActivity() {
             }
     }
 
+    companion object {
+        const val REQUEST_CODE_WEATHER = 100
+        const val DELAY_TIME = 800L
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
-            100 -> {
+            REQUEST_CODE_WEATHER -> {
                 if (resultCode == Activity.RESULT_OK) {
                     loadWeather()
                 }
@@ -352,8 +360,7 @@ class DetailActivity : BaseCompatActivity() {
         }
     }
 
-    private fun getItemListener() = object :
-        OnDetailListener {
+    private fun getItemListener() = object : OnDetailListener {
         override fun onLongClickItem(item: FlowItem, position: Int) {
             Udialog.AlertMultiItem.builder(context)
                 .add("复制内容") { Usystem.copyString(context, item.content) }
