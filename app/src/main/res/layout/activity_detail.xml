@@ -139,7 +139,7 @@
             android:tint="@color/white"
             app:fabSize="normal"
             app:layout_anchor="@id/recyclerView"
-            app:layout_anchorGravity="center|bottom" />
+            app:layout_anchorGravity="bottom|right" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

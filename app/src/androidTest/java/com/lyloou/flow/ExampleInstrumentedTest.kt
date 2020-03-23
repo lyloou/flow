@@ -1,7 +1,9 @@
 package com.lyloou.flow
 
+import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.lyloou.flow.model.UserPassword
 import com.lyloou.flow.net.Network
 import com.lyloou.flow.net.flowApi
 import io.reactivex.schedulers.Schedulers
@@ -25,19 +27,17 @@ class ExampleInstrumentedTest {
 
     @Test
     fun net_sync() {
-        Network.flowApi()
-            .get("20200105")
+        Network.flowApi(UserPassword(1, "lyloou", "122"))
+            .get("20200322")
             .subscribeOn(Schedulers.io())
             .unsubscribeOn(Schedulers.io())
             .observeOn(Schedulers.computation())
-            .subscribe {
-                println("---------------------222222222")
-                println(it.err_code)
-                println(it.err_msg)
-                println(it.data)
-                println("---------------------222222222")
-            }
-        Thread.sleep(3000)
+            .subscribe({
+                Log.e("TTAG", "success:${it}")
+            }, { t ->
+                Log.e("TTAG", "failed:${t.message}")
+            })
+        Thread.sleep(6000)
 
     }
 }

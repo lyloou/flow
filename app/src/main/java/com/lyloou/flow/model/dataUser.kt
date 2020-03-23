@@ -82,6 +82,4 @@ object UserPasswordHelper {
         preferences.edit().remove(Key.NET_AUTHORIZATION.name).apply()
     }
 
-    private fun getPreferences(application: Application) =
-        application.getSharedPreferences(SpName.USER.name, Application.MODE_PRIVATE)
 }

@@ -26,14 +26,16 @@ fun Network.flowApiWithoutAuth(): FlowApi {
     return get(Url.FlowApi.url, FlowApi::class.java)
 }
 
-fun Network.flowApi(): FlowApi {
-    return withHeader { auth() }
+/**
+ * 提供默认这种方式，如果测试，也可以用
+ */
+fun Network.flowApi(userPassword: UserPassword? = UserPasswordHelper.getUserPassword()): FlowApi {
+    return withHeader { auth(userPassword) }
         .get(Url.FlowApi.url, FlowApi::class.java)
 }
 
 // [Retrofit — Add Custom Request Header](https://futurestud.io/tutorials/retrofit-add-custom-request-header)
-private fun auth(): List<Pair<String, String>> {
-    val userPassword = UserPasswordHelper.getUserPassword()
+private fun auth(userPassword: UserPassword?): List<Pair<String, String>> {
     userPassword?.let {
         return listOf(
             "Content-Type" to "application/json",
