@@ -33,7 +33,7 @@ class ScheduleNetWork(
 
                         val database = ScheduleDatabase.getInstance(applicationContext)
                         val scheduleDao = database.scheduleDao()
-                        val listOrigin = (it.data ?: emptyList())
+                        val listOrigin = it.data
 
                         database.clearAllTables()
                         scheduleDao.insertDbSchedule(*listOrigin.toTypedArray())

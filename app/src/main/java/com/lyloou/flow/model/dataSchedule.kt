@@ -5,8 +5,10 @@ import com.lyloou.flow.common.Key
 import com.lyloou.flow.common.SpName
 import com.lyloou.flow.extension.Preference
 import com.lyloou.flow.extension.clear
+import com.lyloou.flow.repository.schedule.DbSchedule
 import com.lyloou.flow.util.Utime
 
+data class ScheduleListResult(var err_code: Int, var err_msg: String, var data: List<DbSchedule>)
 
 enum class Order {
     A, B, C, D
@@ -14,10 +16,10 @@ enum class Order {
 
 data class Schedule(
     val title: String,
-    var a: String = "",
-    var b: String = "",
-    var c: String = "",
-    var d: String = ""
+    var a: String? = "",
+    var b: String? = "",
+    var c: String? = "",
+    var d: String? = ""
 )
 
 fun Schedule.toJson(): String {

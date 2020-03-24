@@ -51,10 +51,13 @@ class TodoListAdapter :
         }
     }
 
-    private fun renderWithMarkdown(context: Context, tv: TextView, text: String) {
-        Markwon.builder(context)
-            .usePlugin(TaskListPlugin.create(context))
-            .build().setMarkdown(tv, text)
+    private fun renderWithMarkdown(context: Context, tv: TextView, text: String?) {
+        text?.let {
+            tv.visibility = View.VISIBLE
+            Markwon.builder(context)
+                .usePlugin(TaskListPlugin.create(context))
+                .build().setMarkdown(tv, it)
+        }
     }
 
 

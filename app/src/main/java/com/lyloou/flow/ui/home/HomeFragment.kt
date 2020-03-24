@@ -56,9 +56,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
         val list = arrayOf(schedule.a, schedule.b, schedule.c, schedule.d)
 
         editTexts.forEachIndexed { index, editText ->
-            Markwon.builder(requireContext())
-                .usePlugin(TaskListPlugin.create(requireContext()))
-                .build().setMarkdown(editText, list[index])
+            list[index]?.let {
+                Markwon.builder(requireContext())
+                    .usePlugin(TaskListPlugin.create(requireContext()))
+                    .build().setMarkdown(editText, it)
+            }
         }
 
         textViewA.setOnClickListener(this)
