@@ -8,7 +8,9 @@ var FALSE = 0
 enum class Url(val url: String) : Str {
     Kingsoftware("http://open.iciba.com/"),
     WeatherApi("http://t.weather.sojson.com/"),
-    FlowApi("http://114.67.95.131:8888/api/v1/flow/");
+    FlowApi("http://114.67.95.131:8888/api/v1/flow/"),
+    ScheduleApi("http://114.67.95.131:8888/api/v1/schedule/"),
+    ;
 
     override fun str(): String {
         return getSimpleStr(javaClass, name)

@@ -8,8 +8,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.lyloou.flow.R
 import com.lyloou.flow.databinding.ActivityTodoListBinding
+import com.lyloou.flow.repository.schedule.ScheduleNetWork
 import com.lyloou.flow.util.Uscreen
 import com.lyloou.flow.widget.ItemOffsetDecoration
 import com.lyloou.flow.widget.ToolbarManager
@@ -37,14 +40,15 @@ class TodoListActivity : AppCompatActivity(), ToolbarManager {
         rvTodoList.layoutManager = LinearLayoutManager(this)
         rvTodoList.addItemDecoration(ItemOffsetDecoration(Uscreen.dp2Px(this, 16f)))
 
-        var inited = false
-        viewModel.data.observe(this, Observer {
-            if (!inited) {
-                rvTodoList.adapter = TodoListAdapter(it)
-                inited = true
+        val todoListAdapter = TodoListAdapter()
+        rvTodoList.adapter = todoListAdapter
+        viewModel.dbScheduleList.observe(this, Observer {
+            it?.let {
+                todoListAdapter.submitList(it)
             }
         })
-        viewModel.add()
+        //
+        WorkManager.getInstance(this).enqueue(OneTimeWorkRequestBuilder<ScheduleNetWork>().build())
     }
 
 

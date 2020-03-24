@@ -29,7 +29,7 @@ object ScheduleHelper {
         Preference(App.instance, Key.SCHEDULE.name, "", SpName.SCHEDULE.name)
     private var data: String by preference
 
-    private fun fromJson(string: String): Schedule {
+    fun fromJson(string: String?): Schedule {
         val fromJson = gson.fromJson(string, Schedule::class.java)
         return fromJson ?: Schedule(Utime.today())
     }

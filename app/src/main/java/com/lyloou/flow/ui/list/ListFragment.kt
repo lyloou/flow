@@ -167,7 +167,7 @@ class ListFragment : Fragment(), OnItemLongClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_kalendar -> {
-                startActivity(Intent(context, KalendarActivity::class.java))
+                toKalendar()
             }
             R.id.menu_sync_all_tab -> {
                 syncData()
@@ -182,15 +182,13 @@ class ListFragment : Fragment(), OnItemLongClickListener {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun toKalendar() {
+        if (checkLogin()) return
+        startActivity(Intent(context, KalendarActivity::class.java))
+    }
+
     private fun syncData() {
-        if (UserHelper.getUser().id == 0L) {
-            snackbar("还没登录哦")
-                .setAction("去登录") {
-                    toLogin()
-                }
-                .show()
-            return
-        }
+        if (checkLogin()) return
         var synced = false
         viewModel.getDbFlowsBySyncStatus(false)
             .observe(requireActivity(), Observer {
@@ -204,6 +202,18 @@ class ListFragment : Fragment(), OnItemLongClickListener {
                 }
                 showSyncDialog(it)
             })
+    }
+
+    private fun checkLogin(): Boolean {
+        if (UserHelper.getUser().id == 0L) {
+            snackbar("还没登录哦")
+                .setAction("去登录") {
+                    toLogin()
+                }
+                .show()
+            return true
+        }
+        return false
     }
 
     private fun toLogin() {
