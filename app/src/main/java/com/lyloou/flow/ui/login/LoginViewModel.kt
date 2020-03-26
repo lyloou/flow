@@ -2,10 +2,12 @@ package com.lyloou.flow.ui.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.lyloou.flow.common.toast
 import com.lyloou.flow.model.*
 import com.lyloou.flow.net.Network
 import com.lyloou.flow.net.defaultScheduler
-import com.lyloou.flow.net.flowApiWithoutAuth
+import com.lyloou.flow.net.userApi
+import com.lyloou.flow.net.userWithAuthApi
 import com.lyloou.flow.util.PasswordUtil
 
 class LoginViewModel : ViewModel() {
@@ -23,12 +25,27 @@ class LoginViewModel : ViewModel() {
         failFun: (Throwable) -> Unit
     ) {
         val encodedPassword = PasswordUtil.getEncodedPassword(password)
-        Network.flowApiWithoutAuth()
+        Network.userApi()
             .login(name, encodedPassword)
             .defaultScheduler()
             .subscribe({
                 okFun(it)
             }, failFun)
+    }
+
+    fun updateUserInfo(user: User) {
+        Network.userWithAuthApi()
+            .update(user)
+            .defaultScheduler()
+            .subscribe({
+                if (it.err_code == 0) {
+                    // doSuccess
+                } else {
+                    // do error
+                }
+            }, {
+                toast("网络异常：${it.message}")
+            })
     }
 
     fun saveUserInfo(user: User) {

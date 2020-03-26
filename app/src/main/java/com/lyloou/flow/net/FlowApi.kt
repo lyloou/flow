@@ -9,9 +9,6 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface FlowApi {
-    @POST("login")
-    fun login(@Query("name") name: String, @Query("password") password: String): Observable<CResult<User?>>
-
     @GET("get")
     fun get(@Query("day") day: String): Observable<CResult<FlowRep?>>
 
@@ -20,10 +17,6 @@ interface FlowApi {
 
     @POST("batch_sync")
     fun batchSync(@Body flowReqs: List<FlowReq>): Observable<CResult<String?>>
-}
-
-fun Network.flowApiWithoutAuth(): FlowApi {
-    return get(Url.FlowApi.url, FlowApi::class.java)
 }
 
 /**
