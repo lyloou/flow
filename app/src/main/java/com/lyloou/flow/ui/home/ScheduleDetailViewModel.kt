@@ -3,17 +3,18 @@ package com.lyloou.flow.ui.home
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.lyloou.flow.common.Key
+import com.lyloou.flow.common.SpName
+import com.lyloou.flow.common.SpPreference
 import com.lyloou.flow.model.Order
-import com.lyloou.flow.model.Schedule
-import com.lyloou.flow.model.ScheduleHelper
-import com.lyloou.flow.model.toJsonString
-import com.lyloou.flow.repository.schedule.DbSchedule
-import com.lyloou.flow.repository.schedule.ScheduleRepository
 
 
 class ScheduleDetailViewModel(application: Application) : AndroidViewModel(application) {
 
-    private var schedule: Schedule = ScheduleHelper.getSchedule()
+    var a: String by SpPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_A.name, "")
+    var b: String by SpPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_B.name, "")
+    var c: String by SpPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_C.name, "")
+    var d: String by SpPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_D.name, "")
 
     val name: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
@@ -25,40 +26,20 @@ class ScheduleDetailViewModel(application: Application) : AndroidViewModel(appli
 
     fun refreshContent() {
         content.value = when (name.value) {
-            Order.A.name -> schedule.a
-            Order.B.name -> schedule.b
-            Order.C.name -> schedule.c
-            Order.D.name -> schedule.d
+            Order.A.name -> a
+            Order.B.name -> b
+            Order.C.name -> c
+            Order.D.name -> d
             else -> ""
         }
     }
 
     fun save() {
         when (name.value) {
-            Order.A.name -> schedule.a = content.value ?: ""
-            Order.B.name -> schedule.b = content.value ?: ""
-            Order.C.name -> schedule.c = content.value ?: ""
-            Order.D.name -> schedule.d = content.value ?: ""
+            Order.A.name -> a = content.value ?: ""
+            Order.B.name -> b = content.value ?: ""
+            Order.C.name -> c = content.value ?: ""
+            Order.D.name -> d = content.value ?: ""
         }
-        ScheduleHelper.saveSchedule(schedule)
-    }
-
-    fun startNewSchedule() {
-        // 保存现有的到数据库
-        val repository = ScheduleRepository.getInstance(getApplication())
-        var schedule1 = ScheduleHelper.getSchedule()
-        repository.insertDbSchedule(
-            DbSchedule(
-                0,
-                0,
-                schedule1.title,
-                schedule1.toJsonString(),
-                "2020-03-26"
-            )
-        )
-
-        // 清空 schedule
-        ScheduleHelper.clearSchedule()
-
     }
 }

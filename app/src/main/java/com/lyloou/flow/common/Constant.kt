@@ -30,6 +30,7 @@ enum class Action : Str {
 enum class SpName : Str {
     NET_AUTHORIZATION,
     SCHEDULE,
+    SCHEDULE_ITEM,
     USER,
     WEATHER_CITY,
 
@@ -44,8 +45,12 @@ enum class Key : Str {
     DAY,
     NET_AUTHORIZATION,
     SCHEDULE,
+    SCHEDULE_ITEM_A,
+    SCHEDULE_ITEM_B,
+    SCHEDULE_ITEM_C,
+    SCHEDULE_ITEM_D,
     USER,
-    WEATHER_CITY
+    WEATHER_CITY,
 
     ;
 

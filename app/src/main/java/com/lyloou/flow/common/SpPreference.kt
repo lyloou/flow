@@ -2,6 +2,7 @@ package com.lyloou.flow.common
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.lyloou.flow.App
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -48,6 +49,7 @@ open class SpPreference<T>(
             is Float -> putFloat(name, value)
             else -> throw IllegalArgumentException("This type can be saved into Preferences")
         }.apply()
+        Log.i("TTAG", "commit: ---->$name, $value");
     }
 }
 

@@ -8,25 +8,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.lyloou.flow.R
-import com.lyloou.flow.common.Key
-import com.lyloou.flow.model.Order
-import com.lyloou.flow.model.Schedule
-import com.lyloou.flow.model.ScheduleHelper
+import com.lyloou.flow.databinding.FragmentScheduleBinding
 import io.noties.markwon.Markwon
 import io.noties.markwon.ext.tasklist.TaskListPlugin
 import kotlinx.android.synthetic.main.fragment_schedule.*
 
-class ScheduleFragment : Fragment(), View.OnClickListener {
-    lateinit var detailViewModel: ScheduleDetailViewModel
-
+class ScheduleFragment : Fragment() {
+    lateinit var viewModel: ScheduleViewModel
+    lateinit var binding: FragmentScheduleBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        detailViewModel =
-            ViewModelProviders.of(requireActivity()).get(ScheduleDetailViewModel::class.java)
-        return inflater.inflate(R.layout.fragment_schedule, container, false)
+        viewModel =
+            ViewModelProviders.of(requireActivity()).get(ScheduleViewModel::class.java)
+        binding = FragmentScheduleBinding.inflate(inflater)
+        binding.data = viewModel
+        binding.lifecycleOwner = requireActivity()
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -36,53 +36,37 @@ class ScheduleFragment : Fragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        initToolbar()
-    }
-
-    private fun initToolbar() {
-        toolbar.setTitleTextColor(Color.WHITE)
-        val appCompatActivity = activity as AppCompatActivity
-        appCompatActivity.setSupportActionBar(toolbar)
-        appCompatActivity.supportActionBar?.let {
-            it.title = resources.getString(R.string.schedule)
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
         initView()
     }
 
-    private lateinit var schedule: Schedule
     private fun initView() {
-        schedule = ScheduleHelper.getSchedule()
+        binding.toolbar.setTitleTextColor(Color.WHITE)
+        val appCompatActivity = activity as AppCompatActivity
+        appCompatActivity.setSupportActionBar(binding.toolbar)
+        appCompatActivity.supportActionBar?.let {
+            it.title = resources.getString(R.string.schedule)
+        }
+        refreshView()
+    }
+
+    private fun refreshView() {
+
         val editTexts = arrayOf(editTextA, editTextB, editTextC, editTextD)
-        val list = arrayOf(schedule.a, schedule.b, schedule.c, schedule.d)
+        val list = arrayOf(viewModel.a, viewModel.b, viewModel.c, viewModel.d)
 
         editTexts.forEachIndexed { index, editText ->
-            list[index]?.let {
+            list[index].let {
                 Markwon.builder(requireContext())
                     .usePlugin(TaskListPlugin.create(requireContext()))
                     .build().setMarkdown(editText, it)
             }
         }
-
-        textViewA.setOnClickListener(this)
-        textViewB.setOnClickListener(this)
-        textViewC.setOnClickListener(this)
-        textViewD.setOnClickListener(this)
     }
 
-    private fun enterMode(name: String) {
-        val intent = Intent(context, ScheduleDetailActivity::class.java)
-        intent.putExtra(Key.SCHEDULE.name, name)
-        startActivity(intent)
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.flow_home, menu)
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -91,20 +75,11 @@ class ScheduleFragment : Fragment(), View.OnClickListener {
                 startActivity(Intent(requireContext(), ScheduleListActivity::class.java))
             }
             R.id.menu_schedule_new -> {
-                detailViewModel.startNewSchedule()
-                initView()
+                viewModel.startNewSchedule()
+                refreshView()
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onClick(it: View?) {
-        when (it?.id) {
-            R.id.textViewA -> enterMode(Order.A.name)
-            R.id.textViewB -> enterMode(Order.B.name)
-            R.id.textViewC -> enterMode(Order.C.name)
-            R.id.textViewD -> enterMode(Order.D.name)
-        }
     }
 
 }
