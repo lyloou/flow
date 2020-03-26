@@ -3,6 +3,7 @@ package com.lyloou.flow.ui.home
 import android.app.Application
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
+import android.text.TextUtils
 import androidx.lifecycle.AndroidViewModel
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.common.SpName
@@ -20,6 +21,9 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
     var c: String by SpPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_C.name, "")
     var d: String by SpPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_D.name, "")
 
+    fun isEmpty(): Boolean {
+        return TextUtils.isEmpty(a + b + c + d)
+    }
 
     fun startNewSchedule() {
         // 保存现有的到数据库

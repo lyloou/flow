@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.lyloou.flow.R
+import com.lyloou.flow.common.toast
 import com.lyloou.flow.databinding.FragmentScheduleBinding
 import io.noties.markwon.Markwon
 import io.noties.markwon.ext.tasklist.TaskListPlugin
@@ -75,6 +76,10 @@ class ScheduleFragment : Fragment() {
                 startActivity(Intent(requireContext(), ScheduleListActivity::class.java))
             }
             R.id.menu_schedule_new -> {
+                if (viewModel.isEmpty()) {
+                    toast("还没添加内容哦")
+                    return true
+                }
                 viewModel.startNewSchedule()
                 refreshView()
             }
