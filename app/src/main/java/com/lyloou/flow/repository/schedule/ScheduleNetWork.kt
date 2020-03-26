@@ -29,15 +29,18 @@ class ScheduleNetWork(
                 .subscribe({
                     if (it.err_code == 0) {
                         isOk = true
-                        Log.i("TTAG", "get data111:${it.data}")
+                        Log.i("TTAG", "get data:${it}")
 
                         val database = ScheduleDatabase.getInstance(applicationContext)
                         val scheduleDao = database.scheduleDao()
+
                         val listOrigin = it.data
 
-                        database.clearAllTables()
-                        scheduleDao.insertDbSchedule(*listOrigin.toTypedArray())
+//                        database.clearAllTables()
+//                        scheduleDao.insertDbSchedule(*listOrigin.toTypedArray())
                         latch.countDown()
+                    } else {
+                        Log.e("TTAG", "get data:${it}")
                     }
                 }, { throwable ->
                     Log.e("TTAG", "error occur:", throwable)

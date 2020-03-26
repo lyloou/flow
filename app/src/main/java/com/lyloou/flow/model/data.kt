@@ -6,11 +6,6 @@ import com.lyloou.flow.repository.DbFlow
 import com.lyloou.flow.util.Utime
 import kotlinx.android.parcel.Parcelize
 
-data class CommonResult(var err_code: Int, var err_msg: String, var data: Any?)
-
-data class FlowResult(var err_code: Int, var err_msg: String, var data: FlowRep?)
-data class FlowListResult(var err_code: Int, var err_msg: String, var data: List<FlowRep>?)
-
 data class FlowReq(
     val userId: Long,
     val day: String,

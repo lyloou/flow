@@ -6,6 +6,8 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import com.lyloou.flow.App
 import com.lyloou.flow.common.toast
+import com.lyloou.flow.model.UserPassword
+import com.lyloou.flow.model.gson
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -20,7 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object Network {
     private var headerPairs: (() -> List<Pair<String, String>>)? = null
     private val builder = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
 
     fun withHeader(pairList: (() -> List<Pair<String, String>>)): Network {
@@ -36,6 +38,18 @@ object Network {
         return builder.baseUrl(baseUrl)
             .client(okHttpBuilder.build())
             .build().create(clazz)
+    }
+
+    // [Retrofit — Add Custom Request Header](https://futurestud.io/tutorials/retrofit-add-custom-request-header)
+    fun auth(userPassword: UserPassword?): List<Pair<String, String>> {
+        userPassword?.let {
+            return listOf(
+                "Content-Type" to "application/json",
+                "Authorization" to it.password,
+                "UserId" to it.userId.toString()
+            )
+        }
+        return emptyList()
     }
 
 }
@@ -93,3 +107,4 @@ fun <T> Observable<T>.defaultScheduler(): Observable<T> {
         .unsubscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 }
+

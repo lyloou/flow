@@ -3,16 +3,16 @@ package com.lyloou.flow.ui.login
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.lyloou.flow.R
+import com.lyloou.flow.common.toast
 import com.lyloou.flow.databinding.ActivityLoginBinding
+import com.lyloou.flow.model.CResult
 import com.lyloou.flow.model.User
-import com.lyloou.flow.model.UserResult
 import com.lyloou.flow.repository.FlowNetWork
 
 class LoginActivity : AppCompatActivity() {
@@ -36,11 +36,11 @@ class LoginActivity : AppCompatActivity() {
 
     fun login(v: View) {
         if (viewModel.name.value.isNullOrEmpty()) {
-            Toast.makeText(this, "用户名为空", Toast.LENGTH_SHORT).show()
+            toast("用户名为空")
             return
         }
         if (viewModel.password.value.isNullOrEmpty()) {
-            Toast.makeText(this, "密码为空", Toast.LENGTH_SHORT).show()
+            toast("密码为空")
             return
         }
 
@@ -52,30 +52,22 @@ class LoginActivity : AppCompatActivity() {
                     Log.i("TTAG", "user: ${it.data}");
                     doSuccess(it)
                 } else {
-                    Toast.makeText(
-                        this,
-                        "错误代码:${it.err_code}，错误信息：${it.err_msg}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    toast("错误代码:${it.err_code}，错误信息：${it.err_msg}")
                 }
             },
             {
-                Toast.makeText(
-                    this,
-                    "网络异常：${it.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                toast("网络异常：${it.message}")
             })
     }
 
-    private fun doSuccess(it: UserResult) {
+    private fun doSuccess(it: CResult<User?>) {
         if (it.data == null) {
-            Toast.makeText(this, "出现了不可思议的BUG", Toast.LENGTH_SHORT).show()
+            toast("出现了不可思议的BUG")
             return
         }
 
         val user: User = it.data!!
-        Toast.makeText(this, "登录成功：${user.name}", Toast.LENGTH_SHORT).show()
+        toast("登录成功：${user.name}")
 
         viewModel.saveUserInfo(user)
 

@@ -8,8 +8,6 @@ import com.lyloou.flow.extension.Preference
 import com.lyloou.flow.extension.clear
 import java.util.*
 
-data class UserResult(var err_code: Int, var err_msg: String, var data: User?)
-
 data class User(
     val id: Long,
     val name: String,

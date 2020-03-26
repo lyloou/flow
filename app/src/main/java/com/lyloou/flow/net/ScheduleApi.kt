@@ -1,8 +1,8 @@
 package com.lyloou.flow.net
 
 import com.lyloou.flow.common.Url
-import com.lyloou.flow.model.CommonResult
-import com.lyloou.flow.model.ScheduleListResult
+import com.lyloou.flow.model.CResult
+import com.lyloou.flow.model.UserPassword
 import com.lyloou.flow.model.UserPasswordHelper
 import com.lyloou.flow.repository.schedule.DbSchedule
 import io.reactivex.Observable
@@ -14,32 +14,16 @@ import retrofit2.http.Query
 interface ScheduleApi {
 
     @GET("list")
-    fun list(@Query("limit") limit: Int = 10, @Query("offset") offset: Int = 0): Observable<ScheduleListResult>
+    fun list(@Query("limit") limit: Int = 10, @Query("offset") offset: Int = 0): Observable<CResult<List<DbSchedule>?>>
 
     @POST("batch_sync")
-    fun batchSync(@Body dbSchedules: List<DbSchedule>): Observable<CommonResult>
+    fun batchSync(@Body dbSchedules: List<DbSchedule>): Observable<CResult<String?>>
 
     @POST("batch_delete")
-    fun batchDelete(@Body ids: List<Long>): Observable<CommonResult>
+    fun batchDelete(@Body ids: List<Long>): Observable<CResult<String?>>
 }
 
-fun Network.scheduleApi(): ScheduleApi {
-    return withHeader { auth() }
+fun Network.scheduleApi(userPassword: UserPassword? = UserPasswordHelper.getUserPassword()): ScheduleApi {
+    return withHeader { auth(userPassword) }
         .get(Url.ScheduleApi.url, ScheduleApi::class.java)
 }
-
-// [Retrofit — Add Custom Request Header](https://futurestud.io/tutorials/retrofit-add-custom-request-header)
-private fun auth(): List<Pair<String, String>> {
-    val userPassword = UserPasswordHelper.getUserPassword()
-    userPassword?.let {
-        return listOf(
-            "Content-Type" to "application/json",
-            "Authorization" to userPassword.password,
-            "UserId" to userPassword.userId.toString()
-        )
-    }
-    return emptyList()
-}
-
-
-

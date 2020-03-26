@@ -19,14 +19,16 @@ class LoginViewModel : ViewModel() {
     fun login(
         name: String,
         password: String,
-        okFun: (UserResult) -> Unit,
+        okFun: (CResult<User?>) -> Unit,
         failFun: (Throwable) -> Unit
     ) {
         val encodedPassword = PasswordUtil.getEncodedPassword(password)
         Network.flowApiWithoutAuth()
             .login(name, encodedPassword)
             .defaultScheduler()
-            .subscribe(okFun, failFun)
+            .subscribe({
+                okFun(it)
+            }, failFun)
     }
 
     fun saveUserInfo(user: User) {

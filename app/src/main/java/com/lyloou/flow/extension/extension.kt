@@ -6,6 +6,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.reflect.TypeToken
+import com.lyloou.flow.model.gson
 import java.text.DateFormat
 import java.util.*
 
@@ -38,10 +40,23 @@ fun Long.toDateString(dateFormat: Int = DateFormat.MEDIUM): String {
     return df.format(this)
 }
 
+fun Date.toDateString(dateFormat: Int = DateFormat.MEDIUM): String {
+    val df = DateFormat.getDateInstance(dateFormat, Locale.getDefault())
+    return df.format(this)
+}
+
 fun View.slideExit() {
     if (translationY == 0f) animate().translationY(-height.toFloat())
 }
 
 fun View.slideEnter() {
     if (translationY < 0f) animate().translationY(0f)
+}
+
+fun <T> String?.toTypedList(): List<T> {
+    if (this == null) {
+        return emptyList()
+    }
+    val type = object : TypeToken<List<T>>() {}.type
+    return gson.fromJson(this, type)
 }

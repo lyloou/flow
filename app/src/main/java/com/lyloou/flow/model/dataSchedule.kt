@@ -5,10 +5,7 @@ import com.lyloou.flow.common.Key
 import com.lyloou.flow.common.SpName
 import com.lyloou.flow.extension.Preference
 import com.lyloou.flow.extension.clear
-import com.lyloou.flow.repository.schedule.DbSchedule
 import com.lyloou.flow.util.Utime
-
-data class ScheduleListResult(var err_code: Int, var err_msg: String, var data: List<DbSchedule>)
 
 enum class Order {
     A, B, C, D

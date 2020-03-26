@@ -10,16 +10,16 @@ import retrofit2.http.Query
 
 interface FlowApi {
     @POST("login")
-    fun login(@Query("name") name: String, @Query("password") password: String): Observable<UserResult>
+    fun login(@Query("name") name: String, @Query("password") password: String): Observable<CResult<User?>>
 
     @GET("get")
-    fun get(@Query("day") day: String): Observable<FlowResult>
+    fun get(@Query("day") day: String): Observable<CResult<FlowRep?>>
 
     @GET("list")
-    fun list(@Query("limit") limit: Int = 10, @Query("offset") offset: Int = 0): Observable<FlowListResult>
+    fun list(@Query("limit") limit: Int = 10, @Query("offset") offset: Int = 0): Observable<CResult<List<FlowRep>?>>
 
     @POST("batch_sync")
-    fun batchSync(@Body flowReqs: List<FlowReq>): Observable<CommonResult>
+    fun batchSync(@Body flowReqs: List<FlowReq>): Observable<CResult<String?>>
 }
 
 fun Network.flowApiWithoutAuth(): FlowApi {
@@ -34,17 +34,7 @@ fun Network.flowApi(userPassword: UserPassword? = UserPasswordHelper.getUserPass
         .get(Url.FlowApi.url, FlowApi::class.java)
 }
 
-// [Retrofit — Add Custom Request Header](https://futurestud.io/tutorials/retrofit-add-custom-request-header)
-private fun auth(userPassword: UserPassword?): List<Pair<String, String>> {
-    userPassword?.let {
-        return listOf(
-            "Content-Type" to "application/json",
-            "Authorization" to userPassword.password,
-            "UserId" to userPassword.userId.toString()
-        )
-    }
-    return emptyList()
-}
+
 
 
 
