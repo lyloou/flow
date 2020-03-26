@@ -17,14 +17,15 @@ import io.noties.markwon.ext.tasklist.TaskListPlugin
 import kotlinx.android.synthetic.main.fragment_schedule.*
 
 class ScheduleFragment : Fragment(), View.OnClickListener {
-    lateinit var viewModel: ScheduleViewModel
+    lateinit var detailViewModel: ScheduleDetailViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(requireActivity()).get(ScheduleViewModel::class.java)
+        detailViewModel =
+            ViewModelProviders.of(requireActivity()).get(ScheduleDetailViewModel::class.java)
         return inflater.inflate(R.layout.fragment_schedule, container, false)
     }
 
@@ -90,7 +91,7 @@ class ScheduleFragment : Fragment(), View.OnClickListener {
                 startActivity(Intent(requireContext(), ScheduleListActivity::class.java))
             }
             R.id.menu_schedule_new -> {
-                viewModel.startNewSchedule()
+                detailViewModel.startNewSchedule()
                 initView()
             }
         }

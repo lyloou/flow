@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.lyloou.flow.ui.home.ScheduleViewModel" />
+            type="com.lyloou.flow.ui.home.ScheduleDetailViewModel" />
     </data>
 
 

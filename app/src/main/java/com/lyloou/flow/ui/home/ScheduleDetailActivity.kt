@@ -13,23 +13,24 @@ import kotlinx.android.synthetic.main.activity_schedule_detail.*
 
 class ScheduleDetailActivity : AppCompatActivity() {
 
-    private lateinit var scheduleViewModel: ScheduleViewModel
+    private lateinit var scheduleDetailViewModel: ScheduleDetailViewModel
     private lateinit var binding: ActivityScheduleDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_schedule_detail)
-        scheduleViewModel = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
+        scheduleDetailViewModel =
+            ViewModelProviders.of(this).get(ScheduleDetailViewModel::class.java)
 
-        binding.data = scheduleViewModel
+        binding.data = scheduleDetailViewModel
         binding.lifecycleOwner = this
 
-        scheduleViewModel.name.observe(this, Observer {
-            scheduleViewModel.refreshContent()
+        scheduleDetailViewModel.name.observe(this, Observer {
+            scheduleDetailViewModel.refreshContent()
         })
         val key = intent.getStringExtra(Key.SCHEDULE.name)
-        scheduleViewModel.name.value = key
-        scheduleViewModel.content.observe(this, Observer {
-            scheduleViewModel.save()
+        scheduleDetailViewModel.name.value = key
+        scheduleDetailViewModel.content.observe(this, Observer {
+            scheduleDetailViewModel.save()
         })
         initEditText(key)
         ivClose.setOnClickListener { onBackPressed() }

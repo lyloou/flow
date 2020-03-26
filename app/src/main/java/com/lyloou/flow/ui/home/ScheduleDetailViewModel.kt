@@ -11,7 +11,7 @@ import com.lyloou.flow.repository.schedule.DbSchedule
 import com.lyloou.flow.repository.schedule.ScheduleRepository
 
 
-class ScheduleViewModel(application: Application) : AndroidViewModel(application) {
+class ScheduleDetailViewModel(application: Application) : AndroidViewModel(application) {
 
     private var schedule: Schedule = ScheduleHelper.getSchedule()
 
