@@ -2,12 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_todo_list"
+        android:id="@+id/menu_schedule_list"
         android:icon="@drawable/ic_view_list"
         android:title="列表"
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_event_sync"
         android:title="同步数据" />
-
+    <item
+        android:id="@+id/menu_schedule_new"
+        android:title="新进度表" />
 </menu>

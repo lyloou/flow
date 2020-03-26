@@ -11,28 +11,28 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.lyloou.flow.R
-import com.lyloou.flow.databinding.ActivityTodoListBinding
+import com.lyloou.flow.databinding.ActivityScheduleListBinding
 import com.lyloou.flow.repository.schedule.ScheduleNetWork
 import com.lyloou.flow.util.Uscreen
 import com.lyloou.flow.widget.ItemOffsetDecoration
 import com.lyloou.flow.widget.ToolbarManager
-import kotlinx.android.synthetic.main.activity_todo_list.*
+import kotlinx.android.synthetic.main.activity_schedule_list.*
 import kotlinx.android.synthetic.main.item_toolbar.*
 
-class TodoListActivity : AppCompatActivity(), ToolbarManager {
-    private lateinit var binding: ActivityTodoListBinding
-    private lateinit var viewModel: TodoListViewModel
+class ScheduleListActivity : AppCompatActivity(), ToolbarManager {
+    private lateinit var binding: ActivityScheduleListBinding
+    private lateinit var viewModel: ScheduleListViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(TodoListViewModel::class.java)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_todo_list)
+        viewModel = ViewModelProviders.of(this).get(ScheduleListViewModel::class.java)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_schedule_list)
         binding.data = viewModel
 
         initView()
     }
 
     private fun initView() {
-        toolbarTitle = resources.getString(R.string.todo)
+        toolbarTitle = resources.getString(R.string.schedule)
         toolbar.setTitleTextColor(Color.WHITE)
         enableHomeAsUp { onBackPressed() }
         attachToScroll(rvTodoList)
@@ -40,7 +40,7 @@ class TodoListActivity : AppCompatActivity(), ToolbarManager {
         rvTodoList.layoutManager = LinearLayoutManager(this)
         rvTodoList.addItemDecoration(ItemOffsetDecoration(Uscreen.dp2Px(this, 16f)))
 
-        val todoListAdapter = TodoListAdapter()
+        val todoListAdapter = ScheduleListAdapter()
         rvTodoList.adapter = todoListAdapter
         viewModel.dbScheduleList.observe(this, Observer {
             it?.let {

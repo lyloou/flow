@@ -42,10 +42,7 @@ enum class SpName : Str {
 
 enum class Key : Str {
     DAY,
-    NAVIGATION_ID,
-    TODO,
     NET_AUTHORIZATION,
-    NET_USER_ID,
     SCHEDULE,
     USER,
     WEATHER_CITY

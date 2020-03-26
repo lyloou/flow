@@ -16,8 +16,8 @@ import io.noties.markwon.ext.tasklist.TaskListPlugin
 import kotlinx.android.synthetic.main.cell_todo.view.*
 
 
-class TodoListAdapter :
-    PagedListAdapter<DbSchedule, TodoListAdapter.TodoListHolder>(DIFF_CALLBACK) {
+class ScheduleListAdapter :
+    PagedListAdapter<DbSchedule, ScheduleListAdapter.TodoListHolder>(DIFF_CALLBACK) {
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DbSchedule>() {

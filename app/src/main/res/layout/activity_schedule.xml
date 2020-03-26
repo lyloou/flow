@@ -7,14 +7,14 @@
 
         <variable
             name="data"
-            type="com.lyloou.flow.ui.home.TodoViewModel" />
+            type="com.lyloou.flow.ui.home.ScheduleViewModel" />
     </data>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.TodoActivity">
+        tools:context=".ui.home.ScheduleActivity">
 
         <TextView
             android:id="@+id/textViewD"

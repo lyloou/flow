@@ -7,29 +7,29 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.lyloou.flow.R
 import com.lyloou.flow.common.Key
-import com.lyloou.flow.databinding.ActivityTodoBinding
+import com.lyloou.flow.databinding.ActivityScheduleBinding
 import com.lyloou.flow.model.Order
-import kotlinx.android.synthetic.main.activity_todo.*
+import kotlinx.android.synthetic.main.activity_schedule.*
 
-class TodoActivity : AppCompatActivity() {
+class ScheduleActivity : AppCompatActivity() {
 
-    private lateinit var todoViewModel: TodoViewModel
-    private lateinit var binding: ActivityTodoBinding
+    private lateinit var scheduleViewModel: ScheduleViewModel
+    private lateinit var binding: ActivityScheduleBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_todo)
-        todoViewModel = ViewModelProviders.of(this).get(TodoViewModel::class.java)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_schedule)
+        scheduleViewModel = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
 
-        binding.data = todoViewModel
+        binding.data = scheduleViewModel
         binding.lifecycleOwner = this
 
-        todoViewModel.name.observe(this, Observer {
-            todoViewModel.refreshContent()
+        scheduleViewModel.name.observe(this, Observer {
+            scheduleViewModel.refreshContent()
         })
-        val key = intent.getStringExtra(Key.TODO.name)
-        todoViewModel.name.value = key
-        todoViewModel.content.observe(this, Observer {
-            todoViewModel.save()
+        val key = intent.getStringExtra(Key.SCHEDULE.name)
+        scheduleViewModel.name.value = key
+        scheduleViewModel.content.observe(this, Observer {
+            scheduleViewModel.save()
         })
         initEditText(key)
         ivClose.setOnClickListener { onBackPressed() }

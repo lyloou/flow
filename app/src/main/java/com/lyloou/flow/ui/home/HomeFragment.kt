@@ -40,7 +40,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         val appCompatActivity = activity as AppCompatActivity
         appCompatActivity.setSupportActionBar(toolbar)
         appCompatActivity.supportActionBar?.let {
-            it.title = resources.getString(R.string.todo)
+            it.title = resources.getString(R.string.schedule)
         }
     }
 
@@ -70,8 +70,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     private fun enterMode(name: String) {
-        val intent = Intent(context, TodoActivity::class.java)
-        intent.putExtra(Key.TODO.name, name)
+        val intent = Intent(context, ScheduleActivity::class.java)
+        intent.putExtra(Key.SCHEDULE.name, name)
         startActivity(intent)
     }
 
@@ -83,8 +83,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_todo_list -> {
-                startActivity(Intent(requireContext(), TodoListActivity::class.java))
+            R.id.menu_schedule_list -> {
+                startActivity(Intent(requireContext(), ScheduleListActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)

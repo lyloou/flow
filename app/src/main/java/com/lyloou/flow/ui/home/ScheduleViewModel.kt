@@ -8,7 +8,7 @@ import com.lyloou.flow.model.Schedule
 import com.lyloou.flow.model.ScheduleHelper
 
 
-class TodoViewModel(application: Application) : AndroidViewModel(application) {
+class ScheduleViewModel(application: Application) : AndroidViewModel(application) {
 
     private val schedule: Schedule = ScheduleHelper.getSchedule()
 

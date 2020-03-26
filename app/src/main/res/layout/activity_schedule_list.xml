@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.lyloou.flow.ui.home.TodoListViewModel" />
+            type="com.lyloou.flow.ui.home.ScheduleListViewModel" />
     </data>
 
     <FrameLayout
@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingTop="?actionBarSize"
-            tools:context=".ui.home.TodoListActivity"
+            tools:context=".ui.home.ScheduleListActivity"
             tools:layout="@layout/cell_todo" />
 
         <include layout="@layout/item_toolbar" />

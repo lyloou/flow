@@ -25,7 +25,7 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
         <activity
-            android:name=".ui.home.TodoListActivity"
+            android:name=".ui.home.ScheduleListActivity"
             android:theme="@style/NoActionBar" />
         <activity android:name=".ui.city.CitySelectorActivity" />
         <activity
@@ -35,7 +35,7 @@
             android:name=".ui.setting.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".ui.home.TodoActivity"
+            android:name=".ui.home.ScheduleActivity"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".MainActivity"

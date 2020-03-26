@@ -9,7 +9,7 @@ import com.lyloou.flow.model.Schedule
 import com.lyloou.flow.repository.schedule.DbSchedule
 import com.lyloou.flow.repository.schedule.ScheduleRepository
 
-class TodoListViewModel(application: Application) : AndroidViewModel(application) {
+class ScheduleListViewModel(application: Application) : AndroidViewModel(application) {
 
     val data: MutableLiveData<List<Schedule>> by lazy {
         MutableLiveData<List<Schedule>>()
