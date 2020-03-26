@@ -14,13 +14,13 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvTodoList"
+            android:id="@+id/rvList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingTop="?actionBarSize"
             tools:context=".ui.home.ScheduleListActivity"
-            tools:layout="@layout/cell_todo" />
+            tools:layout="@layout/cell_schedule" />
 
         <include layout="@layout/item_toolbar" />
     </FrameLayout>

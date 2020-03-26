@@ -13,7 +13,7 @@ import com.lyloou.flow.repository.schedule.DbSchedule
 import com.lyloou.flow.repository.schedule.toSchedule
 import io.noties.markwon.Markwon
 import io.noties.markwon.ext.tasklist.TaskListPlugin
-import kotlinx.android.synthetic.main.cell_todo.view.*
+import kotlinx.android.synthetic.main.cell_schedule.view.*
 
 
 class ScheduleListAdapter :
@@ -33,7 +33,8 @@ class ScheduleListAdapter :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoListHolder {
-        val inflate = LayoutInflater.from(parent.context).inflate(R.layout.cell_todo, parent, false)
+        val inflate =
+            LayoutInflater.from(parent.context).inflate(R.layout.cell_schedule, parent, false)
         return TodoListHolder(inflate)
     }
 

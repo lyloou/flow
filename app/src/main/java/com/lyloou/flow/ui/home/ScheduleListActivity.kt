@@ -2,6 +2,7 @@ package com.lyloou.flow.ui.home
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
@@ -35,16 +36,17 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager {
         toolbarTitle = resources.getString(R.string.schedule)
         toolbar.setTitleTextColor(Color.WHITE)
         enableHomeAsUp { onBackPressed() }
-        attachToScroll(rvTodoList)
+        attachToScroll(rvList)
 
-        rvTodoList.layoutManager = LinearLayoutManager(this)
-        rvTodoList.addItemDecoration(ItemOffsetDecoration(Uscreen.dp2Px(this, 16f)))
+        rvList.layoutManager = LinearLayoutManager(this)
+        rvList.addItemDecoration(ItemOffsetDecoration(Uscreen.dp2Px(this, 16f)))
 
-        val todoListAdapter = ScheduleListAdapter()
-        rvTodoList.adapter = todoListAdapter
+        val scheduleListAdapter = ScheduleListAdapter()
+        rvList.adapter = scheduleListAdapter
         viewModel.dbScheduleList.observe(this, Observer {
             it?.let {
-                todoListAdapter.submitList(it)
+                Log.i("TTAG", "todoList: ${it}");
+                scheduleListAdapter.submitList(it)
             }
         })
         //

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.lyloou.flow.R
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.model.Order
@@ -16,11 +17,14 @@ import io.noties.markwon.ext.tasklist.TaskListPlugin
 import kotlinx.android.synthetic.main.fragment_schedule.*
 
 class ScheduleFragment : Fragment(), View.OnClickListener {
+    lateinit var viewModel: ScheduleViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel = ViewModelProviders.of(requireActivity()).get(ScheduleViewModel::class.java)
         return inflater.inflate(R.layout.fragment_schedule, container, false)
     }
 
@@ -86,7 +90,8 @@ class ScheduleFragment : Fragment(), View.OnClickListener {
                 startActivity(Intent(requireContext(), ScheduleListActivity::class.java))
             }
             R.id.menu_schedule_new -> {
-
+                viewModel.startNewSchedule()
+                initView()
             }
         }
         return super.onOptionsItemSelected(item)

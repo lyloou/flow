@@ -7,9 +7,6 @@
         android:title="列表"
         app:showAsAction="always" />
     <item
-        android:id="@+id/menu_event_sync"
-        android:title="同步数据" />
-    <item
         android:id="@+id/menu_schedule_new"
         android:title="新进度表" />
 </menu>
