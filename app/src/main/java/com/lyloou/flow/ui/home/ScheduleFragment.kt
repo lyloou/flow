@@ -13,16 +13,15 @@ import com.lyloou.flow.model.Schedule
 import com.lyloou.flow.model.ScheduleHelper
 import io.noties.markwon.Markwon
 import io.noties.markwon.ext.tasklist.TaskListPlugin
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_schedule.*
 
-class HomeFragment : Fragment(), View.OnClickListener {
-
+class ScheduleFragment : Fragment(), View.OnClickListener {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return inflater.inflate(R.layout.fragment_schedule, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -85,6 +84,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
         when (item.itemId) {
             R.id.menu_schedule_list -> {
                 startActivity(Intent(requireContext(), ScheduleListActivity::class.java))
+            }
+            R.id.menu_schedule_new -> {
+
             }
         }
         return super.onOptionsItemSelected(item)

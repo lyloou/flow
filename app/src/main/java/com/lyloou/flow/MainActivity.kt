@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.lyloou.flow.ui.home.HomeFragment
+import com.lyloou.flow.ui.home.ScheduleFragment
 import com.lyloou.flow.ui.list.ListFragment
 import com.lyloou.flow.ui.mine.MineFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
 
     val menuIdToFragments = arrayListOf(
-        R.id.navigation_home to HomeFragment(),
+        R.id.navigation_home to ScheduleFragment(),
         R.id.navigation_list to ListFragment(),
         R.id.navigation_mine to MineFragment()
     )
