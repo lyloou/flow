@@ -3,44 +3,23 @@ package com.lyloou.flow.model
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.common.SpName
 import com.lyloou.flow.common.SpPreference
-import com.lyloou.flow.common.clear
-import com.lyloou.flow.util.Utime
 
 enum class Order {
     A, B, C, D
 }
 
-data class Schedule(
-    val title: String,
-    var a: String? = "",
-    var b: String? = "",
-    var c: String? = "",
-    var d: String? = ""
-)
 
 object ScheduleHelper {
-    private var preference =
-        SpPreference(
-            SpName.SCHEDULE.name,
-            Key.SCHEDULE.name,
-            ""
-        )
-    private var data: String by preference
+    var a: String by SpPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_A.name, "")
+    var b: String by SpPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_B.name, "")
+    var c: String by SpPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_C.name, "")
+    var d: String by SpPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_D.name, "")
 
-    fun fromJson(string: String?): Schedule {
-        val fromJson = gson.fromJson(string, Schedule::class.java)
-        return fromJson ?: Schedule(Utime.today())
-    }
-
-    fun getSchedule(): Schedule {
-        return fromJson(data)
-    }
-
-    fun saveSchedule(value: Schedule) {
-        data = value.toJsonString()
-    }
 
     fun clearSchedule() {
-        preference.clear()
+        a = ""
+        b = ""
+        c = ""
+        d = ""
     }
 }

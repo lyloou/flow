@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lyloou.flow.R
 import com.lyloou.flow.repository.schedule.DbSchedule
-import com.lyloou.flow.repository.schedule.toSchedule
 import io.noties.markwon.Markwon
 import io.noties.markwon.ext.tasklist.TaskListPlugin
 import kotlinx.android.synthetic.main.cell_schedule.view.*
@@ -41,13 +40,12 @@ class ScheduleListAdapter :
     override fun onBindViewHolder(holder: TodoListHolder, position: Int) {
         getItem(position)?.let {
             with(holder) {
-                itemView.tvName.text = it.title
-                val schedule = it.toSchedule()
                 val context = holder.itemView.context
-                renderWithMarkdown(context, itemView.tvA, schedule.a)
-                renderWithMarkdown(context, itemView.tvB, schedule.b)
-                renderWithMarkdown(context, itemView.tvC, schedule.c)
-                renderWithMarkdown(context, itemView.tvD, schedule.d)
+                itemView.tvName.text = it.title
+                renderWithMarkdown(context, itemView.tvA, it.a)
+                renderWithMarkdown(context, itemView.tvB, it.b)
+                renderWithMarkdown(context, itemView.tvC, it.c)
+                renderWithMarkdown(context, itemView.tvD, it.d)
             }
         }
     }

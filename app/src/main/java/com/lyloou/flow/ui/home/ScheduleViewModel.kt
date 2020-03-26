@@ -7,8 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.common.SpName
 import com.lyloou.flow.common.SpPreference
-import com.lyloou.flow.model.Schedule
-import com.lyloou.flow.model.toJsonString
+import com.lyloou.flow.model.ScheduleHelper
 import com.lyloou.flow.repository.schedule.DbSchedule
 import com.lyloou.flow.repository.schedule.ScheduleRepository
 import com.lyloou.flow.util.Utime
@@ -30,17 +29,14 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
                 0,
                 0,
                 Utime.today(),
-                Schedule(Utime.today(), a, b, c, d).toJsonString(),
+                "",
+                a, b, c, d,
                 "2020-03-26"
             )
         )
 
         // 清空 schedule
-        a = ""
-        b = ""
-        c = ""
-        d = ""
-
+        ScheduleHelper.clearSchedule()
     }
 
     fun enterMode(name: String) {
