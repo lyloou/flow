@@ -1,10 +1,9 @@
 package com.lyloou.flow.model
 
-import com.lyloou.flow.App
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.common.SpName
-import com.lyloou.flow.extension.Preference
-import com.lyloou.flow.extension.clear
+import com.lyloou.flow.common.SpPreference
+import com.lyloou.flow.common.clear
 import com.lyloou.flow.util.Utime
 
 enum class Order {
@@ -25,7 +24,11 @@ fun Schedule.toJson(): String {
 
 object ScheduleHelper {
     private var preference =
-        Preference(App.instance, Key.SCHEDULE.name, "", SpName.SCHEDULE.name)
+        SpPreference(
+            SpName.SCHEDULE.name,
+            Key.SCHEDULE.name,
+            ""
+        )
     private var data: String by preference
 
     fun fromJson(string: String?): Schedule {

@@ -2,11 +2,10 @@ package com.lyloou.flow.model
 
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
-import com.lyloou.flow.App
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.common.SpName
-import com.lyloou.flow.extension.Preference
-import com.lyloou.flow.extension.clear
+import com.lyloou.flow.common.SpPreference
+import com.lyloou.flow.common.clear
 
 class CityInfoBean {
     /**
@@ -144,7 +143,11 @@ object CityHelper {
     }
 
     private var preference =
-        Preference(App.instance, Key.WEATHER_CITY.name, "", SpName.WEATHER_CITY.name)
+        SpPreference(
+            SpName.WEATHER_CITY.name,
+            Key.WEATHER_CITY.name,
+            ""
+        )
     private var data: String by preference
 
 

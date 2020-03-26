@@ -1,11 +1,10 @@
 package com.lyloou.flow.model
 
 import com.google.gson.annotations.SerializedName
-import com.lyloou.flow.App
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.common.SpName
-import com.lyloou.flow.extension.Preference
-import com.lyloou.flow.extension.clear
+import com.lyloou.flow.common.SpPreference
+import com.lyloou.flow.common.clear
 import java.util.*
 
 data class User(
@@ -37,7 +36,11 @@ fun User.toJson(): String {
 val DEFAULT_USER = User(0, "登录", "", 0, "", "天天做好事", Date())
 
 object UserHelper {
-    private var preference = Preference(App.instance, Key.USER.name, "", SpName.USER.name)
+    private var preference = SpPreference(
+        SpName.USER.name,
+        Key.USER.name,
+        ""
+    )
     private var data: String by preference
 
     private fun fromJson(str: String): User {
@@ -60,7 +63,11 @@ object UserHelper {
 
 object UserPasswordHelper {
     private var preference =
-        Preference(App.instance, Key.NET_AUTHORIZATION.name, "", SpName.NET_AUTHORIZATION.name)
+        SpPreference(
+            SpName.NET_AUTHORIZATION.name,
+            Key.NET_AUTHORIZATION.name,
+            ""
+        )
     private var data: String by preference
 
 

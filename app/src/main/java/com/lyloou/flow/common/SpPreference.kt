@@ -1,26 +1,29 @@
-package com.lyloou.flow.extension
+package com.lyloou.flow.common
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.lyloou.flow.App
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class Preference<T>(
-    val context: Context,
-    val name: String,
-    private val default: T,
-    private val spName: String = "default"
+class DefaultSpPreference<T>(key: String, defaultValue: T) :
+    SpPreference<T>("default", key, defaultValue)
+
+open class SpPreference<T>(
+    private val spName: String,
+    private val key: String,
+    private val defaultValue: T
 ) : ReadWriteProperty<Any?, T> {
     val prefs: SharedPreferences by lazy {
-        context.getSharedPreferences(spName, Context.MODE_PRIVATE)
+        App.instance.getSharedPreferences(spName, Context.MODE_PRIVATE)
     }
 
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
-        return findPreference(name, default)
+        return findPreference(key, defaultValue)
     }
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-        putPreference(name, value)
+        putPreference(key, value)
     }
 
     private fun <T> findPreference(name: String, default: T): T = with(prefs) {
@@ -48,10 +51,10 @@ class Preference<T>(
     }
 }
 
-fun <T> Preference<T>.remove(key: String) {
+fun <T> SpPreference<T>.remove(key: String) {
     prefs.edit().remove(key).apply()
 }
 
-fun <T> Preference<T>.clear() {
+fun <T> SpPreference<T>.clear() {
     prefs.edit().clear().apply()
 }
