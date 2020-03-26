@@ -30,8 +30,7 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
                 0,
                 Utime.today(),
                 "",
-                a, b, c, d,
-                "2020-03-26"
+                a, b, c, d
             )
         )
 

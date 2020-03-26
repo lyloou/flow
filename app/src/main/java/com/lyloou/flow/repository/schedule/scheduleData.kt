@@ -14,7 +14,6 @@ const val COL_SCHEDULE_A = "a"
 const val COL_SCHEDULE_B = "b"
 const val COL_SCHEDULE_C = "c"
 const val COL_SCHEDULE_D = "d"
-const val COL_SCHEDULE_GMT_CREATE = "gmt_create"
 
 @Entity(tableName = TABLE_SCHEDULE)
 data class DbSchedule(
@@ -49,9 +48,5 @@ data class DbSchedule(
 
     @ColumnInfo(name = COL_SCHEDULE_D)
     @SerializedName("d")
-    var d: String?,
-
-    @ColumnInfo(name = COL_SCHEDULE_GMT_CREATE)
-    @SerializedName("gmt_create")
-    var gmtCreate: String
+    var d: String?
 )

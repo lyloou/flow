@@ -9,7 +9,7 @@ enum class Url(val url: String) : Str {
     Kingsoftware("http://open.iciba.com/"),
     WeatherApi("http://t.weather.sojson.com/"),
     FlowApi("http://114.67.95.131:8888/api/v1/flow/"),
-    UserApi("http://114.67.95.131:8888/api/v1/flow/"),
+    UserApi("http://114.67.95.131:8888/api/v1/user/"),
     ScheduleApi("http://114.67.95.131:8888/api/v1/schedule/"),
     ;
 
@@ -29,7 +29,6 @@ enum class Action : Str {
 
 enum class SpName : Str {
     NET_AUTHORIZATION,
-    SCHEDULE,
     SCHEDULE_ITEM,
     USER,
     WEATHER_CITY,

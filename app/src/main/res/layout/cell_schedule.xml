@@ -73,5 +73,15 @@
             android:paddingBottom="8dp"
             android:textSize="14sp"
             tools:text="D" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:gravity="end"
+            android:textSize="12sp"
+            tools:text="2020-03-27" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
