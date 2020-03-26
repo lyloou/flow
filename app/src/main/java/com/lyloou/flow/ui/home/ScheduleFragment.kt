@@ -73,7 +73,7 @@ class ScheduleFragment : Fragment(), View.OnClickListener {
     }
 
     private fun enterMode(name: String) {
-        val intent = Intent(context, ScheduleActivity::class.java)
+        val intent = Intent(context, ScheduleDetailActivity::class.java)
         intent.putExtra(Key.SCHEDULE.name, name)
         startActivity(intent)
     }

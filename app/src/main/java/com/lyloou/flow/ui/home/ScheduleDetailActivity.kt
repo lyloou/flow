@@ -7,17 +7,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.lyloou.flow.R
 import com.lyloou.flow.common.Key
-import com.lyloou.flow.databinding.ActivityScheduleBinding
+import com.lyloou.flow.databinding.ActivityScheduleDetailBinding
 import com.lyloou.flow.model.Order
-import kotlinx.android.synthetic.main.activity_schedule.*
+import kotlinx.android.synthetic.main.activity_schedule_detail.*
 
-class ScheduleActivity : AppCompatActivity() {
+class ScheduleDetailActivity : AppCompatActivity() {
 
     private lateinit var scheduleViewModel: ScheduleViewModel
-    private lateinit var binding: ActivityScheduleBinding
+    private lateinit var binding: ActivityScheduleDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_schedule)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_schedule_detail)
         scheduleViewModel = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
 
         binding.data = scheduleViewModel

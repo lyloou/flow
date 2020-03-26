@@ -35,7 +35,7 @@
             android:name=".ui.setting.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".ui.home.ScheduleActivity"
+            android:name=".ui.home.ScheduleDetailActivity"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".MainActivity"
