@@ -25,13 +25,6 @@ data class UserPassword(
     val password: String
 )
 
-fun UserPassword.toJson(): String {
-    return gson.toJson(this)
-}
-
-fun User.toJson(): String {
-    return gson.toJson(this)
-}
 
 val DEFAULT_USER = User(0, "登录", "", 0, "", "天天做好事", Date())
 
@@ -52,7 +45,7 @@ object UserHelper {
     }
 
     fun saveUser(value: User) {
-        data = value.toJson()
+        data = value.toJsonString()
     }
 
     fun clearUser() {
@@ -80,7 +73,7 @@ object UserPasswordHelper {
     }
 
     fun saveUserPassword(value: UserPassword) {
-        data = value.toJson()
+        data = value.toJsonString()
     }
 
     fun clearUserPassword() {

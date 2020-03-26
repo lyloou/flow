@@ -18,10 +18,6 @@ data class Schedule(
     var d: String? = ""
 )
 
-fun Schedule.toJson(): String {
-    return gson.toJson(this)
-}
-
 object ScheduleHelper {
     private var preference =
         SpPreference(
@@ -41,7 +37,7 @@ object ScheduleHelper {
     }
 
     fun saveSchedule(value: Schedule) {
-        data = value.toJson()
+        data = value.toJsonString()
     }
 
     fun clearSchedule() {

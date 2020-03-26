@@ -133,9 +133,6 @@ data class City(
     val ctime: String
 )
 
-fun City.toJson(): String {
-    return gson.toJson(this)
-}
 
 object CityHelper {
     private fun fromJson(str: String): City? {
@@ -153,7 +150,7 @@ object CityHelper {
 
     fun saveCity(city: City?) {
         city?.let {
-            data = it.toJson()
+            data = it.toJsonString()
         }
     }
 

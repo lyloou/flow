@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.lyloou.flow.model.Order
 import com.lyloou.flow.model.Schedule
 import com.lyloou.flow.model.ScheduleHelper
-import com.lyloou.flow.model.toJson
+import com.lyloou.flow.model.toJsonString
 import com.lyloou.flow.repository.schedule.DbSchedule
 import com.lyloou.flow.repository.schedule.ScheduleRepository
 
@@ -52,7 +52,7 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
                 0,
                 0,
                 schedule1.title,
-                schedule1.toJson(),
+                schedule1.toJsonString(),
                 "2020-03-26"
             )
         )
