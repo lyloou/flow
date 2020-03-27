@@ -14,6 +14,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.lyloou.flow.R
 import com.lyloou.flow.databinding.ActivityScheduleListBinding
+import com.lyloou.flow.model.UserHelper
 import com.lyloou.flow.repository.schedule.ScheduleNetWork
 import com.lyloou.flow.util.Uscreen
 import com.lyloou.flow.widget.ItemOffsetDecoration
@@ -63,6 +64,8 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_schedule_sync -> {
+                if (UserHelper.isNotLogin(this)) return true
+
                 WorkManager.getInstance(this)
                     .enqueue(OneTimeWorkRequestBuilder<ScheduleNetWork>().build())
 

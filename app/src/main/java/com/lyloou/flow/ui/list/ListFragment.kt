@@ -26,13 +26,12 @@ import com.google.android.material.tabs.TabLayout
 import com.lyloou.flow.R
 import com.lyloou.flow.extension.snackbar
 import com.lyloou.flow.model.Daily
-import com.lyloou.flow.model.UserHelper
+import com.lyloou.flow.model.UserHelper.isNotLogin
 import com.lyloou.flow.net.getKingSoftwareDaily
 import com.lyloou.flow.repository.DbFlow
 import com.lyloou.flow.repository.toPrettyText
 import com.lyloou.flow.ui.detail.DetailActivity
 import com.lyloou.flow.ui.kalendar.KalendarActivity
-import com.lyloou.flow.ui.login.LoginActivity
 import com.lyloou.flow.util.Uapp
 import com.lyloou.flow.util.Ucolor
 import com.lyloou.flow.util.Udialog
@@ -183,12 +182,12 @@ class ListFragment : Fragment(), OnItemLongClickListener {
     }
 
     private fun toKalendar() {
-        if (checkLogin()) return
+        if (isNotLogin(requireActivity())) return
         startActivity(Intent(context, KalendarActivity::class.java))
     }
 
     private fun syncData() {
-        if (checkLogin()) return
+        if (isNotLogin(requireActivity())) return
         var synced = false
         viewModel.getDbFlowsBySyncStatus(false)
             .observe(requireActivity(), Observer {
@@ -202,22 +201,6 @@ class ListFragment : Fragment(), OnItemLongClickListener {
                 }
                 showSyncDialog(it)
             })
-    }
-
-    private fun checkLogin(): Boolean {
-        if (UserHelper.getUser().id == 0L) {
-            snackbar("还没登录哦")
-                .setAction("去登录") {
-                    toLogin()
-                }
-                .show()
-            return true
-        }
-        return false
-    }
-
-    private fun toLogin() {
-        startActivity(Intent(context, LoginActivity::class.java))
     }
 
     @SuppressLint("InflateParams")

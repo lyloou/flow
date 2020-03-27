@@ -1,10 +1,15 @@
 package com.lyloou.flow.model
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import com.google.gson.annotations.SerializedName
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.common.SPreference
 import com.lyloou.flow.common.SpName
 import com.lyloou.flow.common.clear
+import com.lyloou.flow.extension.snackbar
+import com.lyloou.flow.ui.login.LoginActivity
 import java.util.*
 
 data class User(
@@ -52,6 +57,21 @@ object UserHelper {
         preference.clear()
     }
 
+    fun isNotLogin(context: Activity): Boolean {
+        if (getUser().id == 0L) {
+            context.snackbar("还没登录哦")
+                .setAction("去登录") {
+                    toLogin(context)
+                }
+                .show()
+            return true
+        }
+        return false
+    }
+
+    private fun toLogin(context: Context) {
+        context.startActivity(Intent(context, LoginActivity::class.java))
+    }
 }
 
 object UserPasswordHelper {
