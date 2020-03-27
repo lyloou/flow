@@ -36,11 +36,12 @@ class ScheduleDetailActivity : AppCompatActivity(), ToolbarManager {
         viewModel.content.observe(this, Observer {
             viewModel.save()
         })
-        initView(key)
 
         toolbarTitle = key ?: getString(R.string.schedule)
         toolbar.setTitleTextColor(Color.WHITE)
         enableHomeAsUp { onBackPressed() }
+
+        initView(key)
     }
 
     private fun initView(key: String?) {
