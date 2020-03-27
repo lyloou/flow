@@ -34,6 +34,7 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager {
     }
 
     private fun initView() {
+        setSupportActionBar(toolbar)
         toolbarTitle = resources.getString(R.string.schedule_list)
         toolbar.setTitleTextColor(Color.WHITE)
         enableHomeAsUp { onBackPressed() }
