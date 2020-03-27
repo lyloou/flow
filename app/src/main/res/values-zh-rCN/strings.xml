@@ -3,4 +3,5 @@
     <string name="app_name">夫路</string>
     <string name="flow_time_day">时分流</string>
     <string name="schedule">清单</string>
+    <string name="schedule_list">清单列表</string>
 </resources>

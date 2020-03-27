@@ -2,7 +2,8 @@ package com.lyloou.flow.ui.home
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
@@ -33,7 +34,7 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager {
     }
 
     private fun initView() {
-        toolbarTitle = resources.getString(R.string.schedule)
+        toolbarTitle = resources.getString(R.string.schedule_list)
         toolbar.setTitleTextColor(Color.WHITE)
         enableHomeAsUp { onBackPressed() }
         attachToScroll(rvList)
@@ -45,14 +46,27 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager {
         rvList.adapter = scheduleListAdapter
         viewModel.dbScheduleList.observe(this, Observer {
             it?.let {
-                Log.i("TTAG", "todoList: ${it}");
                 scheduleListAdapter.submitList(it)
             }
         })
-        //
-        WorkManager.getInstance(this).enqueue(OneTimeWorkRequestBuilder<ScheduleNetWork>().build())
     }
 
 
     override val toolbar: Toolbar by lazy { myToolbar }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.schedule_list, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_schedule_sync -> {
+                WorkManager.getInstance(this)
+                    .enqueue(OneTimeWorkRequestBuilder<ScheduleNetWork>().build())
+
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }

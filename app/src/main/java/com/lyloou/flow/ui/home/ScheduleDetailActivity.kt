@@ -1,7 +1,9 @@
 package com.lyloou.flow.ui.home
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -9,9 +11,11 @@ import com.lyloou.flow.R
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.databinding.ActivityScheduleDetailBinding
 import com.lyloou.flow.model.Order
+import com.lyloou.flow.widget.ToolbarManager
 import kotlinx.android.synthetic.main.activity_schedule_detail.*
+import kotlinx.android.synthetic.main.item_toolbar.*
 
-class ScheduleDetailActivity : AppCompatActivity() {
+class ScheduleDetailActivity : AppCompatActivity(), ToolbarManager {
 
     private lateinit var viewModel: ScheduleDetailViewModel
     private lateinit var binding: ActivityScheduleDetailBinding
@@ -32,11 +36,14 @@ class ScheduleDetailActivity : AppCompatActivity() {
         viewModel.content.observe(this, Observer {
             viewModel.save()
         })
-        initEditText(key)
-        ivClose.setOnClickListener { onBackPressed() }
+        initView(key)
+
+        toolbarTitle = key ?: getString(R.string.schedule)
+        toolbar.setTitleTextColor(Color.WHITE)
+        enableHomeAsUp { onBackPressed() }
     }
 
-    private fun initEditText(key: String?) {
+    private fun initView(key: String?) {
         editText.setBackgroundResource(
             when (key) {
                 Order.A.name -> R.drawable.item_schedule_a_bg
@@ -48,4 +55,8 @@ class ScheduleDetailActivity : AppCompatActivity() {
         )
 
     }
+
+    override val toolbar: Toolbar
+        get() = myToolbar
+
 }
