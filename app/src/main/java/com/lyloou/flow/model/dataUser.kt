@@ -2,8 +2,8 @@ package com.lyloou.flow.model
 
 import com.google.gson.annotations.SerializedName
 import com.lyloou.flow.common.Key
+import com.lyloou.flow.common.SPreference
 import com.lyloou.flow.common.SpName
-import com.lyloou.flow.common.SpPreference
 import com.lyloou.flow.common.clear
 import java.util.*
 
@@ -29,7 +29,7 @@ data class UserPassword(
 val DEFAULT_USER = User(0, "登录", "", 0, "", "天天做好事", Date())
 
 object UserHelper {
-    private var preference = SpPreference(
+    private var preference = SPreference(
         SpName.USER.name,
         Key.USER.name,
         ""
@@ -56,7 +56,7 @@ object UserHelper {
 
 object UserPasswordHelper {
     private var preference =
-        SpPreference(
+        SPreference(
             SpName.NET_AUTHORIZATION.name,
             Key.NET_AUTHORIZATION.name,
             ""

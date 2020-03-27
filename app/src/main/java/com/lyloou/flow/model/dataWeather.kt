@@ -3,8 +3,8 @@ package com.lyloou.flow.model
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import com.lyloou.flow.common.Key
+import com.lyloou.flow.common.SPreference
 import com.lyloou.flow.common.SpName
-import com.lyloou.flow.common.SpPreference
 import com.lyloou.flow.common.clear
 
 class CityInfoBean {
@@ -140,7 +140,7 @@ object CityHelper {
     }
 
     private var preference =
-        SpPreference(
+        SPreference(
             SpName.WEATHER_CITY.name,
             Key.WEATHER_CITY.name,
             ""

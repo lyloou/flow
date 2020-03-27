@@ -1,7 +1,7 @@
 package com.lyloou.flow.model
 
+import com.lyloou.flow.common.SPreference
 import com.lyloou.flow.common.SpName
-import com.lyloou.flow.common.SpPreference
 import com.lyloou.flow.common.clear
 
 enum class Order {
@@ -11,6 +11,6 @@ enum class Order {
 
 object ScheduleHelper {
     fun clearSchedule() {
-        SpPreference(SpName.SCHEDULE_ITEM.name, "", "").clear()
+        SPreference(SpName.SCHEDULE_ITEM.name, "", "").clear()
     }
 }

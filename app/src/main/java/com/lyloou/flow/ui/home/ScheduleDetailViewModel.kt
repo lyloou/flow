@@ -4,17 +4,17 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.lyloou.flow.common.Key
+import com.lyloou.flow.common.SPreference
 import com.lyloou.flow.common.SpName
-import com.lyloou.flow.common.SpPreference
 import com.lyloou.flow.model.Order
 
 
 class ScheduleDetailViewModel(application: Application) : AndroidViewModel(application) {
 
-    var a: String by SpPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_A.name, "")
-    var b: String by SpPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_B.name, "")
-    var c: String by SpPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_C.name, "")
-    var d: String by SpPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_D.name, "")
+    var a: String by SPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_A.name, "")
+    var b: String by SPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_B.name, "")
+    var c: String by SPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_C.name, "")
+    var d: String by SPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_D.name, "")
 
     val name: MutableLiveData<String> by lazy {
         MutableLiveData<String>()

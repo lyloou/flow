@@ -2,15 +2,14 @@ package com.lyloou.flow.common
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import com.lyloou.flow.App
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class DefaultSpPreference<T>(key: String, defaultValue: T) :
-    SpPreference<T>("default", key, defaultValue)
+class DefaultSPreference<T>(key: String, defaultValue: T) :
+    SPreference<T>("default", key, defaultValue)
 
-open class SpPreference<T>(
+open class SPreference<T>(
     private val spName: String,
     private val key: String,
     private val defaultValue: T
@@ -34,7 +33,7 @@ open class SpPreference<T>(
             is Int -> getInt(name, default)
             is Boolean -> getBoolean(name, default)
             is Float -> getFloat(name, default)
-            else -> throw IllegalArgumentException("This type can be saved into Preferences")
+            else -> throw IllegalArgumentException("This type can not be resolved in SpPreferences")
         }
         @Suppress("UNCHECKED_CAST")
         res as T
@@ -47,16 +46,15 @@ open class SpPreference<T>(
             is Int -> putInt(name, value)
             is Boolean -> putBoolean(name, value)
             is Float -> putFloat(name, value)
-            else -> throw IllegalArgumentException("This type can be saved into Preferences")
+            else -> throw IllegalArgumentException("This type can not be saved into SpPreferences")
         }.apply()
-        Log.i("TTAG", "commit: ---->$name, $value");
     }
 }
 
-fun <T> SpPreference<T>.remove(key: String) {
+fun <T> SPreference<T>.remove(key: String) {
     prefs.edit().remove(key).apply()
 }
 
-fun <T> SpPreference<T>.clear() {
+fun <T> SPreference<T>.clear() {
     prefs.edit().clear().apply()
 }

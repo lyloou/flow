@@ -6,8 +6,8 @@ import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.text.TextUtils
 import androidx.lifecycle.AndroidViewModel
 import com.lyloou.flow.common.Key
+import com.lyloou.flow.common.SPreference
 import com.lyloou.flow.common.SpName
-import com.lyloou.flow.common.SpPreference
 import com.lyloou.flow.model.ScheduleHelper
 import com.lyloou.flow.repository.schedule.DbSchedule
 import com.lyloou.flow.repository.schedule.ScheduleRepository
@@ -16,10 +16,10 @@ import com.lyloou.flow.util.Utime
 
 class ScheduleViewModel(application: Application) : AndroidViewModel(application) {
 
-    var a: String by SpPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_A.name, "")
-    var b: String by SpPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_B.name, "")
-    var c: String by SpPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_C.name, "")
-    var d: String by SpPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_D.name, "")
+    var a: String by SPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_A.name, "")
+    var b: String by SPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_B.name, "")
+    var c: String by SPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_C.name, "")
+    var d: String by SPreference(SpName.SCHEDULE_ITEM.name, Key.SCHEDULE_ITEM_D.name, "")
 
     fun isEmpty(): Boolean {
         return TextUtils.isEmpty(a + b + c + d)
