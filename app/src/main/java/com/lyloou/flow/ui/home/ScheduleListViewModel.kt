@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.lyloou.flow.repository.schedule.DbSchedule
 import com.lyloou.flow.repository.schedule.ScheduleRepository
+import com.lyloou.flow.util.Utime
 
 class ScheduleListViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -22,6 +23,9 @@ class ScheduleListViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun updateSchedule(vararg dbSchedules: DbSchedule) {
+        for (schedule in dbSchedules) {
+            schedule.syncTime = Utime.now()
+        }
         repository.updateDbSchedule(*dbSchedules)
     }
 }

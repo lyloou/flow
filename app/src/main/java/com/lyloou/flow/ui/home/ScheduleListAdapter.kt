@@ -9,6 +9,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lyloou.flow.R
+import com.lyloou.flow.model.Order
 import com.lyloou.flow.repository.schedule.DbSchedule
 import io.noties.markwon.Markwon
 import io.noties.markwon.ext.tasklist.TaskListPlugin
@@ -16,12 +17,12 @@ import kotlinx.android.synthetic.main.cell_schedule.view.*
 
 
 interface OnItemClickListener {
-    fun onItemClick(schedule: DbSchedule)
+    fun onItemClick(schedule: DbSchedule, name: String, position: Int)
     fun onItemLongClick(schedule: DbSchedule)
 }
 
 class ScheduleListAdapter(
-    val clickListener: OnItemClickListener? = null
+    val listener: OnItemClickListener? = null
 ) :
     PagedListAdapter<DbSchedule, ScheduleListAdapter.TodoListHolder>(DIFF_CALLBACK) {
 
@@ -45,16 +46,20 @@ class ScheduleListAdapter(
     }
 
     override fun onBindViewHolder(holder: TodoListHolder, position: Int) {
-        getItem(position)?.let { data ->
+        getItem(position)?.let { s ->
             with(holder) {
                 val context = holder.itemView.context
-                holder.itemView.setOnClickListener { clickListener?.onItemClick(data) }
-                holder.itemView.setOnLongClickListener { clickListener?.onItemLongClick(data);true }
-                itemView.tvName.text = data.title
-                renderWithMarkdown(context, itemView.tvA, data.a)
-                renderWithMarkdown(context, itemView.tvB, data.b)
-                renderWithMarkdown(context, itemView.tvC, data.c)
-                renderWithMarkdown(context, itemView.tvD, data.d)
+                itemView.tvA.setOnClickListener { listener?.onItemClick(s, Order.A.name, position) }
+                itemView.tvB.setOnClickListener { listener?.onItemClick(s, Order.B.name, position) }
+                itemView.tvC.setOnClickListener { listener?.onItemClick(s, Order.C.name, position) }
+                itemView.tvD.setOnClickListener { listener?.onItemClick(s, Order.D.name, position) }
+                itemView.setOnLongClickListener { listener?.onItemLongClick(s);true }
+
+                itemView.tvName.text = s.title
+                renderWithMarkdown(context, itemView.tvA, s.a)
+                renderWithMarkdown(context, itemView.tvB, s.b)
+                renderWithMarkdown(context, itemView.tvC, s.c)
+                renderWithMarkdown(context, itemView.tvD, s.d)
             }
         }
     }

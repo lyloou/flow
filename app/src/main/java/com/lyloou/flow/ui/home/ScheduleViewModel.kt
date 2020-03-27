@@ -13,7 +13,6 @@ import com.lyloou.flow.repository.schedule.DbSchedule
 import com.lyloou.flow.repository.schedule.ScheduleRepository
 import com.lyloou.flow.util.Udata
 import com.lyloou.flow.util.Utime
-import java.util.*
 
 
 class ScheduleViewModel(application: Application) : AndroidViewModel(application) {
@@ -38,7 +37,7 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
                 Utime.today(),
                 "",
                 a, b, c, d,
-                Date().time, 0
+                Utime.now(), 0
             )
         )
 

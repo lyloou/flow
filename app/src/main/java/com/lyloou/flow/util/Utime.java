@@ -214,4 +214,8 @@ public class Utime {
 
     }
 
+    public static Long now() {
+        return new Date().getTime();
+    }
+
 }
