@@ -13,16 +13,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.lyloou.flow.R
+import com.lyloou.flow.common.toast
 import com.lyloou.flow.databinding.ActivityScheduleListBinding
 import com.lyloou.flow.model.UserHelper
+import com.lyloou.flow.model.toJsonString
+import com.lyloou.flow.repository.schedule.DbSchedule
 import com.lyloou.flow.repository.schedule.ScheduleNetWork
+import com.lyloou.flow.util.Udialog
 import com.lyloou.flow.util.Uscreen
+import com.lyloou.flow.util.Usystem
 import com.lyloou.flow.widget.ItemOffsetDecoration
 import com.lyloou.flow.widget.ToolbarManager
 import kotlinx.android.synthetic.main.activity_schedule_list.*
 import kotlinx.android.synthetic.main.item_toolbar.*
 
-class ScheduleListActivity : AppCompatActivity(), ToolbarManager {
+class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickListener {
     private lateinit var binding: ActivityScheduleListBinding
     private lateinit var viewModel: ScheduleListViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +49,7 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager {
         rvList.layoutManager = LinearLayoutManager(this)
         rvList.addItemDecoration(ItemOffsetDecoration(Uscreen.dp2Px(this, 16f)))
 
-        val scheduleListAdapter = ScheduleListAdapter()
+        val scheduleListAdapter = ScheduleListAdapter(this)
         rvList.adapter = scheduleListAdapter
         viewModel.dbScheduleList.observe(this, Observer {
             it?.let {
@@ -72,5 +77,20 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onItemClick(schedule: DbSchedule) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onItemLongClick(schedule: DbSchedule) {
+        Udialog.AlertMultiItem.builder(this)
+            .add("复制内容") { Usystem.copyString(this, schedule.toJsonString()) }
+            .add("删除此项") {
+                schedule.isDisabled = true
+                viewModel.updateSchedule(schedule)
+                toast("已删除")
+            }
+            .show()
     }
 }

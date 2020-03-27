@@ -15,7 +15,14 @@ import io.noties.markwon.ext.tasklist.TaskListPlugin
 import kotlinx.android.synthetic.main.cell_schedule.view.*
 
 
-class ScheduleListAdapter :
+interface OnItemClickListener {
+    fun onItemClick(schedule: DbSchedule)
+    fun onItemLongClick(schedule: DbSchedule)
+}
+
+class ScheduleListAdapter(
+    val clickListener: OnItemClickListener? = null
+) :
     PagedListAdapter<DbSchedule, ScheduleListAdapter.TodoListHolder>(DIFF_CALLBACK) {
 
     companion object {
@@ -38,14 +45,16 @@ class ScheduleListAdapter :
     }
 
     override fun onBindViewHolder(holder: TodoListHolder, position: Int) {
-        getItem(position)?.let {
+        getItem(position)?.let { data ->
             with(holder) {
                 val context = holder.itemView.context
-                itemView.tvName.text = it.title
-                renderWithMarkdown(context, itemView.tvA, it.a)
-                renderWithMarkdown(context, itemView.tvB, it.b)
-                renderWithMarkdown(context, itemView.tvC, it.c)
-                renderWithMarkdown(context, itemView.tvD, it.d)
+                holder.itemView.setOnClickListener { clickListener?.onItemClick(data) }
+                holder.itemView.setOnLongClickListener { clickListener?.onItemLongClick(data);true }
+                itemView.tvName.text = data.title
+                renderWithMarkdown(context, itemView.tvA, data.a)
+                renderWithMarkdown(context, itemView.tvB, data.b)
+                renderWithMarkdown(context, itemView.tvC, data.c)
+                renderWithMarkdown(context, itemView.tvD, data.d)
             }
         }
     }

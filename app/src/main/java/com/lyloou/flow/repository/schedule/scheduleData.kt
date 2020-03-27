@@ -17,6 +17,8 @@ const val COL_SCHEDULE_C = "c"
 const val COL_SCHEDULE_D = "d"
 const val COL_SCHEDULE_SYNC_TIME = "sync_time"
 const val COL_SCHEDULE_RSYNC_TIME = "rsync_time"
+const val COL_SCHEDULE_IS_DISABLED = "is_disabled"
+
 
 @Entity(tableName = TABLE_SCHEDULE)
 data class DbSchedule(
@@ -63,6 +65,10 @@ data class DbSchedule(
 
     @ColumnInfo(name = COL_SCHEDULE_RSYNC_TIME)
     @SerializedName("rsync_time")
-    var rsyncTime: Long
+    var rsyncTime: Long = 0,
+
+    @ColumnInfo(name = COL_SCHEDULE_IS_DISABLED)
+    @SerializedName("is_disabled")
+    var isDisabled: Boolean = false
 
 )

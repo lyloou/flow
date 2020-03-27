@@ -21,6 +21,9 @@ interface ScheduleDao {
     @Query("SELECT * FROM $TABLE_SCHEDULE WHERE $COL_SCHEDULE_ID = :id")
     fun getDbSchedule(id: Long): LiveData<DbSchedule>
 
+    @Query("SELECT * FROM $TABLE_SCHEDULE WHERE $COL_SCHEDULE_IS_DISABLED=0 ORDER BY $COL_SCHEDULE_ID DESC")
+    fun getEnabledDbSchedule(): DataSource.Factory<Int, DbSchedule>
+
     @Query("SELECT * FROM $TABLE_SCHEDULE ORDER BY $COL_SCHEDULE_ID DESC")
     fun getAllDbSchedule(): DataSource.Factory<Int, DbSchedule>
 }

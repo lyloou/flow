@@ -90,5 +90,16 @@ class ScheduleRepository(private val context: Context) {
                 .build()
         ).build()
     }
+
+    fun getEnabledPagedList(): LiveData<PagedList<DbSchedule>> {
+        return LivePagedListBuilder(
+            scheduleDao.getEnabledDbSchedule(),
+            PagedList.Config.Builder()
+                .setPageSize(5)
+                .setEnablePlaceholders(true)
+                .setInitialLoadSizeHint(5)
+                .build()
+        ).build()
+    }
 }
 
