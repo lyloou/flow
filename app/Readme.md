@@ -18,6 +18,5 @@
     
 - [ ] WorkManager 具体的线程是怎么做的；
 
-同步策略：
-https://www.yinkh.top/article/72/
+
 

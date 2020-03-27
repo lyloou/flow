@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName
 
 const val TABLE_SCHEDULE = "schedule"
 const val COL_SCHEDULE_ID = "id"
+const val COL_SCHEDULE_UUID = "uuid"
 const val COL_SCHEDULE_USER_ID = "user_id"
 const val COL_SCHEDULE_TITLE = "title"
 const val COL_SCHEDULE_CONTENT = "content"
@@ -14,6 +15,8 @@ const val COL_SCHEDULE_A = "a"
 const val COL_SCHEDULE_B = "b"
 const val COL_SCHEDULE_C = "c"
 const val COL_SCHEDULE_D = "d"
+const val COL_SCHEDULE_SYNC_TIME = "sync_time"
+const val COL_SCHEDULE_RSYNC_TIME = "rsync_time"
 
 @Entity(tableName = TABLE_SCHEDULE)
 data class DbSchedule(
@@ -21,6 +24,10 @@ data class DbSchedule(
     @ColumnInfo(name = COL_SCHEDULE_ID)
     @SerializedName("id")
     val id: Int,
+
+    @ColumnInfo(name = COL_SCHEDULE_UUID)
+    @SerializedName("uuid")
+    var uuid: String,
 
     @ColumnInfo(name = COL_SCHEDULE_USER_ID)
     @SerializedName("user_id")
@@ -48,5 +55,14 @@ data class DbSchedule(
 
     @ColumnInfo(name = COL_SCHEDULE_D)
     @SerializedName("d")
-    var d: String?
+    var d: String?,
+
+    @ColumnInfo(name = COL_SCHEDULE_SYNC_TIME)
+    @SerializedName("sync_time")
+    var syncTime: Long,
+
+    @ColumnInfo(name = COL_SCHEDULE_RSYNC_TIME)
+    @SerializedName("rsync_time")
+    var rsyncTime: Long
+
 )

@@ -11,7 +11,9 @@ import com.lyloou.flow.common.SpName
 import com.lyloou.flow.model.ScheduleHelper
 import com.lyloou.flow.repository.schedule.DbSchedule
 import com.lyloou.flow.repository.schedule.ScheduleRepository
+import com.lyloou.flow.util.Udata
 import com.lyloou.flow.util.Utime
+import java.util.*
 
 
 class ScheduleViewModel(application: Application) : AndroidViewModel(application) {
@@ -31,10 +33,12 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
         repository.insertDbSchedule(
             DbSchedule(
                 0,
+                Udata.uuid(),
                 0,
                 Utime.today(),
                 "",
-                a, b, c, d
+                a, b, c, d,
+                Date().time, 0
             )
         )
 
