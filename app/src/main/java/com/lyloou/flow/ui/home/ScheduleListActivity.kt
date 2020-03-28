@@ -170,6 +170,23 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickLis
             .show()
     }
 
+    override fun onItemTitleClick(
+        schedule: DbSchedule,
+        position: Int
+    ) {
+        Udialog.AlertInputDialog.builder(this)
+            .title("修改标题")
+            .hint("请输入名称")
+            .defaultValue(schedule.title)
+            .cancelable(false)
+            .consumer {
+                schedule.title = it
+                viewModel.updateSchedule(schedule)
+                rvList.adapter?.notifyItemChanged(position)
+            }
+            .show()
+    }
+
     private fun applyToHome(schedule: DbSchedule) {
         if (scheduleViewModel.isEmpty()) {
             scheduleViewModel.saveSchedule(schedule)

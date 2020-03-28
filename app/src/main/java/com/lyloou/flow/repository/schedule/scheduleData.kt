@@ -37,7 +37,7 @@ data class DbSchedule(
 
     @ColumnInfo(name = COL_SCHEDULE_TITLE)
     @SerializedName("title")
-    val title: String,
+    var title: String,
 
     @ColumnInfo(name = COL_SCHEDULE_CONTENT)
     @SerializedName("content")

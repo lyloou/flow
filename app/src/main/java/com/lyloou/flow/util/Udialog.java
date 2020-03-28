@@ -4,6 +4,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.ViewGroup;
 import android.webkit.HttpAuthHandler;
 import android.webkit.WebView;
 import android.widget.EditText;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.lyloou.flow.R;
 import com.lyloou.flow.common.Consumer;
 
 import java.util.ArrayList;
@@ -168,4 +170,105 @@ public class Udialog {
                 })
                 .show();
     }
+
+
+    public static class AlertInputDialog {
+        private Context context;
+        private String title;
+        private String hint;
+        private boolean cancelable;
+        private String defaultValue;
+        private Consumer<String> consumer = result -> {
+        };
+        private String positiveTips = "确定";
+        private String negativeTips = "取消";
+
+        private AlertInputDialog(Context context) {
+            this.context = context;
+        }
+
+        public static AlertInputDialog builder(Context context) {
+            return new AlertInputDialog(context);
+        }
+
+        public AlertInputDialog consumer(Consumer<String> consumer) {
+            this.consumer = consumer;
+            return this;
+        }
+
+        public AlertInputDialog title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public AlertInputDialog cancelable(boolean cancelable) {
+            this.cancelable = cancelable;
+            return this;
+        }
+
+        public AlertInputDialog defaultValue(String defaultValue) {
+            this.defaultValue = defaultValue;
+            return this;
+        }
+
+        public AlertInputDialog hint(String hint) {
+            this.hint = hint;
+            return this;
+        }
+
+        public AlertInputDialog positiveTips(String positiveTips) {
+            this.positiveTips = positiveTips;
+            return this;
+        }
+
+        public AlertInputDialog negativeTips(String negativeTips) {
+            this.negativeTips = negativeTips;
+            return this;
+        }
+
+        public void show() {
+            final EditText et = new EditText(context);
+            et.setBackground(context.getResources().getDrawable(R.drawable.item_input_dialog_et_bg));
+            if (defaultValue != null) {
+                et.setText(defaultValue);
+                et.setSelection(defaultValue.length());
+            }
+            if (hint != null) {
+                et.setHint(hint);
+            }
+
+            LinearLayout ll = new LinearLayout(context);
+            ll.setOrientation(LinearLayout.VERTICAL);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            int left = Uscreen.dp2Px(context, 16);
+            int right = Uscreen.dp2Px(context, 16);
+            int top = Uscreen.dp2Px(context, TextUtils.isEmpty(title) ? 26 : 16);
+            lp.setMargins(left, top, right, 0);
+            ll.addView(et, lp);
+
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            if (!TextUtils.isEmpty(title)) {
+                builder.setTitle(title);
+            }
+
+            if (!TextUtils.isEmpty(negativeTips)) {
+                builder.setNegativeButton(negativeTips, (dialog, which) -> {
+                });
+            }
+
+            if (!TextUtils.isEmpty(positiveTips)) {
+                builder.setPositiveButton(positiveTips, (dialog, which) -> {
+                    consumer.accept(et.getText().toString());
+                });
+            }
+
+            builder.setView(ll);
+            builder.setCancelable(cancelable);
+            builder.create();
+            builder.show();
+        }
+    }
+
 }
