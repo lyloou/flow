@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.lyloou.flow.common.Consumer
+import com.lyloou.flow.model.SyncStatus
 import com.lyloou.flow.repository.schedule.DbSchedule
 import com.lyloou.flow.repository.schedule.ScheduleRepository
 import com.lyloou.flow.util.Utime
@@ -26,9 +27,17 @@ class ScheduleListViewModel(application: Application) : AndroidViewModel(applica
 
     var allScheduleList: MutableLiveData<List<DbSchedule>> = MutableLiveData()
 
-    fun getAllSchedule() {
+    fun getAllSchedule(
+        adapterMap: MutableMap<SyncStatus, ScheduleSyncAdapter>,
+        runnable: Runnable
+    ) {
         repository.getAllDbScheduleList(Consumer {
-            allScheduleList.value = it
+            for (status in SyncStatus.values()) {
+                it[status]?.let { list ->
+                    adapterMap[status]?.addData(list)
+                }
+            }
+            runnable.run()
         })
     }
 

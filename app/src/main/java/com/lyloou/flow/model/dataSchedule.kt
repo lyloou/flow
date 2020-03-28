@@ -15,7 +15,7 @@ object ScheduleHelper {
     }
 }
 
-enum class SyncScheduleStatus(var desc: String) {
+enum class SyncStatus(var desc: String) {
     LOCAL_ADD("本地新增"),
     REMOTE_ADD("远程新增"),
     LOCAL_CHANGE("本地修改"),

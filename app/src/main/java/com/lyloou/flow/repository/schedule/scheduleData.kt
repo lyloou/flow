@@ -68,7 +68,17 @@ data class DbSchedule(
     var rsyncTime: Long = 0,
 
     @ColumnInfo(name = COL_SCHEDULE_IS_DISABLED)
-    @SerializedName("is_disabled")
+    @SerializedName("disabled")
     var isDisabled: Boolean = false
 
-)
+) {
+    override fun equals(other: Any?): Boolean = if (other is DbSchedule) {
+        other.uuid == uuid
+    } else {
+        false
+    }
+
+    override fun hashCode(): Int {
+        return uuid.hashCode()
+    }
+}
