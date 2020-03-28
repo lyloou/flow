@@ -5,4 +5,5 @@
     <string name="schedule">清单</string>
     <string name="schedule_list">清单列表</string>
     <string name="last_update_time">上次更新：%s</string>
+    <string name="schedule_sync">清单同步</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.lyloou.flow.ui.home
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -38,7 +37,7 @@ class ScheduleDetailActivity : AppCompatActivity(), ToolbarManager {
         })
 
         toolbarTitle = key ?: getString(R.string.schedule)
-        toolbar.setTitleTextColor(Color.WHITE)
+        whiteToolbarText()
         enableHomeAsUp { onBackPressed() }
 
         initView(key)

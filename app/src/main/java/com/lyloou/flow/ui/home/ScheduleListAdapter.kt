@@ -29,7 +29,7 @@ interface OnItemClickListener {
 class ScheduleListAdapter(
     val listener: OnItemClickListener? = null
 ) :
-    PagedListAdapter<DbSchedule, ScheduleListAdapter.TodoListHolder>(DIFF_CALLBACK) {
+    PagedListAdapter<DbSchedule, ScheduleListAdapter.ScheduleListHolder>(DIFF_CALLBACK) {
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DbSchedule>() {
@@ -44,13 +44,13 @@ class ScheduleListAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoListHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleListHolder {
         val inflate =
             LayoutInflater.from(parent.context).inflate(R.layout.cell_schedule, parent, false)
-        return TodoListHolder(inflate)
+        return ScheduleListHolder(inflate)
     }
 
-    override fun onBindViewHolder(holder: TodoListHolder, position: Int) {
+    override fun onBindViewHolder(holder: ScheduleListHolder, position: Int) {
         getItem(position)?.let { s ->
             with(holder) {
                 val context = holder.itemView.context
@@ -83,6 +83,6 @@ class ScheduleListAdapter(
     }
 
 
-    class TodoListHolder(view: View) : RecyclerView.ViewHolder(view)
+    class ScheduleListHolder(view: View) : RecyclerView.ViewHolder(view)
 
 }

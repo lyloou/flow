@@ -165,18 +165,10 @@ class ListFragment : Fragment(), OnItemLongClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_kalendar -> {
-                toKalendar()
-            }
-            R.id.menu_sync_all_tab -> {
-                syncData()
-            }
-            R.id.menu_add_shortcut -> {
-                addShortcut()
-            }
-            R.id.menu_today_flow_time -> {
-                toDetail()
-            }
+            R.id.menu_kalendar -> toKalendar()
+            R.id.menu_sync_all_tab -> syncData()
+            R.id.menu_add_shortcut -> addShortcut()
+            R.id.menu_today_flow_time -> toDetail()
         }
         return super.onOptionsItemSelected(item)
     }

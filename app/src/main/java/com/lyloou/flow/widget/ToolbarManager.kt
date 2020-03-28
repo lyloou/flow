@@ -1,5 +1,6 @@
 package com.lyloou.flow.widget
 
+import android.graphics.Color
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,10 @@ interface ToolbarManager {
         set(value) {
             toolbar.title = value
         }
+
+    fun whiteToolbarText() {
+        toolbar.setTitleTextColor(Color.WHITE)
+    }
 
     fun enableHomeAsUp(up: () -> Unit) {
         toolbar.navigationIcon = createUpDrawable()
