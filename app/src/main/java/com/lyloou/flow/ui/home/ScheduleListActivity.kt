@@ -21,7 +21,7 @@ import com.lyloou.flow.databinding.ActivityScheduleListBinding
 import com.lyloou.flow.extension.snackbar
 import com.lyloou.flow.model.Order
 import com.lyloou.flow.model.UserHelper
-import com.lyloou.flow.model.toJsonString
+import com.lyloou.flow.model.toPrettyJsonString
 import com.lyloou.flow.repository.schedule.DbSchedule
 import com.lyloou.flow.repository.schedule.ScheduleNetWork
 import com.lyloou.flow.util.Udialog
@@ -113,11 +113,10 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickLis
         view.tvCancel.setOnClickListener { dialog.dismiss() }
         view.tvClear.setOnClickListener {
             view.editText.setText("")
-            dialog.dismiss()
         }
         view.tvCopy.setOnClickListener {
             Usystem.copyString(this, view.editText.text.toString())
-            dialog.dismiss()
+            toast("已复制")
         }
 
     }
@@ -154,10 +153,11 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickLis
         }
     }
 
-    override fun onItemTitleClick(schedule: DbSchedule) {
+    override fun onItemMoreClick(schedule: DbSchedule) {
         Udialog.AlertMultiItem.builder(this)
             .add("复制内容") {
-                Usystem.copyString(this, schedule.toJsonString())
+                Usystem.copyString(this, schedule.toPrettyJsonString())
+                toast("已复制")
             }
             .add("应用到首页") {
                 applyToHome(schedule)

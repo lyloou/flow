@@ -14,6 +14,10 @@ fun Any.toJsonString(): String {
     return gson.toJson(this)
 }
 
+fun Any.toPrettyJsonString(): String {
+    return GsonBuilder().setPrettyPrinting().create().toJson(this)
+}
+
 fun <T> String.jsonArrayToList(data: String): List<T> {
     val type = object : TypeToken<List<T>>() {}.type
     return gson.fromJson(data, type)

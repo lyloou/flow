@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.cell_schedule.view.*
 
 interface OnItemClickListener {
     fun onItemClick(schedule: DbSchedule, name: String, position: Int)
-    fun onItemTitleClick(schedule: DbSchedule)
+    fun onItemMoreClick(schedule: DbSchedule)
 }
 
 class ScheduleListAdapter(
@@ -54,7 +54,7 @@ class ScheduleListAdapter(
                 itemView.tvB.setOnClickListener { listener?.onItemClick(s, Order.B.name, position) }
                 itemView.tvC.setOnClickListener { listener?.onItemClick(s, Order.C.name, position) }
                 itemView.tvD.setOnClickListener { listener?.onItemClick(s, Order.D.name, position) }
-                itemView.tvName.setOnClickListener { listener?.onItemTitleClick(s); }
+                itemView.ivMore.setOnClickListener { listener?.onItemMoreClick(s); }
 
                 itemView.tvName.text = s.title
                 itemView.tvTime.text = context.getString(
