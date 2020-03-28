@@ -1,5 +1,6 @@
 package com.lyloou.flow
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
             override fun getItem(position: Int): Fragment = menuIdToFragments[position].second
             override fun getCount(): Int = menuIdToFragments.size
         }
-        viewPager.currentItem = intent.getIntExtra("index", 0)
+        viewPager.currentItem = intent.getIntExtra(INDEX, 0)
         nav_view.setOnNavigationItemSelectedListener { menu ->
             viewPager.setCurrentItem(
                 menuIdToFragments.indexOfFirst { it.first == menu.itemId },
@@ -46,6 +47,11 @@ class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
 
     override fun onPageScrollStateChanged(state: Int) {
 
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        viewPager.currentItem = intent?.getIntExtra(INDEX, 0) ?: 0
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
