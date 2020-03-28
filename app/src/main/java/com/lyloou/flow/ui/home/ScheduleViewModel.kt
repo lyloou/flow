@@ -26,10 +26,24 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
         return TextUtils.isEmpty(a + b + c + d)
     }
 
+    fun clearSchedule() {
+        ScheduleHelper.clearSchedule()
+    }
+
+    fun saveSchedule(dbSchedule: DbSchedule) {
+        a = dbSchedule.a ?: ""
+        b = dbSchedule.b ?: ""
+        c = dbSchedule.c ?: ""
+        d = dbSchedule.d ?: ""
+    }
+
     fun startNewSchedule() {
+        if (isEmpty()) {
+            return
+        }
+
         // 保存现有的到数据库
-        val repository = ScheduleRepository.getInstance(getApplication())
-        repository.insertDbSchedule(
+        ScheduleRepository.getInstance(getApplication()).insertDbSchedule(
             DbSchedule(
                 0,
                 Udata.uuid(),
@@ -42,7 +56,7 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
         )
 
         // 清空 schedule
-        ScheduleHelper.clearSchedule()
+        clearSchedule()
     }
 
     fun enterMode(name: String) {

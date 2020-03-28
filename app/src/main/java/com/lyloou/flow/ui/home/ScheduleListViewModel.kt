@@ -28,4 +28,17 @@ class ScheduleListViewModel(application: Application) : AndroidViewModel(applica
         }
         repository.updateDbSchedule(*dbSchedules)
     }
+
+    fun cleanSchedules(vararg dbSchedules: DbSchedule) {
+        val canBeClean = mutableListOf<DbSchedule>()
+        for (schedule in dbSchedules) {
+            // 若是删除，且远程没有此项，则直接删除了
+            if (schedule.rsyncTime == 0L && schedule.isDisabled) {
+                canBeClean.add(schedule)
+                continue
+            }
+        }
+
+        deleteSchedule(*canBeClean.toTypedArray())
+    }
 }

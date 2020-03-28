@@ -18,6 +18,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.lyloou.flow.R
 import com.lyloou.flow.common.toast
 import com.lyloou.flow.databinding.ActivityScheduleListBinding
+import com.lyloou.flow.extension.snackbar
 import com.lyloou.flow.model.Order
 import com.lyloou.flow.model.UserHelper
 import com.lyloou.flow.model.toJsonString
@@ -35,9 +36,13 @@ import kotlinx.android.synthetic.main.item_toolbar.*
 class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickListener {
     private lateinit var binding: ActivityScheduleListBinding
     private lateinit var viewModel: ScheduleListViewModel
+    private lateinit var scheduleViewModel: ScheduleViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(ScheduleListViewModel::class.java)
+
+        scheduleViewModel =
+            ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_schedule_list)
         binding.data = viewModel
 
@@ -46,7 +51,6 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickLis
 
     private fun initView() {
         setSupportActionBar(toolbar)
-        toolbarTitle = resources.getString(R.string.schedule_list)
         toolbar.setTitleTextColor(Color.WHITE)
         enableHomeAsUp { onBackPressed() }
         attachToScroll(rvList)
@@ -107,6 +111,15 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickLis
             dialog.dismiss()
         }
         view.tvCancel.setOnClickListener { dialog.dismiss() }
+        view.tvClear.setOnClickListener {
+            view.editText.setText("")
+            dialog.dismiss()
+        }
+        view.tvCopy.setOnClickListener {
+            Usystem.copyString(this, view.editText.text.toString())
+            dialog.dismiss()
+        }
+
     }
 
     private fun saveContent(name: String, content: String, schedule: DbSchedule) {
@@ -141,14 +154,42 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickLis
         }
     }
 
-    override fun onItemLongClick(schedule: DbSchedule) {
+    override fun onItemTitleClick(schedule: DbSchedule) {
         Udialog.AlertMultiItem.builder(this)
-            .add("复制内容") { Usystem.copyString(this, schedule.toJsonString()) }
+            .add("复制内容") {
+                Usystem.copyString(this, schedule.toJsonString())
+            }
+            .add("应用到首页") {
+                applyToHome(schedule)
+            }
             .add("删除此项") {
                 schedule.isDisabled = true
                 viewModel.updateSchedule(schedule)
                 toast("已删除")
             }
             .show()
+    }
+
+    private fun applyToHome(schedule: DbSchedule) {
+        if (scheduleViewModel.isEmpty()) {
+            scheduleViewModel.saveSchedule(schedule)
+            return
+        }
+
+        Udialog.AlertOneItem.builder(this)
+            .message("首页存在数据，是否需要保存？")
+            .positiveTips("我要保存")
+            .negativeTips("不用了")
+            .consumer {
+                if (it) {
+                    scheduleViewModel.startNewSchedule()
+                }
+                scheduleViewModel.saveSchedule(schedule)
+                snackbar("已经恢复到首页")
+                    .setAction("立即查看") { onBackPressed() }
+                    .show()
+            }
+            .show()
+
     }
 }

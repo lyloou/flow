@@ -8,5 +8,8 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_schedule_new"
-        android:title="新进度表" />
+        android:title="新清单" />
+    <item
+        android:id="@+id/menu_schedule_clear"
+        android:title="清空清单" />
 </menu>

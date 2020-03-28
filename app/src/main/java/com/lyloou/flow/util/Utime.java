@@ -18,6 +18,7 @@ public class Utime {
 
     private static final SimpleDateFormat SDF_ONE = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
     private static final SimpleDateFormat SDF_TWO = new SimpleDateFormat("yyyyMMdd", Locale.CHINA);
+    private static final SimpleDateFormat SDF_FOUR = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
     private static final SimpleDateFormat SDF_THREE = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.CHINA);
     private static final String URL_RR_BASE = "http://ip138.com/";
 
@@ -174,6 +175,11 @@ public class Utime {
     @Nullable
     public static String getDayWithFormatTwo(long date) {
         return SDF_TWO.format(date);
+    }
+
+    @Nullable
+    public static String getDayWithFormatFour(long date) {
+        return SDF_FOUR.format(date);
     }
 
     /*

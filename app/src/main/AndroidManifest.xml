@@ -26,6 +26,7 @@
         tools:targetApi="n">
         <activity
             android:name=".ui.home.ScheduleListActivity"
+            android:label="@string/schedule_list"
             android:theme="@style/NoActionBar" />
         <activity android:name=".ui.city.CitySelectorActivity" />
         <activity

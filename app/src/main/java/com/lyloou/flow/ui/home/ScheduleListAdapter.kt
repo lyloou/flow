@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lyloou.flow.R
 import com.lyloou.flow.model.Order
 import com.lyloou.flow.repository.schedule.DbSchedule
+import com.lyloou.flow.util.Utime
 import io.noties.markwon.Markwon
 import io.noties.markwon.ext.tasklist.TaskListPlugin
 import kotlinx.android.synthetic.main.cell_schedule.view.*
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.cell_schedule.view.*
 
 interface OnItemClickListener {
     fun onItemClick(schedule: DbSchedule, name: String, position: Int)
-    fun onItemLongClick(schedule: DbSchedule)
+    fun onItemTitleClick(schedule: DbSchedule)
 }
 
 class ScheduleListAdapter(
@@ -53,9 +54,13 @@ class ScheduleListAdapter(
                 itemView.tvB.setOnClickListener { listener?.onItemClick(s, Order.B.name, position) }
                 itemView.tvC.setOnClickListener { listener?.onItemClick(s, Order.C.name, position) }
                 itemView.tvD.setOnClickListener { listener?.onItemClick(s, Order.D.name, position) }
-                itemView.setOnLongClickListener { listener?.onItemLongClick(s);true }
+                itemView.tvName.setOnClickListener { listener?.onItemTitleClick(s); }
 
                 itemView.tvName.text = s.title
+                itemView.tvTime.text = context.getString(
+                    R.string.last_update_time,
+                    Utime.getDayWithFormatFour(s.syncTime)
+                )
                 renderWithMarkdown(context, itemView.tvA, s.a)
                 renderWithMarkdown(context, itemView.tvB, s.b)
                 renderWithMarkdown(context, itemView.tvC, s.c)

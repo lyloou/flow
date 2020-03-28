@@ -83,6 +83,10 @@ class ScheduleFragment : Fragment() {
                 viewModel.startNewSchedule()
                 refreshView()
             }
+            R.id.menu_schedule_clear -> {
+                viewModel.clearSchedule()
+                refreshView()
+            }
         }
         return super.onOptionsItemSelected(item)
     }

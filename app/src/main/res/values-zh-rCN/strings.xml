@@ -4,4 +4,5 @@
     <string name="flow_time_day">时分流</string>
     <string name="schedule">清单</string>
     <string name="schedule_list">清单列表</string>
+    <string name="last_update_time">上次更新：%s</string>
 </resources>

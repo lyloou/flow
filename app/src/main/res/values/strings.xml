@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Flow</string>
     <string name="flow_time_day">time flow</string>
+    <string name="last_update_time">last update:%s</string>
     <string name="schedule">Schedule</string>
     <string name="schedule_list">Schedule List</string>
     <string name="not_sync" translatable="false">Not Synced</string>
