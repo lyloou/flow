@@ -57,7 +57,7 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickLis
 
         val scheduleListAdapter = ScheduleListAdapter(this)
         rvList.adapter = scheduleListAdapter
-        viewModel.dbScheduleList.observe(this, Observer {
+        viewModel.enabledScheduleList.observe(this, Observer {
             it?.let {
                 scheduleListAdapter.submitList(it)
             }

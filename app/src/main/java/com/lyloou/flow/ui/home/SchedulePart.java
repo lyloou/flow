@@ -15,20 +15,7 @@ import com.lyloou.flow.widget.ItemOffsetDecoration;
 
 public class SchedulePart {
 
-    enum Type {
-        LOCAL_ADD("本地新增"),
-        REMOTE_ADD("远程新增"),
-        LOCAL_CHANGE("本地修改"),
-        REMOTE_CHANGE("远程修改"),
-        ALL_CHANGED("匀有修改");
-        String desc;
-
-        Type(String desc) {
-            this.desc = desc;
-        }
-    }
-
-    private ScheduleListAdapter mAdapter;
+    private ScheduleSyncAdapter mAdapter;
     private View mView;
     private String mTitle;
 
@@ -37,7 +24,7 @@ public class SchedulePart {
         mTitle = title;
         mView = LayoutInflater.from(context).inflate(R.layout.item_schedule_list, null);
         RecyclerView recyclerView = mView.findViewById(R.id.rv_list);
-        mAdapter = new ScheduleListAdapter();
+        mAdapter = new ScheduleSyncAdapter();
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.addItemDecoration(new ItemOffsetDecoration(Uscreen.dp2Px(context, 16f)));
@@ -47,7 +34,7 @@ public class SchedulePart {
         return mTitle;
     }
 
-    public ScheduleListAdapter getAdapter() {
+    public ScheduleSyncAdapter getAdapter() {
         return mAdapter;
     }
 

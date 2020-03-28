@@ -25,5 +25,5 @@ interface ScheduleDao {
     fun getEnabledDbSchedule(): DataSource.Factory<Int, DbSchedule>
 
     @Query("SELECT * FROM $TABLE_SCHEDULE ORDER BY $COL_SCHEDULE_ID DESC")
-    fun getAllDbSchedule(): DataSource.Factory<Int, DbSchedule>
+    fun getAllDbSchedule(): Array<DbSchedule>
 }

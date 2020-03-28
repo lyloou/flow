@@ -6,4 +6,10 @@
     <string name="schedule_list">清单列表</string>
     <string name="last_update_time">上次更新：%s</string>
     <string name="schedule_sync">清单同步</string>
+
+    <string name="schedule_sync_title">标题：%s</string>
+    <string name="schedule_sync_disabled">禁用：%s</string>
+    <string name="schedule_sync_time">本地：%s</string>
+    <string name="schedule_sync_rtime">远程：%s</string>
+    <string name="schedule_sync_uuid">标识：%s</string>
 </resources>

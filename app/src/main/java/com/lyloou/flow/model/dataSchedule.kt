@@ -14,3 +14,11 @@ object ScheduleHelper {
         SPreference(SpName.SCHEDULE_ITEM.name, "", "").clear()
     }
 }
+
+enum class SyncScheduleStatus(var desc: String) {
+    LOCAL_ADD("本地新增"),
+    REMOTE_ADD("远程新增"),
+    LOCAL_CHANGE("本地修改"),
+    REMOTE_CHANGE("远程修改"),
+    ALL_CHANGED("匀有修改");
+}

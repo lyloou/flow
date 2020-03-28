@@ -2,9 +2,11 @@ package com.lyloou.flow.repository.schedule
 
 import android.content.Context
 import android.os.AsyncTask
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.lyloou.flow.common.Consumer
 
 class ScheduleRepository(private val context: Context) {
     private val scheduleDao: ScheduleDao
@@ -74,21 +76,29 @@ class ScheduleRepository(private val context: Context) {
         }
     }
 
+    class GetAsyncTask(
+        private val scheduleDao: ScheduleDao,
+        private val consumer: Consumer<List<DbSchedule>>
+    ) :
+        AsyncTask<Unit, Unit, List<DbSchedule>>() {
+        override fun doInBackground(vararg p0: Unit?): List<DbSchedule> {
+            Log.i("TTAG", "----4: ");
+            return scheduleDao.getAllDbSchedule().toList()
+        }
+
+        override fun onPostExecute(result: List<DbSchedule>) {
+            Log.i("TTAG", "----5: ");
+            consumer.accept(result)
+        }
+    }
 
     fun getDbSchedule(id: Long): LiveData<DbSchedule> {
         return scheduleDao.getDbSchedule(id)
     }
 
 
-    fun getAllPagedList(): LiveData<PagedList<DbSchedule>> {
-        return LivePagedListBuilder(
-            scheduleDao.getAllDbSchedule(),
-            PagedList.Config.Builder()
-                .setPageSize(5)
-                .setEnablePlaceholders(true)
-                .setInitialLoadSizeHint(5)
-                .build()
-        ).build()
+    fun getAllDbScheduleList(consumer: Consumer<List<DbSchedule>>) {
+        GetAsyncTask(scheduleDao, consumer).execute()
     }
 
     fun getEnabledPagedList(): LiveData<PagedList<DbSchedule>> {

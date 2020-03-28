@@ -3,7 +3,9 @@ package com.lyloou.flow.ui.home
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
+import com.lyloou.flow.common.Consumer
 import com.lyloou.flow.repository.schedule.DbSchedule
 import com.lyloou.flow.repository.schedule.ScheduleRepository
 import com.lyloou.flow.util.Utime
@@ -14,12 +16,20 @@ class ScheduleListViewModel(application: Application) : AndroidViewModel(applica
         ScheduleRepository.getInstance(application)
     }
 
-    val dbScheduleList: LiveData<PagedList<DbSchedule>> by lazy {
+    val enabledScheduleList: LiveData<PagedList<DbSchedule>> by lazy {
         repository.getEnabledPagedList()
     }
 
     fun deleteSchedule(vararg dbSchedules: DbSchedule) {
         repository.deleteDbSchedule(*dbSchedules)
+    }
+
+    var allScheduleList: MutableLiveData<List<DbSchedule>> = MutableLiveData()
+
+    fun getAllSchedule() {
+        repository.getAllDbScheduleList(Consumer {
+            allScheduleList.value = it
+        })
     }
 
     fun updateSchedule(vararg dbSchedules: DbSchedule) {

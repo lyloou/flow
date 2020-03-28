@@ -8,6 +8,12 @@
     <!--  argument key  -->
     <string name="arg_key_list_to_detail" translatable="false">arg_key_list_to_detail</string>
 
+    <string name="schedule_sync_title">title:%s</string>
+    <string name="schedule_sync_disabled">disabled:%s</string>
+    <string name="schedule_sync_time">local:%s</string>
+    <string name="schedule_sync_rtime">remote:%s</string>
+    <string name="schedule_sync_uuid">uuid:%s</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="flow_list_count" translatable="false">总数量：%d，当前第%d页</string>
