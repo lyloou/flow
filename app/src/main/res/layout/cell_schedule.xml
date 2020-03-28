@@ -24,8 +24,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:foreground="?selectableItemBackground"
                 android:gravity="center"
+                android:paddingStart="16dp"
                 android:paddingTop="8dp"
+                android:paddingEnd="16dp"
                 android:paddingBottom="8dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -99,8 +102,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:textSize="12sp"
             tools:text="2020-03-27" />
     </LinearLayout>
