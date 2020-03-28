@@ -3,9 +3,11 @@ package com.lyloou.flow.ui.home
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.size
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.tabs.TabLayout
 import com.lyloou.flow.R
+import com.lyloou.flow.common.Consumer
 import com.lyloou.flow.model.SyncStatus
 import com.lyloou.flow.util.LouProgressBar
 import com.lyloou.flow.widget.TitleViewPagerAdapter
@@ -37,8 +39,17 @@ class ScheduleSyncActivity : AppCompatActivity(), ToolbarManager {
 
         val progressBar = LouProgressBar.builder(this).tips("Loading...")
         progressBar.show()
-        viewModel.getAllSchedule(adapterMap, Runnable {
+        viewModel.getAllSchedule(adapterMap, Consumer {
             progressBar.hide()
+
+            // 给标题加上角标
+            for (i in (0..tabLayout.size)) {
+                val tab = tabLayout.getTabAt(i)
+                val syncStatus = SyncStatus.values()[i]
+                val c = it[syncStatus]
+                val countText = if (c != null && c > 0) "(+$c)" else ""
+                tab?.text = syncStatus.desc + countText
+            }
         })
     }
 
