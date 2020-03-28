@@ -12,6 +12,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 // [Android布局实现-BottomNavigationView+ViewPager+Fragment+整合 | 朋也的博客](https://tomoya92.github.io/2017/04/05/android-bottomnavigationview-viewpager-fragment/)
 class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
+    companion object {
+        const val INDEX = "index"
+    }
 
     val menuIdToFragments = arrayListOf(
         R.id.navigation_home to ScheduleFragment(),
@@ -31,7 +34,7 @@ class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
             override fun getItem(position: Int): Fragment = menuIdToFragments[position].second
             override fun getCount(): Int = menuIdToFragments.size
         }
-
+        viewPager.currentItem = intent.getIntExtra("index", 0)
         nav_view.setOnNavigationItemSelectedListener { menu ->
             viewPager.setCurrentItem(
                 menuIdToFragments.indexOfFirst { it.first == menu.itemId },
@@ -53,7 +56,7 @@ class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         nav_view.menu.getItem(position).isChecked = true
     }
 
-    override fun onBackPressed() {
-        moveTaskToBack(false)
-    }
+//    override fun onBackPressed() {
+//        moveTaskToBack(true)
+//    }
 }

@@ -25,6 +25,9 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
         <activity
+            android:name=".ui.home.ScheduleSyncActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
             android:name=".ui.home.ScheduleListActivity"
             android:label="@string/schedule_list"
             android:theme="@style/NoActionBar" />
@@ -50,7 +53,6 @@
         </activity>
         <activity
             android:name=".ui.detail.DetailActivity"
-            android:launchMode="singleTask"
             android:theme="@style/NoActionBar" />
         <activity android:name=".temp.TempActivity" />
         <activity android:name=".ui.kalendar.KalendarActivity" />

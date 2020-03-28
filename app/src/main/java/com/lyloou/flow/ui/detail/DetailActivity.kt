@@ -65,17 +65,6 @@ class DetailActivity : BaseCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
-        viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
-        binding.data = viewModel
-        binding.lifecycleOwner = this
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val bounds = ChangeBounds()
-            bounds.duration = 280
-            bounds.interpolator = DecelerateInterpolator()
-            window.sharedElementEnterTransition = bounds
-        }
 
         initData()
         initView()
@@ -83,6 +72,11 @@ class DetailActivity : BaseCompatActivity() {
 
     private var observed: Boolean = false
     private fun initData() {
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
+        viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
+        binding.data = viewModel
+        binding.lifecycleOwner = this
+
         day = intent?.getStringExtra(Key.DAY.name) ?: Utime.today()
         // 没有数据的时候，初始化默认的
         viewModel.getDbFlow(day).observe(this, Observer {
@@ -172,6 +166,13 @@ class DetailActivity : BaseCompatActivity() {
     }
 
     private fun initView() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val bounds = ChangeBounds()
+            bounds.duration = 280
+            bounds.interpolator = DecelerateInterpolator()
+            window.sharedElementEnterTransition = bounds
+        }
+
         setSupportActionBar(toolbar)
         supportActionBar?.title = day
         toolbar.setNavigationOnClickListener { onBackPressed() }
@@ -295,11 +296,11 @@ class DetailActivity : BaseCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.add -> {
-                addNewItem()
+            R.id.list -> {
+                toMain(1)
             }
             R.id.home -> {
-                toHome()
+                toMain()
             }
             R.id.copy -> {
                 Usystem.doCopy(this, day, itemList, false)
@@ -314,8 +315,11 @@ class DetailActivity : BaseCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun toHome() {
+    private fun toMain(index: Int = 0) {
+        finish()
         val intent = Intent(context, MainActivity::class.java)
+        intent.putExtra(MainActivity.INDEX, index)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
     }
 

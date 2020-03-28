@@ -1,6 +1,7 @@
 package com.lyloou.flow.ui.home
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
@@ -12,8 +13,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.lyloou.flow.R
 import com.lyloou.flow.common.toast
@@ -23,7 +22,6 @@ import com.lyloou.flow.model.Order
 import com.lyloou.flow.model.UserHelper
 import com.lyloou.flow.model.toPrettyJsonString
 import com.lyloou.flow.repository.schedule.DbSchedule
-import com.lyloou.flow.repository.schedule.ScheduleNetWork
 import com.lyloou.flow.util.Udialog
 import com.lyloou.flow.util.Uscreen
 import com.lyloou.flow.util.Usystem
@@ -80,8 +78,10 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickLis
             R.id.menu_schedule_sync -> {
                 if (UserHelper.isNotLogin(this)) return true
 
-                WorkManager.getInstance(this)
-                    .enqueue(OneTimeWorkRequestBuilder<ScheduleNetWork>().build())
+                startActivity(Intent(this, ScheduleSyncActivity::class.java))
+
+//                WorkManager.getInstance(this)
+//                    .enqueue(OneTimeWorkRequestBuilder<ScheduleNetWork>().build())
 
             }
         }
