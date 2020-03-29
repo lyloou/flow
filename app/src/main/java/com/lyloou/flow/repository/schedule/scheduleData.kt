@@ -2,6 +2,7 @@ package com.lyloou.flow.repository.schedule
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
@@ -21,7 +22,7 @@ const val COL_SCHEDULE_SNAP_TIME = "snap_time"
 const val COL_SCHEDULE_IS_DISABLED = "is_disabled"
 
 
-@Entity(tableName = TABLE_SCHEDULE)
+@Entity(tableName = TABLE_SCHEDULE, indices = [Index(value = ["uuid"], unique = true)])
 data class DbSchedule(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = COL_SCHEDULE_ID)
