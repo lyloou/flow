@@ -51,7 +51,7 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
                 Utime.today(),
                 "",
                 a, b, c, d,
-                Utime.now(), 0
+                Utime.now()
             )
         )
 

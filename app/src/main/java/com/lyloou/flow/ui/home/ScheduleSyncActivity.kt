@@ -91,18 +91,21 @@ class ScheduleSyncActivity : AppCompatActivity(), ToolbarManager {
     }
 
     private fun syncCurrent() {
-        when (SyncStatus.values()[vpSchedule.currentItem]) {
-            SyncStatus.LOCAL_ADD -> viewModel.doLocalAdd(adapterMap, Consumer { toast(it) })
-            SyncStatus.REMOTE_ADD -> viewModel.doRemoteAdd(adapterMap, Consumer { toast(it) })
-            SyncStatus.LOCAL_CHANGE -> viewModel.doLocalChange(adapterMap, Consumer { toast(it) })
-            SyncStatus.REMOTE_CHANGE -> viewModel.doRemoteChange(adapterMap, Consumer { toast(it) })
-            SyncStatus.ALL_CHANGE -> doNothing()
-            SyncStatus.LOCAL_DELETE -> viewModel.doLocalDelete(adapterMap, Consumer { toast(it) })
+        val syncStatus = SyncStatus.values()[vpSchedule.currentItem]
+        val consumer = Consumer<SyncResult> {
+            toast(it.msg)
+            updateBadge(syncStatus, it.remain)
         }
-    }
 
-
-    private fun doNothing() {
-        toast("冲突情况，请手动修改")
+        when (SyncStatus.values()[vpSchedule.currentItem]) {
+            SyncStatus.LOCAL_ADD -> {
+                viewModel.doLocalAdd(adapterMap, consumer)
+            }
+            SyncStatus.REMOTE_ADD -> viewModel.doRemoteAdd(adapterMap, consumer)
+            SyncStatus.LOCAL_CHANGE -> viewModel.doLocalChange(adapterMap, consumer)
+            SyncStatus.REMOTE_CHANGE -> viewModel.doRemoteChange(adapterMap, consumer)
+            SyncStatus.LOCAL_DELETE -> viewModel.doLocalDelete(adapterMap, consumer)
+            SyncStatus.ALL_CHANGE -> viewModel.doAllChange(adapterMap, consumer)
+        }
     }
 }

@@ -30,14 +30,21 @@
             tools:text="TextView" />
 
         <TextView
-            android:id="@+id/tvSyncTime"
+            android:id="@+id/tvLocalTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
             tools:text="TextView" />
 
         <TextView
-            android:id="@+id/tvRSyncTime"
+            android:id="@+id/tvSnapTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            tools:text="TextView" />
+
+        <TextView
+            android:id="@+id/tvSyncTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"

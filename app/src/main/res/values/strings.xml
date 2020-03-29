@@ -9,9 +9,10 @@
     <string name="arg_key_list_to_detail" translatable="false">arg_key_list_to_detail</string>
 
     <string name="schedule_sync_title">title:%s</string>
-    <string name="schedule_sync_disabled">disabled:%s</string>
-    <string name="schedule_sync_time">local:%s</string>
-    <string name="schedule_sync_rtime">remote:%s</string>
+    <string name="schedule_sync_disabled">deleted:%s</string>
+    <string name="schedule_local_time">local time:%s</string>
+    <string name="schedule_snap_time">snap time:%s</string>
+    <string name="schedule_sync_time">remote time:%s</string>
     <string name="schedule_sync_uuid">uuid:%s</string>
 
     <!-- TODO: Remove or change this placeholder text -->

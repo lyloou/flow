@@ -64,7 +64,7 @@ class ScheduleListAdapter(
                 itemView.tvName.text = s.title
                 itemView.tvTime.text = context.getString(
                     R.string.last_update_time,
-                    Utime.getDayWithFormatFour(s.syncTime)
+                    Utime.getDayWithFormatFour(s.localTime)
                 )
                 renderWithMarkdown(context, itemView.tvA, s.a)
                 renderWithMarkdown(context, itemView.tvB, s.b)

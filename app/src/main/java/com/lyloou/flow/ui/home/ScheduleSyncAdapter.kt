@@ -40,10 +40,12 @@ class ScheduleSyncAdapter(val list: MutableList<DbSchedule> = mutableListOf()) :
             tvTitle.text = context.getString(R.string.schedule_sync_title, s.title)
             tvIsDisabled.text =
                 context.getString(R.string.schedule_sync_disabled, s.isDisabled.toString())
+            tvLocalTime.text =
+                context.getString(R.string.schedule_local_time, getFormatted(s.localTime))
+            tvSnapTime.text =
+                context.getString(R.string.schedule_snap_time, getFormatted(s.snapTime))
             tvSyncTime.text =
                 context.getString(R.string.schedule_sync_time, getFormatted(s.syncTime))
-            tvRSyncTime.text =
-                context.getString(R.string.schedule_sync_rtime, getFormatted(s.rsyncTime))
             tvUuid.text = context.getString(R.string.schedule_sync_uuid, s.uuid)
         }
         holder.itemView.view.setOnClickListener {

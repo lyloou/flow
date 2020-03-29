@@ -16,7 +16,8 @@ const val COL_SCHEDULE_B = "b"
 const val COL_SCHEDULE_C = "c"
 const val COL_SCHEDULE_D = "d"
 const val COL_SCHEDULE_SYNC_TIME = "sync_time"
-const val COL_SCHEDULE_RSYNC_TIME = "rsync_time"
+const val COL_SCHEDULE_LOCAL_TIME = "local_time"
+const val COL_SCHEDULE_SNAP_TIME = "snap_time"
 const val COL_SCHEDULE_IS_DISABLED = "is_disabled"
 
 
@@ -59,16 +60,23 @@ data class DbSchedule(
     @SerializedName("d")
     var d: String?,
 
+    // 本地更新时间
+    @ColumnInfo(name = COL_SCHEDULE_LOCAL_TIME)
+    @SerializedName("local_time")
+    var localTime: Long,
+
+    // 快照时间（远程同步到本地时的 sync_time）
+    @ColumnInfo(name = COL_SCHEDULE_SNAP_TIME)
+    @SerializedName("snap_time")
+    var snapTime: Long = 0,
+
+    // 远程时间（当从网上下载时，会赋值此项）
     @ColumnInfo(name = COL_SCHEDULE_SYNC_TIME)
     @SerializedName("sync_time")
-    var syncTime: Long,
-
-    @ColumnInfo(name = COL_SCHEDULE_RSYNC_TIME)
-    @SerializedName("rsync_time")
-    var rsyncTime: Long = 0,
+    var syncTime: Long = 0,
 
     @ColumnInfo(name = COL_SCHEDULE_IS_DISABLED)
-    @SerializedName("disabled")
+    @SerializedName("is_disabled")
     var isDisabled: Boolean = false
 
 ) {

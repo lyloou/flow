@@ -2,11 +2,14 @@ package com.lyloou.flow.repository.schedule
 
 import android.content.Context
 import android.os.AsyncTask
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.lyloou.flow.common.Consumer
 import com.lyloou.flow.model.SyncStatus
+import com.lyloou.flow.model.UserPasswordHelper
+import com.lyloou.flow.model.toPrettyJsonString
 import com.lyloou.flow.net.Network
 import com.lyloou.flow.net.scheduleApi
 import io.reactivex.schedulers.Schedulers
@@ -90,6 +93,8 @@ class ScheduleRepository(private val context: Context) {
 
             val latch = CountDownLatch(1)
             val localList = scheduleDao.getAllDbSchedule().toList()
+            localList.map { it.userId == UserPasswordHelper.getUserPassword()?.userId ?: 0 }
+
             val remoteList = mutableListOf<DbSchedule>()
             Network.scheduleApi()
                 .list(9999, 0)
@@ -115,36 +120,45 @@ class ScheduleRepository(private val context: Context) {
             localList: List<DbSchedule>,
             remoteList: MutableList<DbSchedule>
         ) {
+            Log.i("TTAG", "localList: ${localList.toPrettyJsonString()}")
+            Log.i("TTAG", "remoteList: ${remoteList.toPrettyJsonString()}")
             initMap(map)
             val remoteMap = remoteList.groupBy { dbSchedule: DbSchedule -> dbSchedule.uuid }
             for (local in localList) {
                 // 0.本地删除
-                if (local.rsyncTime == 0L && local.isDisabled) {
+                if (local.snapTime == 0L && local.isDisabled) {
                     map[SyncStatus.LOCAL_DELETE]!!.add(local)
                     continue
                 }
+
                 // 1. 无变化的
-                if (local.syncTime == local.rsyncTime) {
+                if (local.localTime == local.snapTime) {
                     continue
                 }
 
                 // 2. 本地新增的
-                if (local.rsyncTime == 0L) {
+                if (local.snapTime == 0L && local.localTime > 0) {
                     map[SyncStatus.LOCAL_ADD]!!.add(local)
                     continue
                 }
+
                 val remote = remoteMap[local.uuid]?.firstOrNull()
                 if (remote != null) {
                     // 4. 本地修改的
-                    if ((local.rsyncTime == remote.syncTime) && (local.syncTime > local.rsyncTime)) {
+                    if ((local.snapTime == remote.syncTime) && (local.localTime > local.snapTime)) {
                         map[SyncStatus.LOCAL_CHANGE]!!.add(local)
                         continue
                     }
 
                     // 5. 远程修改的
-                    if ((local.syncTime > local.rsyncTime) && (remote.syncTime > local.rsyncTime)) {
+                    if ((local.localTime == local.snapTime) && (remote.syncTime > local.snapTime)) {
                         map[SyncStatus.REMOTE_CHANGE]!!.add(remote)
+                        continue
                     }
+
+                    // 6. 远程和本地都有修改的
+                    map[SyncStatus.ALL_CHANGE]!!.add(local)
+                    map[SyncStatus.ALL_CHANGE]!!.add(remote)
                 }
             }
 

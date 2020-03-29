@@ -8,8 +8,9 @@
     <string name="schedule_sync">清单同步</string>
 
     <string name="schedule_sync_title">标题：%s</string>
-    <string name="schedule_sync_disabled">禁用：%s</string>
-    <string name="schedule_sync_time">本地：%s</string>
-    <string name="schedule_sync_rtime">远程：%s</string>
+    <string name="schedule_sync_disabled">已经删除：%s</string>
+    <string name="schedule_local_time">本地时间：%s</string>
+    <string name="schedule_snap_time">快照时间：%s</string>
+    <string name="schedule_sync_time">远程时间：%s</string>
     <string name="schedule_sync_uuid">标识：%s</string>
 </resources>

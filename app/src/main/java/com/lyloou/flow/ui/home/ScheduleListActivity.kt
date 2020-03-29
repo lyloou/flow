@@ -3,6 +3,7 @@ package com.lyloou.flow.ui.home
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
@@ -76,12 +77,7 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickLis
         when (item.itemId) {
             R.id.menu_schedule_sync -> {
                 if (UserHelper.isNotLogin(this)) return true
-
                 startActivity(Intent(this, ScheduleSyncActivity::class.java))
-
-//                WorkManager.getInstance(this)
-//                    .enqueue(OneTimeWorkRequestBuilder<ScheduleNetWork>().build())
-
             }
         }
         return super.onOptionsItemSelected(item)
@@ -96,6 +92,8 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickLis
         name: String,
         position: Int
     ) {
+        Log.i("TTAG", "before showEditScheduleDialog: $schedule")
+
         val dialog = BottomSheetDialog(this)
         @SuppressLint("InflateParams")
         val view = layoutInflater.inflate(R.layout.dialog_schedule_detail, null, false)
