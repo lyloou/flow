@@ -17,7 +17,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.lyloou.flow.R
 import com.lyloou.flow.common.toast
 import com.lyloou.flow.databinding.ActivityScheduleListBinding
-import com.lyloou.flow.extension.snackbar
 import com.lyloou.flow.model.Order
 import com.lyloou.flow.model.UserHelper
 import com.lyloou.flow.model.toPrettyJsonString
@@ -199,9 +198,8 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickLis
                     scheduleViewModel.startNewSchedule()
                 }
                 scheduleViewModel.saveSchedule(schedule)
-                snackbar("已经恢复到首页")
-                    .setAction("立即查看") { onBackPressed() }
-                    .show()
+                onBackPressed()
+                toast("已应用到首页")
             }
             .show()
 
