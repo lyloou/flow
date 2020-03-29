@@ -77,7 +77,7 @@ data class DbSchedule(
     var syncTime: Long = 0,
 
     @ColumnInfo(name = COL_SCHEDULE_IS_DISABLED)
-    @SerializedName("is_disabled")
+    @SerializedName("disabled")
     var isDisabled: Boolean = false
 
 ) {
