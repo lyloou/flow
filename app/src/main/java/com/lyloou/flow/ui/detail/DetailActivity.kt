@@ -99,15 +99,17 @@ class DetailActivity : BaseCompatActivity() {
         if (flow.weather.isEmpty() && isToday()) {
             loadWeather()
         }
+
         tvWeather.setOnClickListener {
             // 当天的才可以修改天气
             if (!isToday()) {
                 return@setOnClickListener
             }
-            startActivityForResult(
-                Intent(context, CitySelectorActivity::class.java),
-                REQUEST_CODE_WEATHER
-            )
+            Udialog.AlertMultiItem.builder(this)
+                .add("刷新", ::loadWeather)
+                .add("选择城市", ::toCitySelector)
+                .show()
+
         }
 
         viewModel.memo.value = flow.memo
@@ -116,6 +118,13 @@ class DetailActivity : BaseCompatActivity() {
                 delayUpdateMemo()
             }
         })
+    }
+
+    private fun toCitySelector() {
+        startActivityForResult(
+            Intent(context, CitySelectorActivity::class.java),
+            REQUEST_CODE_WEATHER
+        )
     }
 
     private fun delayUpdateMemo() {
