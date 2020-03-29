@@ -125,44 +125,46 @@ class ScheduleRepository(private val context: Context) {
             initMap(map)
             val remoteMap = remoteList.groupBy { dbSchedule: DbSchedule -> dbSchedule.uuid }
             for (local in localList) {
-                // 0.本地删除
+                // 1.本地删除
                 if (local.snapTime == 0L && local.isDisabled) {
                     map[SyncStatus.LOCAL_DELETE]!!.add(local)
                     continue
                 }
 
-                // 1. 无变化的
-                if (local.localTime == local.snapTime) {
-                    continue
-                }
-
-                // 2. 本地新增的
-                if (local.snapTime == 0L && local.localTime > 0) {
+                // 3. 本地新增的
+                if ((local.snapTime == 0L) && (local.localTime > 0)) {
                     map[SyncStatus.LOCAL_ADD]!!.add(local)
                     continue
                 }
 
                 val remote = remoteMap[local.uuid]?.firstOrNull()
                 if (remote != null) {
-                    // 4. 本地修改的
+                    // 2. 无变化的
+                    if ((local.localTime == local.snapTime) && (local.snapTime == remote.syncTime)) {
+                        continue
+                    }
+
+                    // 5. 本地修改的
                     if ((local.snapTime == remote.syncTime) && (local.localTime > local.snapTime)) {
                         map[SyncStatus.LOCAL_CHANGE]!!.add(local)
                         continue
                     }
 
-                    // 5. 远程修改的
+                    // 6. 远程修改的
                     if ((local.localTime == local.snapTime) && (remote.syncTime > local.snapTime)) {
                         map[SyncStatus.REMOTE_CHANGE]!!.add(remote)
                         continue
                     }
 
-                    // 6. 远程和本地都有修改的
-                    map[SyncStatus.ALL_CHANGE]!!.add(local)
-                    map[SyncStatus.ALL_CHANGE]!!.add(remote)
+                    // 7. 远程和本地都有修改的
+                    if ((local.localTime > local.snapTime) && (remote.syncTime > local.snapTime)) {
+                        map[SyncStatus.ALL_CHANGE]!!.add(local)
+                        map[SyncStatus.ALL_CHANGE]!!.add(remote)
+                    }
                 }
             }
 
-            // 3. 远程新增的
+            // 4. 远程新增的
             val remoteAdd = remoteList.subtract(localList)
             map[SyncStatus.REMOTE_ADD]!!.addAll(remoteAdd)
         }
