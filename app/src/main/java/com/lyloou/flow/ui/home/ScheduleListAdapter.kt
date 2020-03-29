@@ -18,12 +18,9 @@ import kotlinx.android.synthetic.main.cell_schedule.view.*
 
 
 interface OnItemClickListener {
-    fun onItemClick(schedule: DbSchedule, name: String, position: Int)
+    fun onItemClick(schedule: DbSchedule, name: String)
     fun onItemMoreClick(schedule: DbSchedule)
-    fun onItemTitleClick(
-        schedule: DbSchedule,
-        position: Int
-    )
+    fun onItemTitleClick(schedule: DbSchedule)
 }
 
 class ScheduleListAdapter(
@@ -54,12 +51,12 @@ class ScheduleListAdapter(
         getItem(position)?.let { s ->
             with(holder) {
                 val context = holder.itemView.context
-                itemView.tvA.setOnClickListener { listener?.onItemClick(s, Order.A.name, position) }
-                itemView.tvB.setOnClickListener { listener?.onItemClick(s, Order.B.name, position) }
-                itemView.tvC.setOnClickListener { listener?.onItemClick(s, Order.C.name, position) }
-                itemView.tvD.setOnClickListener { listener?.onItemClick(s, Order.D.name, position) }
+                itemView.tvA.setOnClickListener { listener?.onItemClick(s, Order.A.name) }
+                itemView.tvB.setOnClickListener { listener?.onItemClick(s, Order.B.name) }
+                itemView.tvC.setOnClickListener { listener?.onItemClick(s, Order.C.name) }
+                itemView.tvD.setOnClickListener { listener?.onItemClick(s, Order.D.name) }
                 itemView.ivMore.setOnClickListener { listener?.onItemMoreClick(s); }
-                itemView.tvName.setOnClickListener { listener?.onItemTitleClick(s, position); }
+                itemView.tvName.setOnClickListener { listener?.onItemTitleClick(s); }
 
                 itemView.tvName.text = s.title
                 itemView.tvTime.text = context.getString(

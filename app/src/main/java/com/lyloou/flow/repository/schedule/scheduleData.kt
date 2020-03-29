@@ -26,7 +26,7 @@ const val COL_SCHEDULE_IS_DISABLED = "is_disabled"
 data class DbSchedule(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = COL_SCHEDULE_ID)
-    @SerializedName("id")
+    @SerializedName("_id")
     val id: Int,
 
     @ColumnInfo(name = COL_SCHEDULE_UUID)
@@ -90,4 +90,8 @@ data class DbSchedule(
     override fun hashCode(): Int {
         return uuid.hashCode()
     }
+}
+
+fun DbSchedule.backup() {
+
 }

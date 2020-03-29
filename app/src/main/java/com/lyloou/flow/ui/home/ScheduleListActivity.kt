@@ -60,6 +60,7 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickLis
         viewModel.enabledScheduleList.observe(this, Observer {
             it?.let {
                 scheduleListAdapter.submitList(it)
+                scheduleListAdapter.notifyDataSetChanged()
             }
         })
     }
@@ -82,14 +83,13 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickLis
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onItemClick(schedule: DbSchedule, name: String, position: Int) {
-        showEditScheduleDialog(schedule, name, position)
+    override fun onItemClick(schedule: DbSchedule, name: String) {
+        showEditScheduleDialog(schedule, name)
     }
 
     private fun showEditScheduleDialog(
         schedule: DbSchedule,
-        name: String,
-        position: Int
+        name: String
     ) {
         Log.i("TTAG", "before showEditScheduleDialog: $schedule")
 
@@ -103,7 +103,6 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickLis
         view.editText.setText(getContent(name, schedule))
         view.tvOk.setOnClickListener {
             saveContent(name, view.editText.text.toString(), schedule)
-            rvList.adapter?.notifyItemChanged(position)
             dialog.dismiss()
         }
         view.tvCancel.setOnClickListener { dialog.dismiss() }
@@ -166,10 +165,7 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickLis
             .show()
     }
 
-    override fun onItemTitleClick(
-        schedule: DbSchedule,
-        position: Int
-    ) {
+    override fun onItemTitleClick(schedule: DbSchedule) {
         Udialog.AlertInputDialog.builder(this)
             .title("修改标题")
             .hint("请输入名称")
@@ -178,14 +174,13 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickLis
             .consumer {
                 schedule.title = it
                 viewModel.updateSchedule(schedule)
-                rvList.adapter?.notifyItemChanged(position)
             }
             .show()
     }
 
     private fun applyToHome(schedule: DbSchedule) {
         if (scheduleViewModel.isEmpty()) {
-            scheduleViewModel.saveSchedule(schedule)
+            applyAndTips(schedule)
             return
         }
 
@@ -197,11 +192,15 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickLis
                 if (it) {
                     scheduleViewModel.startNewSchedule()
                 }
-                scheduleViewModel.saveSchedule(schedule)
-                onBackPressed()
-                toast("已应用到首页")
+                applyAndTips(schedule)
             }
             .show()
 
+    }
+
+    private fun applyAndTips(schedule: DbSchedule) {
+        scheduleViewModel.saveSchedule(schedule)
+        onBackPressed()
+        toast("已应用到首页")
     }
 }
