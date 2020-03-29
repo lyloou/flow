@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/sync"
+        android:icon="@drawable/ic_done"
+        android:title="同步当前页"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/sync_all"
+        android:icon="@drawable/ic_done_all"
+        android:title="同步全部"
+        app:showAsAction="always" />
+</menu>

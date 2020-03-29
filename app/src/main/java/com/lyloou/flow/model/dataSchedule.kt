@@ -20,5 +20,7 @@ enum class SyncStatus(var desc: String) {
     REMOTE_ADD("远程新增"),
     LOCAL_CHANGE("本地修改"),
     REMOTE_CHANGE("远程修改"),
-    ALL_CHANGED("匀有修改");
+    ALL_CHANGE("匀有修改"),
+    LOCAL_DELETE("本地删除"),
+    ;
 }

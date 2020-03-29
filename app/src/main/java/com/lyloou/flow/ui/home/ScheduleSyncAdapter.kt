@@ -24,6 +24,10 @@ class ScheduleSyncAdapter(val list: MutableList<DbSchedule> = mutableListOf()) :
         return list.size
     }
 
+    fun getData(): MutableList<DbSchedule> {
+        return list
+    }
+
     fun addData(data: List<DbSchedule>) {
         val index = data.size
         this.list.addAll(data)
@@ -52,6 +56,11 @@ class ScheduleSyncAdapter(val list: MutableList<DbSchedule> = mutableListOf()) :
 
     private fun getFormatted(syncTime: Long) = if (syncTime == 0L) "无" else
         Utime.getDayWithFormatFour(syncTime)
+
+    fun clear() {
+        this.list.clear()
+        notifyDataSetChanged()
+    }
 }
 
 class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)

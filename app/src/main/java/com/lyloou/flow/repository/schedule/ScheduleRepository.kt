@@ -2,7 +2,6 @@ package com.lyloou.flow.repository.schedule
 
 import android.content.Context
 import android.os.AsyncTask
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -97,7 +96,6 @@ class ScheduleRepository(private val context: Context) {
                 .observeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
-                    Log.i("TTAG", "=====>: 0, $it");
                     if (it.err_code == 0) {
                         it.data?.let { schedules ->
                             remoteList.addAll(schedules)
@@ -105,11 +103,9 @@ class ScheduleRepository(private val context: Context) {
                     }
                     latch.countDown()
                 }, {
-                    Log.i("TTAG", "=====>: 1");
                     latch.countDown()
                 })
             latch.await()
-            Log.i("TTAG", "=====>: 2");
             splitList(map, localList, remoteList)
             return map
         }
@@ -122,9 +118,10 @@ class ScheduleRepository(private val context: Context) {
             initMap(map)
             val remoteMap = remoteList.groupBy { dbSchedule: DbSchedule -> dbSchedule.uuid }
             for (local in localList) {
-                if (local.uuid == "F0F65E42C121454C8F8782CEE384BD26") {
-                    local.rsyncTime = 1285356685416
-                    local.title = "12342412412"
+                // 0.本地删除
+                if (local.rsyncTime == 0L && local.isDisabled) {
+                    map[SyncStatus.LOCAL_DELETE]!!.add(local)
+                    continue
                 }
                 // 1. 无变化的
                 if (local.syncTime == local.rsyncTime) {
@@ -154,7 +151,6 @@ class ScheduleRepository(private val context: Context) {
             // 3. 远程新增的
             val remoteAdd = remoteList.subtract(localList)
             map[SyncStatus.REMOTE_ADD]!!.addAll(remoteAdd)
-            Log.i("TTAG", "=====>: 3, $map");
         }
 
         private fun initMap(map: MutableMap<SyncStatus, MutableList<DbSchedule>>) {
@@ -164,7 +160,6 @@ class ScheduleRepository(private val context: Context) {
         }
 
         override fun onPostExecute(result: Map<SyncStatus, List<DbSchedule>>) {
-            Log.i("TTAG", "----5: ")
             consumer.accept(result)
         }
     }
