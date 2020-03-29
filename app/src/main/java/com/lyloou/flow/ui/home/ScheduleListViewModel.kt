@@ -90,9 +90,9 @@ class ScheduleListViewModel(application: Application) : AndroidViewModel(applica
         }
 
         // 同步时间
-        list.map {
-            it.snapTime = it.localTime
-            it.syncTime = it.localTime
+        list.map { data ->
+            data.snapTime = data.localTime
+            data.syncTime = data.localTime
         }
         Network.scheduleApi()
             .batchSync(list)
@@ -120,11 +120,10 @@ class ScheduleListViewModel(application: Application) : AndroidViewModel(applica
         }
 
         // 同步时间
-        list.map {
-            it.snapTime = it.syncTime
-            it.localTime = it.syncTime
+        list.map { data ->
+            data.snapTime = data.syncTime
+            data.localTime = data.syncTime
         }
-
         repository.insertDbSchedule(*list.toTypedArray())
         adapter.clear()
         consumer.accept(SyncResult(true, "Done", 0))
@@ -136,26 +135,22 @@ class ScheduleListViewModel(application: Application) : AndroidViewModel(applica
     ) {
         val adapter = map[SyncStatus.LOCAL_CHANGE]
         val list = adapter?.getData()
-        Log.i("TTAG", "000002222:$list ");
         if (list.isNullOrEmpty()) {
-            Log.i("TTAG", "0000022222222: ");
             consumer.accept(SyncResult(true, "无需同步", 0))
             return
+        }
+        // 同步时间
+        list.map { data ->
+            data.syncTime = data.localTime
+            data.snapTime = data.localTime
         }
         Network.scheduleApi()
             .batchSync(list)
             .defaultSubscribe {
                 if (it.isSuccess()) {
-                    // 同步时间
-                    list.map { data ->
-                        data.syncTime = data.localTime
-                        data.snapTime = data.localTime
-                    }
-
                     repository.updateDbSchedule(*list.toTypedArray())
                     adapter.clear()
                     Handler().post {
-                        Log.i("TTAG", "3333333333333333333333333333333333333333: ");
                         consumer.accept(SyncResult(true, "Done", 0))
                     }
                 } else {
