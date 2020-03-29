@@ -93,7 +93,7 @@ class ScheduleRepository(private val context: Context) {
 
             val latch = CountDownLatch(1)
             val localList = scheduleDao.getAllDbSchedule().toList()
-            localList.map { it.userId == UserPasswordHelper.getUserPassword()?.userId ?: 0 }
+            localList.map { it.userId = UserPasswordHelper.getUserPassword()?.userId ?: 0 }
 
             val remoteList = mutableListOf<DbSchedule>()
             Network.scheduleApi()

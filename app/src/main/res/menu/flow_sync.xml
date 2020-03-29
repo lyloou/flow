@@ -12,5 +12,5 @@
         android:id="@+id/sync_all"
         android:icon="@drawable/ic_done_all"
         android:title="同步全部"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 </menu>

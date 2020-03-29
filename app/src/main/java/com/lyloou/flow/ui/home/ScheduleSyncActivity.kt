@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.tabs.TabLayout
 import com.lyloou.flow.R
@@ -39,6 +40,10 @@ class ScheduleSyncActivity : AppCompatActivity(), ToolbarManager {
         tabLayout.tabMode = TabLayout.MODE_SCROLLABLE
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
+        loadData()
+    }
+
+    private fun loadData(consumer: Consumer<String> = Consumer { }) {
         val progressBar = LouProgressBar.builder(this).tips("Loading...")
         progressBar.show()
         viewModel.getAllSchedule(adapterMap, Consumer {
@@ -78,17 +83,19 @@ class ScheduleSyncActivity : AppCompatActivity(), ToolbarManager {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.sync -> syncCurrent()
-            R.id.sync_all -> syncAll()
+            R.id.sync_all -> {
+                viewModel.count.observe(this, Observer {
+                    if (it == 0) {
+                        loadData(Consumer { toast("Done") })
+                    }
+                })
+                viewModel.syncAll(adapterMap)
+
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun syncAll() {
-        viewModel.doLocalAdd(adapterMap)
-        viewModel.doRemoteAdd(adapterMap)
-        viewModel.doLocalChange(adapterMap)
-        viewModel.doRemoteChange(adapterMap)
-    }
 
     private fun syncCurrent() {
         val syncStatus = SyncStatus.values()[vpSchedule.currentItem]

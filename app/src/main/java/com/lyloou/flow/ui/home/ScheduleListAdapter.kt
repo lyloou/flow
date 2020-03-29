@@ -34,11 +34,11 @@ class ScheduleListAdapter(
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DbSchedule>() {
             override fun areItemsTheSame(oldItem: DbSchedule, newItem: DbSchedule): Boolean {
-                return oldItem == newItem
+                return oldItem.uuid == newItem.uuid
             }
 
             override fun areContentsTheSame(oldItem: DbSchedule, newItem: DbSchedule): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem.uuid == newItem.uuid
             }
 
         }

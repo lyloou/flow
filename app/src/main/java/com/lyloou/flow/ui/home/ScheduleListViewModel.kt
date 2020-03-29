@@ -1,9 +1,11 @@
 package com.lyloou.flow.ui.home
 
 import android.app.Application
+import android.os.Handler
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.lyloou.flow.common.Consumer
 import com.lyloou.flow.model.SyncStatus
@@ -49,6 +51,32 @@ class ScheduleListViewModel(application: Application) : AndroidViewModel(applica
         repository.updateDbSchedule(*dbSchedules)
     }
 
+    val count: MutableLiveData<Int> = MutableLiveData(-1)
+    private fun setCount(value: Int) {
+        count.value = value
+    }
+
+    private fun decreaseCount() {
+        count.value = count.value!! - 1
+    }
+
+    fun syncAll(mutableMap: MutableMap<SyncStatus, ScheduleSyncAdapter>) {
+        setCount(4)
+        doLocalAdd(mutableMap, Consumer {
+            decreaseCount()
+        })
+        doRemoteAdd(mutableMap, Consumer {
+            decreaseCount()
+        })
+
+        doLocalChange(mutableMap, Consumer {
+            decreaseCount()
+        })
+        doRemoteChange(mutableMap, Consumer {
+            decreaseCount()
+        })
+    }
+
     fun doLocalAdd(
         map: MutableMap<SyncStatus, ScheduleSyncAdapter>,
         consumer: Consumer<SyncResult> = Consumer {}
@@ -56,6 +84,8 @@ class ScheduleListViewModel(application: Application) : AndroidViewModel(applica
         val adapter = map[SyncStatus.LOCAL_ADD]
         val list = adapter?.getData()
         if (list.isNullOrEmpty()) {
+            Log.i("TTAG", "000001111: ");
+            consumer.accept(SyncResult(true, "无需同步", 0))
             return
         }
 
@@ -106,7 +136,10 @@ class ScheduleListViewModel(application: Application) : AndroidViewModel(applica
     ) {
         val adapter = map[SyncStatus.LOCAL_CHANGE]
         val list = adapter?.getData()
+        Log.i("TTAG", "000002222:$list ");
         if (list.isNullOrEmpty()) {
+            Log.i("TTAG", "0000022222222: ");
+            consumer.accept(SyncResult(true, "无需同步", 0))
             return
         }
         Network.scheduleApi()
@@ -121,7 +154,10 @@ class ScheduleListViewModel(application: Application) : AndroidViewModel(applica
 
                     repository.updateDbSchedule(*list.toTypedArray())
                     adapter.clear()
-                    consumer.accept(SyncResult(true, "Done", 0))
+                    Handler().post {
+                        Log.i("TTAG", "3333333333333333333333333333333333333333: ");
+                        consumer.accept(SyncResult(true, "Done", 0))
+                    }
                 } else {
                     Log.e("TTAG", "doLocalChange failed: $it");
                     consumer.accept(SyncResult(false, "Failed", list.size))
