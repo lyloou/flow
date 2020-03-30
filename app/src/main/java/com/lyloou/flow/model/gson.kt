@@ -18,7 +18,11 @@ fun Any.toPrettyJsonString(): String {
     return GsonBuilder().setPrettyPrinting().create().toJson(this)
 }
 
-fun <T> String.jsonArrayToList(data: String): List<T> {
+fun <T> String.jsonStringToList(): List<T> {
     val type = object : TypeToken<List<T>>() {}.type
-    return gson.fromJson(data, type)
+    return gson.fromJson(this, type)
+}
+
+inline fun <reified T> String.jsonStringToObject(): T {
+    return gson.fromJson(this, T::class.java)
 }
