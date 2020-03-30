@@ -1,5 +1,7 @@
 # 夫路
 
+![Android CI](https://github.com/lyloou/flow/workflows/Android%20CI/badge.svg)
+
 <br/>
 <img src="./image/flow.png" width="160" height="160" />
 <br/>
