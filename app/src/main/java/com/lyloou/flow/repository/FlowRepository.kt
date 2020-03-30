@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import androidx.work.CoroutineWorker
-import androidx.work.Data
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import com.lyloou.flow.common.enqueueWork
 import kotlinx.coroutines.coroutineScope
 
@@ -34,43 +34,49 @@ class FlowRepository(private val context: Context) {
     }
 
     fun updateDbFlowItems(day: String, items: String) {
-        val data = Data.Builder()
-            .putString(Keys.DAY, day)
-            .putString(Keys.ITEMS, items)
-            .build()
-        enqueueWork<UpdateFlowItemsWork>(context, data)
+        enqueueWork<UpdateFlowItemsWork>(
+            context, workDataOf(
+                Keys.DAY to day,
+                Keys.ITEMS to items
+            )
+        )
     }
 
     fun updateDbFlowsWeather(day: String, weather: String) {
-        val data = Data.Builder()
-            .putString(Keys.DAY, day)
-            .putString(Keys.WEATHER, weather)
-            .build()
-        enqueueWork<UpdateDbFlowWeatherWork>(context, data)
+        enqueueWork<UpdateDbFlowWeatherWork>(
+            context,
+            workDataOf(
+                Keys.DAY to day,
+                Keys.WEATHER to weather
+            )
+        )
     }
 
     fun updateDbFlowsMemo(day: String, memo: String) {
-        val data = Data.Builder()
-            .putString(Keys.DAY, day)
-            .putString(Keys.MEMO, memo)
-            .build()
-        enqueueWork<UpdateDbFlowMemoWork>(context, data)
+        enqueueWork<UpdateDbFlowMemoWork>(
+            context, workDataOf(
+                Keys.DAY to day,
+                Keys.MEMO to memo
+            )
+        )
     }
 
     fun updateDbFlowsSyncStatus(days: Array<String>, status: Boolean) {
-        val data = Data.Builder()
-            .putStringArray(Keys.DAYS, days)
-            .putBoolean(Keys.STATUS, status)
-            .build()
-        enqueueWork<UpdateDbFlowSyncStatusWork>(context, data)
+        enqueueWork<UpdateDbFlowSyncStatusWork>(
+            context, workDataOf(
+                Keys.DAYS to days,
+                Keys.STATUS to status
+            )
+        )
     }
 
     fun updateDbFlowsArchivedStatus(days: Array<String>, status: Boolean) {
-        val data = Data.Builder()
-            .putStringArray(Keys.DAYS, days)
-            .putBoolean(Keys.STATUS, status)
-            .build()
-        enqueueWork<UpdateDbFlowArchivedStatusWork>(context, data)
+        enqueueWork<UpdateDbFlowArchivedStatusWork>(
+            context, workDataOf(
+                Keys.DAYS to days,
+                Keys.STATUS to status
+            )
+        )
     }
 
     fun insertDbFlow(vararg dbFlows: DbFlow) {
