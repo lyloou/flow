@@ -12,7 +12,7 @@ import retrofit2.http.Query
 
 interface UserApi {
     @POST("login")
-    fun login(@Query("name") name: String, @Query("password") password: String): Observable<CResult<User?>>
+    suspend fun login(@Query("name") name: String, @Query("password") password: String): CResult<User?>
 
     @POST("update")
     fun update(@Body user: User): Observable<CResult<String?>>

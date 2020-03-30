@@ -2,6 +2,7 @@ package com.lyloou.flow.ui.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.lyloou.flow.common.toast
 import com.lyloou.flow.model.*
 import com.lyloou.flow.net.Network
@@ -9,6 +10,9 @@ import com.lyloou.flow.net.defaultScheduler
 import com.lyloou.flow.net.userApi
 import com.lyloou.flow.net.userWithAuthApi
 import com.lyloou.flow.util.PasswordUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginViewModel : ViewModel() {
     val name: MutableLiveData<String> by lazy {
@@ -24,13 +28,15 @@ class LoginViewModel : ViewModel() {
         okFun: (CResult<User?>) -> Unit,
         failFun: (Throwable) -> Unit
     ) {
-        val encodedPassword = PasswordUtil.getEncodedPassword(password)
-        Network.userApi()
-            .login(name, encodedPassword)
-            .defaultScheduler()
-            .subscribe({
-                okFun(it)
-            }, failFun)
+        viewModelScope.launch {
+            try {
+                okFun(withContext(Dispatchers.IO) {
+                    Network.userApi().login(name, PasswordUtil.getEncodedPassword(password))
+                })
+            } catch (e: Exception) {
+                failFun(e)
+            }
+        }
     }
 
     fun updateUserInfo(user: User) {
