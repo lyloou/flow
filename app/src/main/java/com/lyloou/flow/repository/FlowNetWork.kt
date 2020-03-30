@@ -40,7 +40,6 @@ class FlowNetWork(
 
                         val newList = getNewList(listLocal.toList(), listOrigin)
 
-                        database.clearAllTables()
                         flowDao.insertDbFlows(*newList.toTypedArray())
                         latch.countDown()
                     }
@@ -56,8 +55,12 @@ class FlowNetWork(
             }
         }
 
+    /**
+     *先简单处理，本地有的以本地为主，本地没有的，就插入进来
+     */
     private fun getNewList(listLocal: List<DbFlow>, listOrigin: List<DbFlow>): List<DbFlow> {
-        return listOrigin
+        val conflictList = listOrigin.subtract(listLocal)
+        return conflictList.toList()
     }
 
 }
