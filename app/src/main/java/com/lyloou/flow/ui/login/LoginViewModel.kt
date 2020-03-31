@@ -21,6 +21,9 @@ class LoginViewModel : ViewModel() {
     val password: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
+    val password2: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
 
     fun login(
         name: String,

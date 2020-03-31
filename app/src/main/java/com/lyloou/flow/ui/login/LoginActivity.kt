@@ -79,5 +79,9 @@ class LoginActivity : AppCompatActivity() {
         onBackPressed()
     }
 
+    fun register(view: View) {
+
+    }
+
 
 }
