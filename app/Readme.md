@@ -21,3 +21,30 @@
 
 
 [Retrofit+kotlin Coroutines（协程）+mvvm（Jetpack架构组件）实现更简洁的网络请求_移动开发_喻志强的博客-CSDN博客](https://yuzhiqiang.blog.csdn.net/article/details/101012090)
+
+
+
+## 使用Matisse
+```kotin
+// [Which is the best image picker library for Android? - Quora](https://www.quora.com/Which-is-the-best-image-picker-library-for-Android)
+// [Matisse](https://mindorks.com/android/store/Image-Pickers/zhihu/matisse)
+implementation 'com.zhihu.android:matisse:0.5.3-beta3'
+```
+
+```kotlin
+private fun takePhotoByMatisse() {
+    // [zhihu/Matisse: A well-designed local image and video selector for Android](https://github.com/zhihu/Matisse)
+    Matisse.from(this)
+        .choose(MimeType.ofImage())
+        .countable(true)
+        .maxSelectable(1)
+        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+        .thumbnailScale(0.85f)
+        .capture(true)
+        .theme(R.style.Matisse_Dracula)
+        .captureStrategy(CaptureStrategy(true, "${BuildConfig.APPLICATION_ID}.fileprovider"))
+        .imageEngine(GlideEngine())
+        .showPreview(false) // Default is `true`
+        .forResult(REQUEST_CODE_CHOOSE)
+}
+```

@@ -2,6 +2,7 @@ package com.lyloou.flow.util;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.ViewGroup;
@@ -90,6 +91,7 @@ public class Udialog {
         private List<Runnable> taskList = new ArrayList<>();
         private Context context;
         private String title;
+        private DialogInterface.OnCancelListener onCancelListener;
 
         private AlertMultiItem(Context context) {
             this.context = context;
@@ -110,6 +112,11 @@ public class Udialog {
             return this;
         }
 
+        public AlertMultiItem cancelListener(DialogInterface.OnCancelListener onCancelListener) {
+            this.onCancelListener = onCancelListener;
+            return this;
+        }
+
         private String[] getItemNames() {
             String[] result = new String[nameList.size()];
             for (int i = 0; i < nameList.size(); i++) {
@@ -124,6 +131,7 @@ public class Udialog {
                 builder.setTitle(title);
             }
             builder.setItems(getItemNames(), (dialog, which) -> taskList.get(which).run());
+            builder.setOnCancelListener(this.onCancelListener);
             builder.create();
             builder.show();
         }

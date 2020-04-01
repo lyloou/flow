@@ -26,3 +26,5 @@
 
 
 -keep class com.lyloou.flow.model.**{*;}
+
+-dontwarn com.bumptech.glide.**
