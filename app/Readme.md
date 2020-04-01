@@ -16,7 +16,8 @@
     fun getAllDbFlow(): Array<DbFlow>
     ```
     
-- [ ] WorkManager 具体的线程是怎么做的；
+- [x] WorkManager 具体的线程是怎么做的；
 
 
 
+[Retrofit+kotlin Coroutines（协程）+mvvm（Jetpack架构组件）实现更简洁的网络请求_移动开发_喻志强的博客-CSDN博客](https://yuzhiqiang.blog.csdn.net/article/details/101012090)

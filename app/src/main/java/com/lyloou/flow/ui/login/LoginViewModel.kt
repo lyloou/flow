@@ -28,16 +28,44 @@ class LoginViewModel : ViewModel() {
     fun login(
         name: String,
         password: String,
-        okFun: (CResult<User?>) -> Unit,
-        failFun: (Throwable) -> Unit
+        okFun: (User?) -> Unit,
+        failFun: (String) -> Unit
     ) {
         viewModelScope.launch {
             try {
-                okFun(withContext(Dispatchers.IO) {
+                val result = withContext(Dispatchers.IO) {
                     Network.userApi().login(name, PasswordUtil.getEncodedPassword(password))
-                })
+                }
+                if (result.err_code == 0) {
+                    okFun(result.data)
+                } else {
+                    failFun(result.err_msg)
+                }
             } catch (e: Exception) {
-                failFun(e)
+                failFun("${e.message}")
+            }
+        }
+    }
+
+    fun register(
+        name: String,
+        password: String,
+        okFun: (User?) -> Unit,
+        failFun: (String) -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                val result = withContext(Dispatchers.IO) {
+                    val encodedPassword = PasswordUtil.getEncodedPassword(password)
+                    Network.userApi().register(UserRegister(name, encodedPassword))
+                }
+                if (result.err_code == 0) {
+                    okFun(result.data)
+                } else {
+                    failFun(result.err_msg)
+                }
+            } catch (e: Exception) {
+                failFun("${e.message}")
             }
         }
     }

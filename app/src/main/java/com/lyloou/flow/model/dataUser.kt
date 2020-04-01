@@ -30,6 +30,13 @@ data class UserPassword(
     val password: String
 )
 
+data class UserRegister(
+    val name: String,
+    val password: String,
+    val email: String? = null,
+    val avatar: String? = null,
+    val phone: Long? = null
+)
 
 val DEFAULT_USER = User(0, "登录", "", 0, "", "天天做好事", Date())
 

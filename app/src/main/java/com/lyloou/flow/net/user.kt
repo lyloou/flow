@@ -1,10 +1,7 @@
 package com.lyloou.flow.net
 
 import com.lyloou.flow.common.Url
-import com.lyloou.flow.model.CResult
-import com.lyloou.flow.model.User
-import com.lyloou.flow.model.UserPassword
-import com.lyloou.flow.model.UserPasswordHelper
+import com.lyloou.flow.model.*
 import io.reactivex.Observable
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -16,6 +13,9 @@ interface UserApi {
 
     @POST("update")
     fun update(@Body user: User): Observable<CResult<String?>>
+
+    @POST("register")
+    suspend fun register(@Body userRegister: UserRegister): CResult<User?>
 }
 
 fun Network.userApi(): UserApi {
