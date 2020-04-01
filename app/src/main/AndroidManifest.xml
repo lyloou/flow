@@ -25,6 +25,10 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
         <activity
+            android:name=".ui.user.UserSettingActivity"
+            android:label="@string/title_activity_user_setting"
+            android:theme="@style/NoActionBar" />
+        <activity
             android:name=".ui.home.ScheduleSyncActivity"
             android:label="@string/schedule_sync"
             android:theme="@style/NoActionBar" />

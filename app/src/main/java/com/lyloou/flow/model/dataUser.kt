@@ -15,6 +15,7 @@ import java.util.*
 data class User(
     val id: Long,
     val name: String,
+    val nickname: String,
     val email: String,
     val phone: Long,
     val avatar: String,
@@ -38,7 +39,7 @@ data class UserRegister(
     val phone: Long? = null
 )
 
-val DEFAULT_USER = User(0, "登录", "", 0, "", "天天做好事", Date())
+val DEFAULT_USER = User(0, "用户名", "昵称", "", 0, "", "天天做好事", Date())
 
 object UserHelper {
     private var preference = SPreference(

@@ -2,6 +2,7 @@ package com.lyloou.flow.extension
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
@@ -15,6 +16,10 @@ import java.util.*
 fun Context.dp2px(dpValue: Float): Int {
     val scale = resources.displayMetrics.density
     return (scale * dpValue + 0.5f).toInt()
+}
+
+inline fun <reified T> Context.simpleStartActivity() {
+    startActivity(Intent(this, T::class.java))
 }
 
 fun Activity.snackbar(str: String, duration: Int = Snackbar.LENGTH_SHORT): Snackbar {

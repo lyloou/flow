@@ -5,6 +5,15 @@
     <string name="schedule">Schedule</string>
     <string name="schedule_list">Schedule List</string>
     <string name="not_sync" translatable="false">Not Synced</string>
+
+    <!--  user setting  -->
+    <string name="user_name" translatable="false">Name</string>
+    <string name="user_nickname" translatable="false">Nickname</string>
+    <string name="user_email" translatable="false">E-mail</string>
+    <string name="user_phone" translatable="false">Phone</string>
+    <string name="user_ps" translatable="false">PS</string>
+    <string name="user_avatar" translatable="false">Avatar</string>
+
     <!--  argument key  -->
     <string name="arg_key_list_to_detail" translatable="false">arg_key_list_to_detail</string>
 
@@ -69,4 +78,5 @@
     <string name="invalid_password" translatable="false">Password must be >5 characters</string>
     <string name="login_failed" translatable="false">"Login failed"</string>
     <string name="schedule_sync">Schedule Sync</string>
+    <string name="title_activity_user_setting" translatable="false">UserSetting</string>
 </resources>

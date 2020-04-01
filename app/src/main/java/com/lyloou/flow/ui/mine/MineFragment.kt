@@ -1,6 +1,5 @@
 package com.lyloou.flow.ui.mine
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,10 +11,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.lyloou.flow.R
 import com.lyloou.flow.databinding.FragmentMineBinding
+import com.lyloou.flow.extension.simpleStartActivity
 import com.lyloou.flow.model.DEFAULT_USER
 import com.lyloou.flow.model.UserHelper
 import com.lyloou.flow.ui.setting.SettingsActivity
 import com.lyloou.flow.ui.user.LoginActivity
+import com.lyloou.flow.ui.user.UserSettingActivity
 import com.lyloou.flow.ui.web.NormalWebViewActivity
 import kotlinx.android.synthetic.main.fragment_mine.*
 
@@ -54,10 +55,10 @@ class MineFragment : Fragment() {
     private fun initItem() {
         ivAvatar.setOnClickListener {
             if (UserHelper.getUser().id == DEFAULT_USER.id) {
-                startActivity(Intent(context, LoginActivity::class.java))
+                requireActivity().simpleStartActivity<LoginActivity>()
                 return@setOnClickListener
             }
-
+            requireActivity().simpleStartActivity<UserSettingActivity>()
         }
 
         cvFollow.setOnClickListener {
@@ -66,7 +67,7 @@ class MineFragment : Fragment() {
         }
 
         cvSetting.setOnClickListener {
-            startActivity(Intent(context, SettingsActivity::class.java))
+            requireActivity().simpleStartActivity<SettingsActivity>()
         }
 
         cvMine.setOnClickListener {

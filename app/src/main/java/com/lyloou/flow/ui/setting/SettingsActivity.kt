@@ -31,7 +31,7 @@ class SettingsActivity : BaseCompatActivity() {
 
     class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey)
+            setPreferencesFromResource(R.xml.setting_preferences, rootKey)
             initPreference()
         }
 

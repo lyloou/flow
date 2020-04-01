@@ -1,0 +1,32 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        android:title="用户名"
+        app:iconSpaceReserved="false"
+        app:key="name"
+        app:summary="" />
+
+    <EditTextPreference
+        android:title="昵称"
+        app:key="nickname" />
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="用户设置">
+
+    </PreferenceCategory>
+
+
+    <EditTextPreference
+        android:title="E-mail"
+        app:key="email" />
+
+    <EditTextPreference
+        android:title="Phone"
+        app:key="phone" />
+    <EditTextPreference
+        android:title="Personal Signature"
+        app:key="personal_signature" />
+
+
+</PreferenceScreen>
