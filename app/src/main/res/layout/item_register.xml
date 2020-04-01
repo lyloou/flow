@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.lyloou.flow.ui.login.LoginViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clRegister"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.login.LoginActivity">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/rGuideline8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.3" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/rGuideline9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.4" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/rGuideline13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/rGuideline16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.6" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/rGuideline10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <EditText
+            android:id="@+id/etPasswordR"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/item_login_et_bg"
+            android:ems="10"
+            android:hint="请输入密码"
+            android:inputType="textPassword"
+            android:text="@={data.password}"
+            app:layout_constraintBottom_toTopOf="@+id/rGuideline9"
+            app:layout_constraintEnd_toStartOf="@+id/rGuideline12"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/rGuideline11"
+            app:layout_constraintTop_toTopOf="@+id/rGuideline9"
+            app:layout_constraintVertical_bias="0.511" />
+
+        <EditText
+            android:id="@+id/etPasswordR2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/item_login_et_bg"
+            android:ems="10"
+            android:hint="请两次输入密码"
+            android:inputType="textPassword"
+            android:text="@={data.password}"
+            app:layout_constraintBottom_toTopOf="@+id/rGuideline13"
+            app:layout_constraintEnd_toStartOf="@+id/rGuideline12"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/rGuideline11"
+            app:layout_constraintTop_toTopOf="@+id/rGuideline13"
+            app:layout_constraintVertical_bias="0.511" />
+
+        <EditText
+            android:id="@+id/etNameR"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/item_login_et_bg"
+            android:ems="10"
+            android:hint="请输入用户名"
+            android:inputType="textPersonName"
+            android:text="@={data.name}"
+            app:layout_constraintBottom_toTopOf="@+id/rGuideline8"
+            app:layout_constraintEnd_toStartOf="@+id/rGuideline12"
+            app:layout_constraintStart_toStartOf="@+id/rGuideline11"
+            app:layout_constraintTop_toTopOf="@+id/rGuideline8" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/rGuideline11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.16" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/rGuideline12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.84" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="register"
+            android:text="注册"
+            app:layout_constraintEnd_toStartOf="@+id/rGuideline12"
+            app:layout_constraintStart_toStartOf="@+id/rGuideline11"
+            app:layout_constraintTop_toTopOf="@+id/rGuideline16" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="version1.0"
+            app:layout_constraintBottom_toTopOf="@+id/rGuideline10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rGuideline10" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
