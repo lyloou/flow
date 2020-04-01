@@ -24,7 +24,7 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
-        android:text="头像"
+        android:text="@string/user_avatar"
         android:textSize="14sp"
         tools:text="头像" />
 

@@ -44,7 +44,14 @@ class UserSettingActivity : AppCompatActivity(), SettingLayout.IClickListener, T
 
         settingLayout
             .addCustomView(vAvatar)
-            .addItem(Item(R.string.user_name, contentStr = user.name, listener = this))
+            .addItem(
+                Item(
+                    R.string.user_name,
+                    contentStr = user.name,
+                    hasToRight = false,
+                    listener = this
+                )
+            )
             .addItem(Item(R.string.user_nickname, contentStr = user.nickname, listener = this))
             .addItem(Item(R.string.user_avatar, contentStr = user.avatar, listener = this))
             .addItem(Item(R.string.user_phone, contentStr = "${user.phone}", listener = this))
