@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.login.LoginActivity">
+    tools:context=".ui.user.LoginActivity">
 
     <data>
 
         <variable
             name="data"
-            type="com.lyloou.flow.ui.login.LoginViewModel" />
+            type="com.lyloou.flow.ui.user.LoginViewModel" />
     </data>
 
     <FrameLayout

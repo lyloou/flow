@@ -14,8 +14,8 @@ import com.lyloou.flow.R
 import com.lyloou.flow.databinding.FragmentMineBinding
 import com.lyloou.flow.model.DEFAULT_USER
 import com.lyloou.flow.model.UserHelper
-import com.lyloou.flow.ui.login.LoginActivity
 import com.lyloou.flow.ui.setting.SettingsActivity
+import com.lyloou.flow.ui.user.LoginActivity
 import com.lyloou.flow.ui.web.NormalWebViewActivity
 import kotlinx.android.synthetic.main.fragment_mine.*
 

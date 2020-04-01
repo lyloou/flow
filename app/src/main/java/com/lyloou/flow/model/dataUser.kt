@@ -9,7 +9,7 @@ import com.lyloou.flow.common.SPreference
 import com.lyloou.flow.common.SpName
 import com.lyloou.flow.common.clear
 import com.lyloou.flow.extension.snackbar
-import com.lyloou.flow.ui.login.LoginActivity
+import com.lyloou.flow.ui.user.LoginActivity
 import java.util.*
 
 data class User(

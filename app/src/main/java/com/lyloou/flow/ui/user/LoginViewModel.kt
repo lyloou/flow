@@ -1,4 +1,4 @@
-package com.lyloou.flow.ui.login
+package com.lyloou.flow.ui.user
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

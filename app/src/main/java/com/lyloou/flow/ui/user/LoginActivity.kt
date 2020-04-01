@@ -1,4 +1,4 @@
-package com.lyloou.flow.ui.login
+package com.lyloou.flow.ui.user
 
 import android.os.Bundle
 import android.view.Menu

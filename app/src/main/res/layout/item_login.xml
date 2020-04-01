@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.lyloou.flow.ui.login.LoginViewModel" />
+            type="com.lyloou.flow.ui.user.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
