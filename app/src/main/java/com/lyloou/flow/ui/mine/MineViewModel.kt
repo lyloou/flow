@@ -35,7 +35,7 @@ class MineViewModel(application: Application) : AndroidViewModel(application) {
 }
 
 @BindingAdapter("profileImage")
-fun loadImage(iv: ImageView, imgUrl: String) {
+fun loadImage(iv: ImageView, imgUrl: String?) {
     Glide.with(iv.context)
         .load(imgUrl)
         .placeholder(R.drawable.ic_very_satisfied)
