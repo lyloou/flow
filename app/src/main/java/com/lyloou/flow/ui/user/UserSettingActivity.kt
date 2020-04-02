@@ -140,9 +140,12 @@ class UserSettingActivity : AppCompatActivity(), SettingLayout.IClickListener, T
         when (item.itemId) {
             R.id.confirm -> {
                 // 上传成功后，保存到本地
-
-                // TODO save
-                toast("saved:$user")
+                viewModel.updateUserInfo(user, {
+                    viewModel.saveUser()
+                    toast("已保存")
+                }, {
+                    toast(it)
+                })
             }
         }
         return super.onOptionsItemSelected(item)

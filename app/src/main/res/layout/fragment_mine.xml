@@ -42,7 +42,7 @@
                         android:id="@+id/tvName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{data.user.name}"
+                        android:text="@{data.user.nickname}"
                         android:textSize="20sp"
                         tools:text="Lyloou" />
 

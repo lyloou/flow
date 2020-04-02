@@ -6,9 +6,16 @@ import android.content.Intent
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.reflect.TypeToken
+import com.lyloou.flow.model.CResult
 import com.lyloou.flow.model.gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.DateFormat
 import java.util.*
 
@@ -64,4 +71,24 @@ fun <T> String?.toTypedList(): List<T> {
     }
     val type = object : TypeToken<List<T>>() {}.type
     return gson.fromJson(this, type)
+}
+
+
+fun <T> ViewModel.apiForCResult(
+    block: suspend CoroutineScope.() -> CResult<T?>,
+    okFun: (T?) -> Unit = {},
+    failFun: (String) -> Unit = {}
+) {
+    viewModelScope.launch {
+        try {
+            val result = withContext(Dispatchers.IO, block)
+            if (result.err_code == 0) {
+                okFun(result.data)
+            } else {
+                failFun(result.err_msg)
+            }
+        } catch (e: Exception) {
+            failFun("${e.message}")
+        }
+    }
 }
