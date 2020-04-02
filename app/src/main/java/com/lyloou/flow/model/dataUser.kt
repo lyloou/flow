@@ -14,15 +14,15 @@ import java.util.*
 
 data class User(
     val id: Long,
-    val name: String,
-    val nickname: String,
-    val email: String,
-    val phone: Long,
-    val avatar: String,
+    var name: String,
+    var nickname: String,
+    var email: String,
+    var phone: Long,
+    var avatar: String,
     @SerializedName("personal_signature")
-    val personalSignature: String,
+    var personalSignature: String,
     @SerializedName("gmt_create")
-    val gmtCreate: Date
+    var gmtCreate: Date
 )
 
 data class UserPassword(

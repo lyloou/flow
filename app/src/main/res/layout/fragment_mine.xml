@@ -60,6 +60,7 @@
                     android:id="@+id/ivAvatar"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
+                    android:foreground="?selectableItemBackground"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:profileImage="@{data.user.avatar}"

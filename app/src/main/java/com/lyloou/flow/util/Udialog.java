@@ -184,7 +184,9 @@ public class Udialog {
         private Context context;
         private String title;
         private String hint;
+        private int type;
         private boolean cancelable;
+        private boolean requestFocus;
         private String defaultValue;
         private Consumer<String> consumer = result -> {
         };
@@ -211,6 +213,17 @@ public class Udialog {
 
         public AlertInputDialog cancelable(boolean cancelable) {
             this.cancelable = cancelable;
+            return this;
+        }
+
+
+        public AlertInputDialog requestFocus(boolean requestFocus) {
+            this.requestFocus = requestFocus;
+            return this;
+        }
+
+        public AlertInputDialog type(int type) {
+            this.type = type;
             return this;
         }
 
@@ -244,6 +257,9 @@ public class Udialog {
             if (hint != null) {
                 et.setHint(hint);
             }
+            if (type != 0) {
+                et.setInputType(type);
+            }
 
             LinearLayout ll = new LinearLayout(context);
             ll.setOrientation(LinearLayout.VERTICAL);
@@ -272,10 +288,21 @@ public class Udialog {
                 });
             }
 
+            if (requestFocus) {
+                et.setFocusable(true);
+                et.requestFocus();
+            }
+
             builder.setView(ll);
             builder.setCancelable(cancelable);
             builder.create();
+            builder.setOnCancelListener(dialog -> {
+                if (InputMethodUtils.isActive(et.getContext())) {
+                    InputMethodUtils.hideSoftInput(et);
+                }
+            });
             builder.show();
+
         }
     }
 
