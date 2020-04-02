@@ -21,15 +21,13 @@ class AboutActivity : AppCompatActivity() {
     }
 
     private fun getView(): View {
-        val adsElement = Element()
-        adsElement.title = "Advertise with us"
-        simulateDayNight( /* DAY */3)
+        simulateDayNight(3)
 
         return AboutPage(this)
             .isRTL(false)
             .setImage(R.mipmap.ic_launcher)
             .addItem(Element().setTitle("Version V${BuildConfig.VERSION_NAME}"))
-            .addItem(adsElement)
+            .addItem(Element().setTitle("Advertise with us"))
             .addGroup("Connect with us")
             .addEmail("lyloou6@gmail.com")
             .addWebsite("http://lyloou.github.io/")
@@ -63,14 +61,11 @@ class AboutActivity : AppCompatActivity() {
         val copyrights =
             String.format(getString(R.string.copy_right), Calendar.getInstance()[Calendar.YEAR])
         copyRightsElement.title = copyrights
-        copyRightsElement.iconDrawable = R.mipmap.ic_launcher
-        copyRightsElement.iconTint = mehdi.sakout.aboutpage.R.color.about_item_icon_color
+        copyRightsElement.iconDrawable = R.drawable.ic_very_satisfied
+        copyRightsElement.iconTint = R.color.colorPrimary
         copyRightsElement.iconNightTint = android.R.color.white
         copyRightsElement.gravity = Gravity.CENTER
-        copyRightsElement.onClickListener =
-            View.OnClickListener {
-                toast(copyrights)
-            }
+        copyRightsElement.onClickListener = View.OnClickListener { toast(copyrights) }
         return copyRightsElement
     }
 
