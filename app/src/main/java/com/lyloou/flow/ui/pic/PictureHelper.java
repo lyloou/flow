@@ -1,4 +1,5 @@
-package com.lyloou.flow.util;
+package com.lyloou.flow.ui.pic;
+
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,31 +8,33 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 
+import com.lyloou.flow.util.Ufile;
+
 import java.io.File;
 
-public class PictureHelper {
-    public static final int REQUEST_CODE_PAIZHAO = 1;
-    public static final int REQUEST_CODE_ZHAOPIAN = 2;
-    public static final int REQUEST_CODE_CAIQIE = 3;
+class PictureHelper {
+    static final int REQUEST_CODE_CAPTURE = 1;
+    static final int REQUEST_CODE_PICK = 2;
+    static final int REQUEST_CODE_CROP = 3;
 
-    public static void takePicture(Activity activity, File outputFile) {
+    static void takePicture(Activity activity, File outputFile) {
         Intent intent = new Intent();
         intent.setAction("android.media.action.IMAGE_CAPTURE");
         intent.addCategory("android.intent.category.DEFAULT");
-        Uri uri = Ufile.getUriByProvider(activity, outputFile);
+        Uri uri = Ufile.getUriForFile(activity, outputFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        activity.startActivityForResult(intent, REQUEST_CODE_PAIZHAO);
+        activity.startActivityForResult(intent, REQUEST_CODE_CAPTURE);
     }
 
-    public static void getFromAlbum(Activity activity) {
+    static void getFromAlbum(Activity activity) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction("android.intent.action.PICK");
         intent.addCategory("android.intent.category.DEFAULT");
-        activity.startActivityForResult(intent, REQUEST_CODE_ZHAOPIAN);
+        activity.startActivityForResult(intent, REQUEST_CODE_PICK);
     }
 
-    public static void crop(Activity activity, Uri uri, File outputFile, int width, int height) {
+    static void crop(Activity activity, Uri uri, File outputFile, int width, int height) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         setIntentDataAndType(intent, "image/*", uri, true);
         intent.putExtra("crop", "true");
@@ -39,19 +42,17 @@ public class PictureHelper {
         intent.putExtra("aspectY", 1);
         intent.putExtra("outputX", width);
         intent.putExtra("outputY", height);
-        intent.putExtra("scale", true);//支持缩放
         //return-data为true时，直接返回bitmap，可能会很占内存，不建议，小米等个别机型会出异常！！！
         //所以适配小米等个别机型，裁切后的图片，不能直接使用data返回，应使用uri指向
         //裁切后保存的URI，不属于我们向外共享的，所以可以使用fill://类型的URI
-        Uri outputUri = Ufile.getUriByUri(outputFile);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outputFile));
         intent.putExtra("return-data", false);
+        // 输出类型
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
 
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        intent.putExtra("noFaceDetection", true);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        activity.startActivityForResult(intent, REQUEST_CODE_CAIQIE);
+        // 无脸部识别
+        // intent.putExtra("noFaceDetection", true);
+        activity.startActivityForResult(intent, REQUEST_CODE_CROP);
     }
 
     /**

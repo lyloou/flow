@@ -9,11 +9,8 @@ import androidx.appcompat.widget.Toolbar
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.lyloou.flow.R
-import com.lyloou.flow.common.toast
 import com.lyloou.flow.model.UserHelper
-import com.lyloou.flow.util.PictureHelper
-import com.lyloou.flow.util.Udialog
-import com.lyloou.flow.util.Ufile
+import com.lyloou.flow.ui.pic.ImagePickerActivity
 import com.lyloou.flow.widget.SettingLayout
 import com.lyloou.flow.widget.SettingLayout.Item
 import com.lyloou.flow.widget.ToolbarManager
@@ -32,44 +29,21 @@ class UserSettingActivity : AppCompatActivity(), SettingLayout.IClickListener, T
     }
 
     private fun takePhoto() {
-        Udialog.AlertMultiItem.builder(this)
-            .title("更换头像")
-            .add("拍照") { PictureHelper.takePicture(this, file) }
-            .add("从相册选择") { PictureHelper.getFromAlbum(this) }
-            .show()
+        ImagePickerActivity.startForResult(this)
     }
 
-
-    private val file = Ufile.getFile("icon.png")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            PictureHelper.REQUEST_CODE_PAIZHAO -> {
-                val uri = data?.data
-                if (uri == null) {
-                    toast("图片无效")
-                    return
-                }
-                PictureHelper.crop(this, uri, file, 350, 350);
-            }
-            PictureHelper.REQUEST_CODE_ZHAOPIAN -> {
-                val uri = data?.data
-                if (uri == null) {
-                    toast("图片无效")
-                    return
-                }
-                PictureHelper.crop(this, uri, file, 350, 350);
-            }
-            PictureHelper.REQUEST_CODE_CAIQIE -> {
-                toast("${file}")
-                // 可以上传保存了
-                ivAvatar?.let {
-                    Glide.with(this)
-                        .load(Ufile.getUriByProvider(this, file))
-                        .into(it)
-                }
-            }
+            ImagePickerActivity.CROP_REQUEST_CODE -> {
+                data?.let {
+                    // TODO 上传到网络
 
+                    // 清除缓存，由于url一样，它有可能会不刷新
+                    ivAvatar?.setImageURI(null)
+                    ivAvatar?.setImageURI(data.data)
+                }
+            }
         }
     }
 

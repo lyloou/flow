@@ -2,6 +2,7 @@
   <dictionary name="Administrator">
     <words>
       <w>rtime</w>
+      <w>ufile</w>
     </words>
   </dictionary>
 </component>
