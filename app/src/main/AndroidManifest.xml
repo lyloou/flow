@@ -68,6 +68,10 @@
         <activity
             android:name=".ui.pic.ImagePickerActivity"
             android:theme="@style/MyTransparent" />
+        <activity
+            android:name=".ui.about.AboutActivity"
+            android:label="@string/about_us"
+            android:theme="@style/AppTheme" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

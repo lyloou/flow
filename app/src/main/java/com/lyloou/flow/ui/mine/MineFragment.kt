@@ -14,6 +14,7 @@ import com.lyloou.flow.databinding.FragmentMineBinding
 import com.lyloou.flow.extension.simpleStartActivity
 import com.lyloou.flow.model.DEFAULT_USER
 import com.lyloou.flow.model.UserHelper
+import com.lyloou.flow.ui.about.AboutActivity
 import com.lyloou.flow.ui.setting.SettingsActivity
 import com.lyloou.flow.ui.user.LoginActivity
 import com.lyloou.flow.ui.user.UserSettingActivity
@@ -63,7 +64,7 @@ class MineFragment : Fragment() {
 
         cvFollow.setOnClickListener {
             val url = "https://voice.baidu.com/act/newpneumonia/newpneumonia/?from=osari_pc_1"
-            NormalWebViewActivity.newInstance(context, url)
+            NormalWebViewActivity.newInstance(requireActivity(), url)
         }
 
         cvSetting.setOnClickListener {
@@ -71,7 +72,11 @@ class MineFragment : Fragment() {
         }
 
         cvMine.setOnClickListener {
-            NormalWebViewActivity.newInstance(context, "")
+            NormalWebViewActivity.newInstance(requireActivity(), "")
+        }
+
+        cvAbout.setOnClickListener {
+            requireActivity().simpleStartActivity<AboutActivity>()
         }
 
 

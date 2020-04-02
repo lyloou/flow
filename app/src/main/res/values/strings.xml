@@ -26,7 +26,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
-    <string name="flow_list_count" translatable="false">总数量：%d，当前第%d页</string>
     <string name="et_content" translatable="false" />
 
     <string-array name="english_week_string_array">
@@ -79,4 +78,7 @@
     <string name="login_failed" translatable="false">"Login failed"</string>
     <string name="schedule_sync">Schedule Sync</string>
     <string name="title_activity_user_setting" translatable="false">UserSetting</string>
+    <string name="card_content" translatable="false">This is help content</string>
+    <string name="copy_right" translatable="false">copy right</string>
+    <string name="about_us" translatable="false">About us</string>
 </resources>

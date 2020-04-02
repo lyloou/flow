@@ -1,6 +1,7 @@
 package com.lyloou.flow.ui.user
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -14,8 +15,11 @@ import androidx.work.WorkManager
 import com.lyloou.flow.R
 import com.lyloou.flow.common.toast
 import com.lyloou.flow.databinding.ActivityLoginBinding
+import com.lyloou.flow.extension.simpleStartActivity
+import com.lyloou.flow.extension.snackbar
 import com.lyloou.flow.model.User
 import com.lyloou.flow.repository.FlowNetWork
+import com.lyloou.flow.ui.about.AboutActivity
 import com.lyloou.flow.widget.ToolbarManager
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.item_toolbar.*
@@ -42,6 +46,7 @@ class LoginActivity : AppCompatActivity(), ToolbarManager {
     }
 
     fun login(v: View) {
+        Log.d("TTAG", "login: ${v.id}")
         val name = viewModel.name.value
         if (name.isNullOrEmpty()) {
             toast("用户名不能为空")
@@ -75,6 +80,7 @@ class LoginActivity : AppCompatActivity(), ToolbarManager {
     }
 
     fun register(view: View) {
+        Log.d("TTAG", "register: ${view.id}")
         val name = viewModel.name.value
         if (name.isNullOrEmpty()) {
             toast("用户名不能为空")
@@ -130,5 +136,12 @@ class LoginActivity : AppCompatActivity(), ToolbarManager {
                 this.menu?.findItem(R.id.login)?.isVisible = true
             }
         }
+    }
+
+    fun forgetPassword(view: View) {
+        Log.d("TTAG", "register: ${view.id}")
+        snackbar("请联系管理员").setAction("联系我") {
+            simpleStartActivity<AboutActivity>()
+        }.show()
     }
 }
