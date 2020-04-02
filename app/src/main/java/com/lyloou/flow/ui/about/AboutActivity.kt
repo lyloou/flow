@@ -23,7 +23,7 @@ class AboutActivity : AppCompatActivity() {
     private fun getView(): View {
         val adsElement = Element()
         adsElement.title = "Advertise with us"
-        simulateDayNight( /* DAY */0)
+        simulateDayNight( /* DAY */3)
 
         return AboutPage(this)
             .isRTL(false)
@@ -60,10 +60,8 @@ class AboutActivity : AppCompatActivity() {
 
     private fun getCopyRightsElement(): Element? {
         val copyRightsElement = Element()
-        val copyrights = String.format(
-            getString(R.string.copy_right),
-            Calendar.getInstance()[Calendar.YEAR]
-        )
+        val copyrights =
+            String.format(getString(R.string.copy_right), Calendar.getInstance()[Calendar.YEAR])
         copyRightsElement.title = copyrights
         copyRightsElement.iconDrawable = R.mipmap.ic_launcher
         copyRightsElement.iconTint = mehdi.sakout.aboutpage.R.color.about_item_icon_color
