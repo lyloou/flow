@@ -103,8 +103,8 @@ class DetailActivity : BaseCompatActivity() {
                 return@setOnClickListener
             }
             Udialog.AlertMultiItem.builder(this)
-                .add("刷新天气信息", ::loadWeather)
-                .add("显示全部天气信息", ::showAllWeather)
+                .add("刷新", ::loadWeather)
+                .add("显示完整信息", ::showAllWeather)
                 .add("选择其他城市", ::toCitySelector)
                 .show()
 

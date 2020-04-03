@@ -9,6 +9,7 @@ data class Bookmark(
      * 网址
      */
     var url: String,
+    val iconUrl: String? = null,
     /**
      * 优先级
      */
@@ -16,7 +17,7 @@ data class Bookmark(
     /**
      * 标签
      */
-    var tag: String? = null,
+    var tag: String? = "默认",
     /**
      * 描述
      */
@@ -33,8 +34,12 @@ data class Bookmark(
 
         return (other.title == this.title && other.url == this.url)
     }
+
+    override fun hashCode(): Int {
+        return title.hashCode() + url.hashCode()
+    }
 }
 
-fun Bookmark.comparator(): Comparator<Bookmark> {
-    return compareBy({ it.order }, { it.tag })
+fun bookmarkComparator(): Comparator<Bookmark> {
+    return compareBy({ -it.order }, { it.tag })
 }
