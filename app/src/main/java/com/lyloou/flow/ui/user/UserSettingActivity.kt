@@ -9,7 +9,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.lyloou.flow.R
@@ -32,7 +32,7 @@ class UserSettingActivity : AppCompatActivity(), SettingLayout.IClickListener, T
     lateinit var user: User
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         setContentView(R.layout.user_setting_activity)
 
         initView()

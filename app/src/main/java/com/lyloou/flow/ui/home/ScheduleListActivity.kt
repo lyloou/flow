@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.lyloou.flow.R
@@ -36,10 +36,10 @@ class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickLis
     private lateinit var scheduleViewModel: ScheduleViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ScheduleListViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ScheduleListViewModel::class.java)
 
         scheduleViewModel =
-            ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
+            ViewModelProvider(this).get(ScheduleViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_schedule_list)
         binding.data = viewModel
 

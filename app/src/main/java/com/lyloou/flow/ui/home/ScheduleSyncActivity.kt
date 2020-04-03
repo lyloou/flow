@@ -6,7 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.lyloou.flow.R
 import com.lyloou.flow.common.Consumer
@@ -26,7 +26,7 @@ class ScheduleSyncActivity : AppCompatActivity(), ToolbarManager {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_schedule_sync)
 
-        viewModel = ViewModelProviders.of(this).get(ScheduleListViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ScheduleListViewModel::class.java)
 
         setSupportActionBar(toolbar)
         whiteToolbarText()
@@ -48,6 +48,7 @@ class ScheduleSyncActivity : AppCompatActivity(), ToolbarManager {
         progressBar.show()
         viewModel.getAllSchedule(adapterMap, Consumer {
             progressBar.hide()
+            consumer.accept("done")
             // 给标题加上角标
             val statusArr = SyncStatus.values()
             for (i in statusArr.indices) {
@@ -86,7 +87,7 @@ class ScheduleSyncActivity : AppCompatActivity(), ToolbarManager {
             R.id.sync_all -> {
                 viewModel.count.observe(this, Observer {
                     if (it == 0) {
-                        loadData(Consumer { toast("Done") })
+                        loadData(Consumer { d -> toast(d) })
                     }
                 })
                 viewModel.syncAll(adapterMap)

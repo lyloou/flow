@@ -6,7 +6,6 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.haibin.calendarview.Calendar
 import com.haibin.calendarview.CalendarView
@@ -24,7 +23,7 @@ class KalendarScrollFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        kalendarViewModel = ViewModelProviders.of(
+        kalendarViewModel = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
         ).get(KalendarViewModel::class.java)

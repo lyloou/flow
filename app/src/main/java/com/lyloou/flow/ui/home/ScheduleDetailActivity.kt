@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.lyloou.flow.R
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.databinding.ActivityScheduleDetailBinding
@@ -22,7 +22,7 @@ class ScheduleDetailActivity : AppCompatActivity(), ToolbarManager {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_schedule_detail)
         viewModel =
-            ViewModelProviders.of(this).get(ScheduleDetailViewModel::class.java)
+            ViewModelProvider(this).get(ScheduleDetailViewModel::class.java)
 
         binding.data = viewModel
         binding.lifecycleOwner = this

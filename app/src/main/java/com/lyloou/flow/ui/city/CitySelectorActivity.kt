@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lyloou.flow.R
 import com.lyloou.flow.common.toast
@@ -21,7 +21,7 @@ class CitySelectorActivity : AppCompatActivity(), OnClickItemListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_city_selector)
-        viewModel = ViewModelProviders.of(this).get(CitySelectorViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(CitySelectorViewModel::class.java)
         binding.data = viewModel
 
         val city = mutableListOf<City>()

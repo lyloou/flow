@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.lyloou.flow.R
 import com.lyloou.flow.common.toast
 import com.lyloou.flow.databinding.FragmentScheduleBinding
@@ -23,7 +23,7 @@ class ScheduleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewModel =
-            ViewModelProviders.of(requireActivity()).get(ScheduleViewModel::class.java)
+            ViewModelProvider(this).get(ScheduleViewModel::class.java)
         binding = FragmentScheduleBinding.inflate(inflater)
         binding.data = viewModel
         binding.lifecycleOwner = requireActivity()

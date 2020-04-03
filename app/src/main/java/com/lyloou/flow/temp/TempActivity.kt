@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.lyloou.flow.R
 import com.lyloou.flow.databinding.ActivityTempBinding
@@ -20,7 +20,7 @@ class TempActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_temp)
-        viewModel = ViewModelProviders.of(this).get(TempViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(TempViewModel::class.java)
         viewModel.stringData.observe(this, Observer {
             Toast.makeText(this, "changed:$it", Toast.LENGTH_SHORT).show()
         })

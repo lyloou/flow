@@ -21,7 +21,7 @@ import android.widget.TimePicker
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -70,7 +70,7 @@ class DetailActivity : BaseCompatActivity() {
     private var observed: Boolean = false
     private fun initData() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
-        viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ListViewModel::class.java)
         binding.data = viewModel
         binding.lifecycleOwner = this
 
