@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.HttpAuthHandler;
 import android.webkit.WebView;
@@ -16,6 +17,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.lyloou.flow.R;
 import com.lyloou.flow.common.Consumer;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -306,4 +309,78 @@ public class Udialog {
         }
     }
 
+    public static class AlertCustomViewDialog {
+        private Context context;
+        private String title;
+        private View view;
+        private boolean cancelable;
+        private Consumer<View> consumer = result -> {
+        };
+        private String positiveTips = "确定";
+        private String negativeTips = "取消";
+
+        private AlertCustomViewDialog(Context context) {
+            this.context = context;
+        }
+
+        public static AlertCustomViewDialog builder(Context context) {
+            return new AlertCustomViewDialog(context);
+        }
+
+        public AlertCustomViewDialog consumer(Consumer<View> consumer) {
+            this.consumer = consumer;
+            return this;
+        }
+
+        public AlertCustomViewDialog title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public AlertCustomViewDialog view(@NotNull View view) {
+            this.view = view;
+            return this;
+        }
+
+        public AlertCustomViewDialog cancelable(boolean cancelable) {
+            this.cancelable = cancelable;
+            return this;
+        }
+
+
+        public AlertCustomViewDialog positiveTips(String positiveTips) {
+            this.positiveTips = positiveTips;
+            return this;
+        }
+
+        public AlertCustomViewDialog negativeTips(String negativeTips) {
+            this.negativeTips = negativeTips;
+            return this;
+        }
+
+        public void show() {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            if (!TextUtils.isEmpty(title)) {
+                builder.setTitle(title);
+            }
+
+            if (!TextUtils.isEmpty(negativeTips)) {
+                builder.setNegativeButton(negativeTips, (dialog, which) -> {
+                });
+            }
+
+            if (!TextUtils.isEmpty(positiveTips)) {
+                builder.setPositiveButton(positiveTips, (dialog, which) -> {
+                    consumer.accept(this.view);
+                });
+            }
+
+            builder.setView(view);
+            builder.setCancelable(cancelable);
+            builder.create();
+            builder.show();
+
+        }
+    }
 }

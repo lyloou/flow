@@ -13,6 +13,12 @@ interface UserApi {
     @POST("update")
     suspend fun update(@Body user: User): CResult<String?>
 
+    @POST("reset_password")
+    suspend fun resetPassword(
+        @Query("old_password") oldPassword: String,
+        @Query("new_password") newPassword: String
+    ): CResult<String?>
+
     @POST("register")
     suspend fun register(@Body userRegister: UserRegister): CResult<User?>
 }

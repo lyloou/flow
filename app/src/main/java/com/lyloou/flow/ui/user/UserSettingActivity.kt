@@ -3,8 +3,7 @@ package com.lyloou.flow.ui.user
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +20,7 @@ import com.lyloou.flow.util.Udialog
 import com.lyloou.flow.widget.SettingLayout
 import com.lyloou.flow.widget.SettingLayout.Item
 import com.lyloou.flow.widget.ToolbarManager
+import kotlinx.android.synthetic.main.dialog_user_reset_password.view.*
 import kotlinx.android.synthetic.main.item_avatar.view.*
 import kotlinx.android.synthetic.main.item_toolbar.*
 import kotlinx.android.synthetic.main.user_setting_activity.*
@@ -91,21 +91,76 @@ class UserSettingActivity : AppCompatActivity(), SettingLayout.IClickListener, T
             .addItem(Item(R.string.user_nickname, contentStr = user.nickname, listener = this))
             .addItem(Item(R.string.user_phone, contentStr = "${user.phone}", listener = this))
             .addItem(Item(R.string.user_ps, contentStr = user.personalSignature, listener = this))
+            .addItem(Item(R.string.user_reset_password, listener = this))
     }
 
     override fun invoke(item: Item) {
-        Udialog.AlertInputDialog.builder(this)
-            .title(resources.getString(item.titleStrId))
-            .defaultValue(item.contentStr)
-            .type(getInputType(item))
-            .requestFocus(true)
-            .consumer {
-                if (item.contentStr != it) {
-                    this.menu?.findItem(R.id.confirm)?.isVisible = true
-                    updateItem(item, it)
-                }
+        when (item.titleStrId) {
+            R.string.user_reset_password -> {
+                showResetPasswordDialog()
             }
+            else -> {
+                Udialog.AlertInputDialog.builder(this)
+                    .title(resources.getString(item.titleStrId))
+                    .defaultValue(item.contentStr)
+                    .type(getInputType(item))
+                    .requestFocus(true)
+                    .consumer {
+                        if (item.contentStr != it) {
+                            this.menu?.findItem(R.id.confirm)?.isVisible = true
+                            updateItem(item, it)
+                        }
+                    }
+                    .show()
+            }
+        }
+    }
+
+    private fun showResetPasswordDialog(view: View = getResetPasswordView()) {
+        if (view.parent != null) {
+            (view.parent as ViewGroup).removeView(view)
+        }
+        Udialog.AlertCustomViewDialog.builder(this)
+            .view(view)
+            .title(resources.getString(R.string.user_reset_password))
+            .consumer { resetPassword(it) }
             .show()
+    }
+
+    private fun resetPassword(view: View) {
+        val oldPassword = view.etOldPassword.text.toString()
+        val newPassword = view.etNewPassword.text.toString()
+        val newConfirmPassword = view.etNewConfirmPassword.text.toString()
+        if (oldPassword.isEmpty() or newPassword.isEmpty() or newConfirmPassword.isEmpty()) {
+            toast("密码不能为空")
+            showResetPasswordDialog(view)
+            return
+        }
+        if (newPassword != newConfirmPassword) {
+            toast("输入的两次新密码不一致")
+            showResetPasswordDialog(view)
+            return
+        }
+        if (newPassword == oldPassword) {
+            toast("新密码和旧密码不能一样")
+            showResetPasswordDialog(view)
+            return
+        }
+        viewModel.updateUserPassword(
+            oldPassword,
+            newConfirmPassword,
+            {
+                toast("更新成功")
+            },
+            {
+                toast(it)
+                showResetPasswordDialog(view)
+            })
+    }
+
+    @SuppressLint("InflateParams")
+    private fun getResetPasswordView(): View {
+        return LayoutInflater.from(this).inflate(R.layout.dialog_user_reset_password, null, false)
     }
 
     private fun updateItem(item: Item, content: String) {
