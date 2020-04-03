@@ -51,6 +51,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:maxLines="2"
                         android:text="@{data.user.personalSignature}"
                         tools:text="TextView" />
                 </LinearLayout>
