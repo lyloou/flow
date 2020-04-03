@@ -51,7 +51,10 @@ class UserSettingActivity : AppCompatActivity(), SettingLayout.IClickListener, T
 
                     // 清除缓存，由于url一样，它有可能会不刷新
                     ivAvatar?.setImageURI(null)
-                    ivAvatar?.setImageURI(data.data)
+                    ivAvatar?.let {
+                        loadCircleImage(it, data.data)
+                    }
+
                     toast("已更新头像")
                 }
             }
@@ -77,10 +80,7 @@ class UserSettingActivity : AppCompatActivity(), SettingLayout.IClickListener, T
         @SuppressLint("InflateParams")
         val vAvatar = layoutInflater.inflate(R.layout.item_avatar, null, false)
         ivAvatar = vAvatar.ivAvatar
-        Glide.with(this).load(user.avatar)
-            .placeholder(R.drawable.ic_very_satisfied)
-            .apply(RequestOptions().circleCrop())
-            .into(vAvatar.ivAvatar)
+        loadCircleImage(vAvatar.ivAvatar, user.avatar)
         vAvatar.setOnClickListener {
             takePhoto()
         }
@@ -92,6 +92,13 @@ class UserSettingActivity : AppCompatActivity(), SettingLayout.IClickListener, T
             .addItem(Item(R.string.user_phone, contentStr = "${user.phone}", listener = this))
             .addItem(Item(R.string.user_ps, contentStr = user.personalSignature, listener = this))
             .addItem(Item(R.string.user_reset_password, listener = this))
+    }
+
+    private fun loadCircleImage(imageView: ImageView, url: Any?) {
+        Glide.with(this).load(url)
+            .placeholder(R.drawable.ic_very_satisfied)
+            .apply(RequestOptions().circleCrop())
+            .into(imageView)
     }
 
     override fun invoke(item: Item) {
