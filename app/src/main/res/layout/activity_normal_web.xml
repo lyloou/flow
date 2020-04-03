@@ -12,28 +12,13 @@
         android:background="@color/colorPrimary"
         app:titleTextColor="@color/white" />
 
-    <RelativeLayout
+
+    <LinearLayout
+        android:id="@+id/llyt_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/llyt_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:paddingTop="32dp"
-            android:text="app下载完毕后，将自动弹出安装界面"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:visibility="gone" />
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

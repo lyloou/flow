@@ -90,6 +90,7 @@ class UserSettingActivity : AppCompatActivity(), SettingLayout.IClickListener, T
             .addItem(Item(R.string.user_name, contentStr = user.name, hasToRight = false))
             .addItem(Item(R.string.user_nickname, contentStr = user.nickname, listener = this))
             .addItem(Item(R.string.user_phone, contentStr = "${user.phone}", listener = this))
+            .addItem(Item(R.string.user_email, contentStr = user.email, listener = this))
             .addItem(Item(R.string.user_ps, contentStr = user.personalSignature, listener = this))
             .addItem(Item(R.string.user_reset_password, listener = this))
     }

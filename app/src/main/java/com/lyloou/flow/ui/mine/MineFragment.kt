@@ -64,7 +64,7 @@ class MineFragment : Fragment() {
 
         cvFollow.setOnClickListener {
             val url = "https://voice.baidu.com/act/newpneumonia/newpneumonia/?from=osari_pc_1"
-            NormalWebViewActivity.newInstance(requireActivity(), url)
+            NormalWebViewActivity.start(requireActivity(), url)
         }
 
         cvSetting.setOnClickListener {
@@ -72,7 +72,7 @@ class MineFragment : Fragment() {
         }
 
         cvMine.setOnClickListener {
-            NormalWebViewActivity.newInstance(requireActivity(), "")
+            NormalWebViewActivity.start(requireActivity(), "")
         }
 
         cvAbout.setOnClickListener {
