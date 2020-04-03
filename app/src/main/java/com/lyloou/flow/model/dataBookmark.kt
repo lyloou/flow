@@ -21,7 +21,19 @@ data class Bookmark(
      * 描述
      */
     var desc: String? = null
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (other === this) {
+            return true
+        }
+
+        if (other !is Bookmark) {
+            return false
+        }
+
+        return (other.title == this.title && other.url == this.url)
+    }
+}
 
 fun Bookmark.comparator(): Comparator<Bookmark> {
     return compareBy({ it.order }, { it.tag })
