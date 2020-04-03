@@ -9,7 +9,6 @@ data class Bookmark(
      * 网址
      */
     var url: String,
-    val iconUrl: String? = null,
     /**
      * 优先级
      */

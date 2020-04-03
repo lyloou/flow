@@ -1,5 +1,6 @@
 package com.lyloou.flow.ui.bookmark
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,11 +31,17 @@ class BookmarkAdapter(val list: MutableList<Bookmark>) :
         return list.size
     }
 
+
+    private fun getFaviconByUrl(url: String): String? {
+        val uri = Uri.parse(url)
+        return "${uri.scheme}://${uri.host}/favicon.ico"
+    }
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         list[position].let { bookmark ->
             with(holder.itemView) {
                 Glide.with(this)
-                    .load(bookmark.iconUrl)
+                    .load(getFaviconByUrl(bookmark.url))
                     .placeholder(R.drawable.about_icon_link)
                     .into(this.ivIcon)
                 this.tvTitle.text = bookmark.title
