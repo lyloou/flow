@@ -39,10 +39,7 @@ import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.databinding.ActivityDetailBinding
 import com.lyloou.flow.extension.snackbar
-import com.lyloou.flow.model.CityHelper
-import com.lyloou.flow.model.FlowItem
-import com.lyloou.flow.model.FlowItemHelper
-import com.lyloou.flow.model.UserHelper
+import com.lyloou.flow.model.*
 import com.lyloou.flow.net.Network
 import com.lyloou.flow.net.defaultSubscribe
 import com.lyloou.flow.net.getKingSoftwareDaily
@@ -106,8 +103,9 @@ class DetailActivity : BaseCompatActivity() {
                 return@setOnClickListener
             }
             Udialog.AlertMultiItem.builder(this)
-                .add("刷新", ::loadWeather)
-                .add("选择城市", ::toCitySelector)
+                .add("刷新天气信息", ::loadWeather)
+                .add("显示全部天气信息", ::showAllWeather)
+                .add("选择其他城市", ::toCitySelector)
                 .show()
 
         }
@@ -133,6 +131,22 @@ class DetailActivity : BaseCompatActivity() {
     }
 
     private fun isToday() = day == Utime.getDayWithFormatTwo()
+
+    private fun showAllWeather() {
+        Network.weatherApi()
+            .getWeather(CityHelper.getCity()?.cityCode ?: "101280601")
+            .defaultSubscribe {
+                val fbs = it.data?.forecast
+                if (fbs != null && fbs.isNotEmpty()) {
+                    fbs[0].let { fb ->
+                        Udialog.AlertOneItem.builder(this)
+                            .title(fb.ymd)
+                            .message(fb.toPrettyJsonString())
+                            .show()
+                    }
+                }
+            }
+    }
 
     private fun loadWeather() {
         Network.weatherApi()
