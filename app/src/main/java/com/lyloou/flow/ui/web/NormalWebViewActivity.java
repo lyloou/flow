@@ -377,6 +377,9 @@ public class NormalWebViewActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_close:
+                finish();
+                break;
             case R.id.menu_open_with_browser:
                 String url = mAgentWeb.getWebCreator().getWebView().getUrl();
                 Uri uri = Uri.parse(url);
