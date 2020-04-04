@@ -2,24 +2,50 @@ package com.lyloou.flow.ui.bookmark
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lyloou.flow.R
+import com.lyloou.flow.common.toast
 import com.lyloou.flow.extension.dp2px
 import com.lyloou.flow.model.Bookmark
-import com.lyloou.flow.model.bookmarkComparator
 import com.lyloou.flow.ui.web.NormalWebViewActivity
+import com.lyloou.flow.util.Udialog
+import com.lyloou.flow.util.Usystem
 import com.lyloou.flow.widget.ItemOffsetDecoration
 import com.lyloou.flow.widget.ToolbarManager
 import kotlinx.android.synthetic.main.activity_bookmark.*
 
 class BookmarkActivity : AppCompatActivity(), ToolbarManager, BookmarkAdapter.OnItemListener {
 
+    lateinit var viewModel: BookmarkViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bookmark)
+        viewModel = ViewModelProvider(this).get(BookmarkViewModel::class.java)
 
+        initView()
+        viewModel.data.observe(this, Observer {
+            it?.let { data ->
+                (rvBookmark.adapter as BookmarkAdapter).let { adapter ->
+                    adapter.list = data.toMutableList()
+                    adapter.notifyDataSetChanged()
+                }
+            }
+        })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.reload()
+    }
+
+    private fun initView() {
         setSupportActionBar(toolbar)
         enableHomeAsUp { onBackPressed() }
         whiteToolbarText()
@@ -29,20 +55,7 @@ class BookmarkActivity : AppCompatActivity(), ToolbarManager, BookmarkAdapter.On
 
         rvBookmark.layoutManager = LinearLayoutManager(this)
         rvBookmark.addItemDecoration(ItemOffsetDecoration(dp2px(16f)))
-        val mutableListOf = mutableListOf(
-            Bookmark("陈 皓", "https://coolshell.cn/"),
-            Bookmark("刘未鹏", "http://mindhacks.cn/"),
-            Bookmark("阮一峰", "http://ruanyifeng.com/blog/"),
-            Bookmark("廖雪峰", "https://www.liaoxuefeng.com/"),
-            Bookmark("王 垠", "http://www.yinwang.org/"),
-            Bookmark("木子楼", "http://lyloou.com", order = 2)
-        )
-
-        rvBookmark.adapter = BookmarkAdapter(
-            mutableListOf.sortedWith(bookmarkComparator()).toMutableList()
-        ).apply {
-            onItemListener = this@BookmarkActivity
-        }
+        rvBookmark.adapter = BookmarkAdapter().apply { onItemListener = this@BookmarkActivity }
     }
 
     override val toolbar: Toolbar
@@ -53,6 +66,104 @@ class BookmarkActivity : AppCompatActivity(), ToolbarManager, BookmarkAdapter.On
     }
 
     override fun onItemMoreClicked(bookmark: Bookmark) {
+        Udialog.AlertMultiItem.builder(this)
+            .add("复制") { copyBookmark(bookmark) }
+            .add("编辑") { showBookmarkEditDialog(bookmark) }
+            .add("删除") { deleteBookmark(bookmark) }
+            .show()
+    }
 
+    private fun copyBookmark(bookmark: Bookmark) {
+        Usystem.copyString(this, "[${bookmark.title}](${bookmark.url})")
+        toast("已复制")
+    }
+
+    private fun showBookmarkEditDialog(bookmark: Bookmark? = null) {
+        Udialog.AlertMultipleInputDialog.builder(this)
+            .addInputItem(Udialog.AlertMultipleInputDialog.InputItem().apply {
+                this.id = 1
+                this.hint = "标题"
+                this.defaultValue = bookmark?.title
+            })
+            .addInputItem(Udialog.AlertMultipleInputDialog.InputItem().apply {
+                this.id = 2
+                this.hint = "网址"
+                this.defaultValue = bookmark?.url
+            })
+            .addInputItem(Udialog.AlertMultipleInputDialog.InputItem().apply {
+                this.id = 3
+                this.hint = "优先级"
+                this.defaultValue = bookmark?.order?.toString() ?: "0"
+                this.type = EditorInfo.TYPE_CLASS_NUMBER
+            })
+            .addInputItem(Udialog.AlertMultipleInputDialog.InputItem().apply {
+                this.id = 4
+                this.hint = "标签"
+                this.defaultValue = bookmark?.tag
+            })
+            .addInputItem(Udialog.AlertMultipleInputDialog.InputItem().apply {
+                this.id = 5
+                this.hint = "描述"
+                this.defaultValue = bookmark?.desc
+            })
+            .consumer {
+
+                if (it[1].isNullOrEmpty() || it[2].isNullOrEmpty()) {
+                    showBookmarkEditDialog(bookmark)
+                    toast("标题和网址不能为空")
+                    return@consumer
+                }
+
+                if (bookmark == null) {
+                    viewModel.addBookmark(
+                        Bookmark(
+                            title = it[1]!!,
+                            url = it[2]!!,
+                            order = if (it[3].isNullOrEmpty()) 0 else it[3]!!.toInt(),
+                            tag = it[4]!!,
+                            desc = it[5]!!
+                        )
+                    )
+                    viewModel.reload()
+                    return@consumer
+                }
+
+                bookmark.title = it[1]!!
+                bookmark.url = it[2]!!
+                bookmark.order = if (it[3].isNullOrEmpty()) 0 else it[3]!!.toInt()
+                bookmark.tag = it[4]!!
+                bookmark.desc = it[5]!!
+
+                viewModel.updateBookmark()
+                viewModel.reload()
+            }
+            .show()
+    }
+
+    private fun deleteBookmark(bookmark: Bookmark) {
+        viewModel.deleteBookmark(bookmark)
+        viewModel.reload()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.bookmark, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.add -> {
+                showBookmarkEditDialog()
+            }
+            R.id.recover -> {
+                recoverBookmark()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun recoverBookmark() {
+        viewModel.recoverBookmark()
+        viewModel.reload()
     }
 }

@@ -21,7 +21,9 @@ import com.lyloou.flow.common.Consumer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Udialog {
     public static class AlertOneItem {
@@ -381,6 +383,131 @@ public class Udialog {
             builder.create();
             builder.show();
 
+        }
+    }
+
+
+    public static class AlertMultipleInputDialog {
+        public static class InputItem {
+            public int id;
+            public String hint;
+            public int type;
+            public String defaultValue;
+        }
+
+        private Context context;
+        private String title;
+        private boolean cancelable;
+        private List<InputItem> inputItemList = new ArrayList<>();
+
+        private Consumer<Map<Integer, String>> consumer = result -> {
+        };
+        private String positiveTips = "确定";
+        private String negativeTips = "取消";
+
+        private AlertMultipleInputDialog(Context context) {
+            this.context = context;
+        }
+
+        public static AlertMultipleInputDialog builder(Context context) {
+            return new AlertMultipleInputDialog(context);
+        }
+
+        public AlertMultipleInputDialog consumer(Consumer<Map<Integer, String>> consumer) {
+            this.consumer = consumer;
+            return this;
+        }
+
+        public AlertMultipleInputDialog addInputItem(InputItem inputItem) {
+            this.inputItemList.add(inputItem);
+            return this;
+        }
+
+        public AlertMultipleInputDialog title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public AlertMultipleInputDialog cancelable(boolean cancelable) {
+            this.cancelable = cancelable;
+            return this;
+        }
+
+
+        public AlertMultipleInputDialog positiveTips(String positiveTips) {
+            this.positiveTips = positiveTips;
+            return this;
+        }
+
+        public AlertMultipleInputDialog negativeTips(String negativeTips) {
+            this.negativeTips = negativeTips;
+            return this;
+        }
+
+        public void show() {
+            LinearLayout ll = new LinearLayout(context);
+            ll.setOrientation(LinearLayout.VERTICAL);
+
+            for (InputItem inputItem : inputItemList) {
+                final EditText et = new EditText(context);
+                et.setTag(inputItem.id);
+                et.setBackground(context.getResources().getDrawable(R.drawable.item_input_dialog_et_bg));
+                if (inputItem.defaultValue != null) {
+                    et.setText(inputItem.defaultValue);
+                    et.setSelection(inputItem.defaultValue.length());
+                }
+                if (inputItem.hint != null) {
+                    et.setHint(inputItem.hint);
+                }
+                if (inputItem.type != 0) {
+                    et.setInputType(inputItem.type);
+                }
+                ll.addView(et, getLayoutParams());
+            }
+
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            if (!TextUtils.isEmpty(title)) {
+                builder.setTitle(title);
+            }
+
+            if (!TextUtils.isEmpty(negativeTips)) {
+                builder.setNegativeButton(negativeTips, (dialog, which) -> {
+                });
+            }
+
+            if (!TextUtils.isEmpty(positiveTips)) {
+                builder.setPositiveButton(positiveTips, (dialog, which) -> {
+                    Map<Integer, String> map = new HashMap<>();
+                    for (int i = 0; i < ll.getChildCount(); i++) {
+                        EditText et = (EditText) ll.getChildAt(i);
+                        map.put((Integer) et.getTag(), et.getText().toString());
+                    }
+                    consumer.accept(map);
+                });
+            }
+
+            builder.setView(ll);
+            builder.setCancelable(cancelable);
+            builder.create();
+            builder.setOnCancelListener(dialog -> {
+                if (InputMethodUtils.isActive(ll.getContext())) {
+                    InputMethodUtils.hideSoftInput(ll);
+                }
+            });
+            builder.show();
+
+        }
+
+        @NotNull
+        private LinearLayout.LayoutParams getLayoutParams() {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            int left = Uscreen.dp2Px(context, 16);
+            int right = Uscreen.dp2Px(context, 16);
+            int top = Uscreen.dp2Px(context, TextUtils.isEmpty(title) ? 26 : 8);
+            lp.setMargins(left, top, right, 0);
+            return lp;
         }
     }
 }

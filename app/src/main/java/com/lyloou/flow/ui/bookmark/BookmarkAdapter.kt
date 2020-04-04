@@ -10,7 +10,7 @@ import com.lyloou.flow.R
 import com.lyloou.flow.model.Bookmark
 import kotlinx.android.synthetic.main.cell_bookmark.view.*
 
-class BookmarkAdapter(val list: MutableList<Bookmark>) :
+class BookmarkAdapter(var list: MutableList<Bookmark> = mutableListOf()) :
     RecyclerView.Adapter<BookmarkAdapter.MyViewHolder>() {
 
     var onItemListener: OnItemListener? = null

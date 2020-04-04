@@ -22,9 +22,9 @@
         android:title="关闭"
         app:showAsAction="always" />
     <item
-        android:id="@+id/menu_favorite"
-        android:icon="@drawable/ic_favorite_border"
-        android:title="收藏"
+        android:id="@+id/bookmark"
+        android:icon="@drawable/ic_bookmark_border"
+        android:title="书签"
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_refresh"

@@ -134,6 +134,7 @@
                         android:layout_height="48dp"
                         android:layout_gravity="center_vertical"
                         android:padding="10dp"
+                        android:tint="@color/colorPrimary"
                         app:srcCompat="@drawable/ic_bookmark_border" />
 
                     <TextView

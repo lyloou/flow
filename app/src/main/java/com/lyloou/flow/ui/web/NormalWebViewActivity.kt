@@ -5,10 +5,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -19,11 +17,14 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.WebChromeClient
 import com.just.agentweb.WebViewClient
 import com.lyloou.flow.R
 import com.lyloou.flow.common.toast
+import com.lyloou.flow.model.Bookmark
 import com.lyloou.flow.util.Udialog
 import com.lyloou.flow.util.Usystem
 import com.lyloou.flow.util.Uview
@@ -38,12 +39,20 @@ class NormalWebViewActivity : AppCompatActivity() {
     private lateinit var mWebView: WebView
     private lateinit var mContext: Activity
 
+    private lateinit var viewModel: NormalWebViewModel
     private lateinit var mToolbar: Toolbar
-    private var mUrl: String? = null
+    private lateinit var mUrl: String
+    private lateinit var bookmarks: MutableList<Bookmark>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         mContext = this
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_normal_web)
+
+        viewModel = ViewModelProvider(this).get(NormalWebViewModel::class.java)
+        viewModel.data.observe(this, Observer {
+            bookmarks = it
+        })
 
         initData()
         initViewForTop()
@@ -51,11 +60,7 @@ class NormalWebViewActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        val data = intent
-        mUrl = data.getStringExtra(EXTRA_URL)
-        if (TextUtils.isEmpty(mUrl)) {
-            mUrl = "http://lyloou.com"
-        }
+        mUrl = intent.getStringExtra(EXTRA_URL) ?: "http://lyloou.com"
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -82,10 +87,8 @@ class NormalWebViewActivity : AppCompatActivity() {
             override fun onReceivedTitle(view: WebView, title: String) {
                 super.onReceivedTitle(view, title)
                 mToolbar.title = title
-            }
-
-            override fun onReceivedIcon(view: WebView?, icon: Bitmap?) {
-                super.onReceivedIcon(view, icon)
+                mUrl = view.url
+                refreshBookmarkMenuItem()
             }
         }
 
@@ -114,6 +117,23 @@ class NormalWebViewActivity : AppCompatActivity() {
         mToolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
+    var menu: Menu? = null
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        this.menu = menu
+        refreshBookmarkMenuItem()
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    private fun refreshBookmarkMenuItem() {
+        if (containsCurrentUrl(mUrl)) {
+            menu?.findItem(R.id.bookmark)?.setIcon(R.drawable.ic_bookmark)
+        } else {
+            menu?.findItem(R.id.bookmark)?.setIcon(R.drawable.ic_bookmark_border)
+        }
+    }
+
+    private fun containsCurrentUrl(url: String) =
+        bookmarks.any { it.url == url }
 
     override fun onBackPressed() {
         if (mAgentWeb.back()) {
@@ -138,9 +158,23 @@ class NormalWebViewActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    private fun toggleBookmark() {
+        if (containsCurrentUrl(mUrl)) {
+            // remove it
+            viewModel.deleteBookmark(mUrl)
+        } else {
+            // add it
+            viewModel.addBookmark(mToolbar.title.toString(), mUrl)
+        }
+
+        // refresh icon
+        refreshBookmarkMenuItem()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_close -> finish()
+            R.id.bookmark -> toggleBookmark()
             R.id.menu_open_with_browser -> {
                 val uri = Uri.parse(mAgentWeb.webCreator.webView.url)
                 val intent = Intent(Intent.ACTION_VIEW, uri)
@@ -167,7 +201,7 @@ class NormalWebViewActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_URL = "url"
 
-        fun getMineIntent(context: Context, url: String): Intent {
+        fun getWebIntent(context: Context, url: String): Intent {
             val intent = Intent(context, NormalWebViewActivity::class.java)
             intent.putExtra(EXTRA_URL, url)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -175,7 +209,7 @@ class NormalWebViewActivity : AppCompatActivity() {
         }
 
         fun start(context: Context, url: String) {
-            context.startActivity(getMineIntent(context, url))
+            context.startActivity(getWebIntent(context, url))
         }
 
     }
