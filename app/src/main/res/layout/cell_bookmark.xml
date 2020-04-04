@@ -51,7 +51,7 @@
                 android:gravity="start"
                 android:maxLines="1"
                 android:textSize="14sp"
-                tools:text="http://lyloou.com" />
+                tools:text="http://lyloou.com/" />
 
             <LinearLayout
                 android:layout_width="match_parent"

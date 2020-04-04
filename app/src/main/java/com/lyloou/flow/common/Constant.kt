@@ -28,6 +28,7 @@ enum class Action : Str {
 }
 
 enum class SpName : Str {
+    DEFAULT,
     NET_AUTHORIZATION,
     SCHEDULE_ITEM,
     USER,

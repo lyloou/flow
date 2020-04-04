@@ -6,9 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -243,10 +241,7 @@ class ListFragment : Fragment(), OnItemLongClickListener {
         )
         val snackbar: Snackbar = snackbar("已添加到桌面", Snackbar.LENGTH_LONG)
         snackbar.setAction("添加失败？去授权") {
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.data = Uri.fromParts("package", context!!.packageName, null);
-            startActivity(intent);
+            Usystem.toAppSetting(requireContext())
         }
         snackbar.show()
     }

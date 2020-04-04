@@ -6,13 +6,11 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.lyloou.flow.R
 import com.lyloou.flow.common.BaseCompatActivity
-import com.lyloou.flow.common.toast
 import com.lyloou.flow.model.CityHelper
-import com.lyloou.flow.model.ScheduleHelper
-import com.lyloou.flow.model.UserHelper
-import com.lyloou.flow.model.UserPasswordHelper
-import com.lyloou.flow.repository.FlowDataCleaner
 import com.lyloou.flow.ui.city.CitySelectorActivity
+import com.lyloou.flow.util.Udialog
+import com.lyloou.flow.util.Ufile
+import com.lyloou.flow.util.Usystem
 
 class SettingsActivity : BaseCompatActivity() {
 
@@ -36,43 +34,59 @@ class SettingsActivity : BaseCompatActivity() {
         }
 
         private fun initPreference() {
-            findPreference<Preference>("city")?.onPreferenceClickListener = this
-            findPreference<Preference>("clearUser")?.onPreferenceClickListener = this
-            findPreference<Preference>("clearSchedule")?.onPreferenceClickListener = this
-            findPreference<Preference>("clearFlow")?.onPreferenceClickListener = this
-            findPreference<Preference>("clearAll")?.onPreferenceClickListener = this
+            findPreference<Preference>(getString(R.string.setting_city))?.onPreferenceClickListener =
+                this
+            findPreference<Preference>(getString(R.string.setting_cache_size))?.onPreferenceClickListener =
+                this
         }
 
         override fun onStart() {
-            reLoadCity()
+            reloadSummary()
             super.onStart()
         }
 
-        private fun reLoadCity() {
-            findPreference<Preference>("city")?.summary = CityHelper.getCity()?.cityName ?: "深圳"
+        private fun reloadSummary() {
+            findPreference<Preference>(getString(R.string.setting_city))?.summary =
+                CityHelper.getCity()?.cityName ?: "深圳"
+            findPreference<Preference>(getString(R.string.setting_cache_size))?.summary =
+                Ufile.getTotalCacheSize(requireContext())
         }
 
         override fun onPreferenceClick(preference: Preference): Boolean {
             when (preference.key) {
-                "city" -> startActivity(Intent(context, CitySelectorActivity::class.java))
-                "clearUser" -> UserHelper.clearUser()
-                "clearSchedule" -> ScheduleHelper.clearSchedule()
-                "clearFlow" -> FlowDataCleaner.execute()
-                "clearAll" -> clearAll()
-            }
-
-            if (preference.key != "city") {
-                toast("已清除")
+                getString(R.string.setting_city) ->
+                    startActivity(Intent(context, CitySelectorActivity::class.java))
+                getString(R.string.setting_cache_size) -> clearCache()
             }
             return true
         }
 
-        private fun clearAll() {
-            UserHelper.clearUser()
-            CityHelper.clearCity()
-            UserPasswordHelper.clearUserPassword()
-            ScheduleHelper.clearSchedule()
-            FlowDataCleaner.execute()
+        private fun clearCache() {
+            Udialog.AlertOneItem.builder(requireContext())
+                .message("要清数据吗")
+                .positiveTips("是的")
+                .negativeTips("不用了")
+                .consumer {
+                    if (!it) {
+                        return@consumer
+                    }
+                    showTwiceWithTips()
+                }
+                .show()
+        }
+
+        private fun showTwiceWithTips() {
+            Udialog.AlertOneItem.builder(requireContext())
+                .message("清数据前，要先同步数据哦")
+                .positiveTips("已同步")
+                .negativeTips("再想想")
+                .consumer {
+                    if (!it) {
+                        return@consumer
+                    }
+                    Usystem.toAppSetting(requireContext())
+                }
+                .show()
         }
     }
 

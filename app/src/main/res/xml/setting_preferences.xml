@@ -8,7 +8,7 @@
         <Preference
             android:title="城市"
             app:iconSpaceReserved="false"
-            app:key="city"
+            app:key="@string/setting_city"
             app:summary="深圳" />
     </PreferenceCategory>
 
@@ -17,23 +17,11 @@
         app:title="缓存清理">
 
         <Preference
+            android:title="缓存大小"
             app:iconSpaceReserved="false"
-            app:key="clearUser"
-            app:title="清除用户信息" />
-        <Preference
-            app:iconSpaceReserved="false"
-            app:key="clearFlow"
-            app:title="清除flow数据库信息" />
+            app:key="@string/setting_cache_size"
+            app:summary="0" />
 
-        <Preference
-            app:iconSpaceReserved="false"
-            app:key="clearSchedule"
-            app:title="清除Schedule信息" />
-
-        <Preference
-            app:iconSpaceReserved="false"
-            app:key="clearAll"
-            app:title="清除全部信息" />
     </PreferenceCategory>
 
 </PreferenceScreen>

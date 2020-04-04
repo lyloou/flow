@@ -15,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.lyloou.flow.R
 import com.lyloou.flow.common.toast
 import com.lyloou.flow.model.User
+import com.lyloou.flow.model.UserHelper
 import com.lyloou.flow.ui.pic.ImagePickerActivity
 import com.lyloou.flow.util.Udialog
 import com.lyloou.flow.widget.SettingLayout
@@ -93,6 +94,7 @@ class UserSettingActivity : AppCompatActivity(), SettingLayout.IClickListener, T
             .addItem(Item(R.string.user_email, contentStr = user.email, listener = this))
             .addItem(Item(R.string.user_ps, contentStr = user.personalSignature, listener = this))
             .addItem(Item(R.string.user_reset_password, listener = this))
+            .addItem(Item(R.string.user_logout, listener = this))
     }
 
     private fun loadCircleImage(imageView: ImageView, url: Any?) {
@@ -106,6 +108,9 @@ class UserSettingActivity : AppCompatActivity(), SettingLayout.IClickListener, T
         when (item.titleStrId) {
             R.string.user_reset_password -> {
                 showResetPasswordDialog()
+            }
+            R.string.user_logout -> {
+                showLogoutDialog()
             }
             else -> {
                 Udialog.AlertInputDialog.builder(this)
@@ -122,6 +127,20 @@ class UserSettingActivity : AppCompatActivity(), SettingLayout.IClickListener, T
                     .show()
             }
         }
+    }
+
+    private fun showLogoutDialog() {
+        Udialog.AlertOneItem.builder(this)
+            .message("确定要退出")
+            .consumer {
+                if (!it) {
+                    return@consumer
+                }
+
+                UserHelper.clearUser()
+                finish()
+            }
+            .show()
     }
 
     private fun showResetPasswordDialog(view: View = getResetPasswordView()) {

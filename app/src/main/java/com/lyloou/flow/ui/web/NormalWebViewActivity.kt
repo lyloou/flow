@@ -60,7 +60,7 @@ class NormalWebViewActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        mUrl = intent.getStringExtra(EXTRA_URL) ?: "http://lyloou.com"
+        mUrl = intent.getStringExtra(EXTRA_URL) ?: "http://lyloou.com/"
     }
 
     @SuppressLint("SetJavaScriptEnabled")

@@ -7,7 +7,7 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 class DefaultSPreference<T>(key: String, defaultValue: T) :
-    SPreference<T>("default", key, defaultValue)
+    SPreference<T>(SpName.DEFAULT.name, key, defaultValue)
 
 open class SPreference<T>(
     private val spName: String,

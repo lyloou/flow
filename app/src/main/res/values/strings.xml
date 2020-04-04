@@ -17,8 +17,12 @@
     <string name="user_phone" translatable="false">Phone</string>
     <string name="user_ps" translatable="false">PS</string>
     <string name="user_reset_password" translatable="false">Reset Password</string>
+    <string name="user_logout" translatable="false">Logout</string>
     <string name="user_avatar" translatable="false">Avatar</string>
 
+    <!-- setting -->
+    <string name="setting_city" translatable="false">city</string>
+    <string name="setting_cache_size" translatable="false">cacheSize</string>
     <!--  argument key  -->
     <string name="arg_key_list_to_detail" translatable="false">arg_key_list_to_detail</string>
 
