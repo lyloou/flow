@@ -50,7 +50,7 @@ class AboutActivity : AppCompatActivity() {
             .addItem(website("commons-codec", "http://commons.apache.org/proper/commons-codec/"))
             .addItem(website("markwon", "https://github.com/noties/Markwon"))
             .addItem(website("agentweb", "https://github.com/Justson/AgentWeb"))
-            .addItem(website("android-about-page", "https://github.com/noties/Markwon"))
+            .addItem(website("android-about-page", "https://github.com/medyo/android-about-page"))
             .addItem(getCopyRightsElement())
             .create()
     }
