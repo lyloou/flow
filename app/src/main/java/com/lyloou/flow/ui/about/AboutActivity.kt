@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.lyloou.flow.BuildConfig
 import com.lyloou.flow.R
-import com.lyloou.flow.common.toast
+import com.lyloou.flow.ui.web.NormalWebViewActivity
 import mehdi.sakout.aboutpage.AboutPage
 import mehdi.sakout.aboutpage.Element
 import java.util.*
@@ -25,16 +25,51 @@ class AboutActivity : AppCompatActivity() {
 
         return AboutPage(this)
             .isRTL(false)
-            .setImage(R.mipmap.ic_launcher)
+            .setImage(R.mipmap.flow)
             .addItem(Element().setTitle("Version V${BuildConfig.VERSION_NAME}"))
-            .addItem(Element().setTitle("Advertise with us"))
-            .addGroup("Connect with us")
+            .setDescription(getString(R.string.about_page_desc))
+            .addGroup("功能特性")
+            .addItem(Element().setTitle("- 清单，计划还是要有的，万一实现了呢"))
+            .addItem(Element().setTitle("- 时间流，原来时间都花在这了呢"))
+            .addGroup("联系方式")
             .addEmail("lyloou6@gmail.com")
-            .addWebsite("http://lyloou.github.io/")
+            .addItem(github("lyloou"))
+            .addItem(
+                website(
+                    getString(mehdi.sakout.aboutpage.R.string.about_website),
+                    "http://lyloou.github.io/"
+                )
+            )
             .addPlayStore("com.lyloou.flow")
-            .addGitHub("lyloou")
+            .addGroup("Open Source Licence")
+            .addItem(website("calendarview", "https://github.com/huanghaibin-dev/CalendarView"))
+            .addItem(website("glide", "https://github.com/bumptech/glide"))
+            .addItem(website("commons-codec", "http://commons.apache.org/proper/commons-codec/"))
+            .addItem(website("markwon", "https://github.com/noties/Markwon"))
+            .addItem(website("agentweb", "https://github.com/Justson/AgentWeb"))
+            .addItem(website("android-about-page", "https://github.com/noties/Markwon"))
             .addItem(getCopyRightsElement())
             .create()
+    }
+
+
+    private fun github(id: String): Element {
+        val url = String.format("https://github.com/%s", id)
+        return Element()
+            .setTitle(getString(mehdi.sakout.aboutpage.R.string.about_github))
+            .setIconDrawable(mehdi.sakout.aboutpage.R.drawable.about_icon_github)
+            .setIconTint(mehdi.sakout.aboutpage.R.color.about_github_color)
+            .setValue(id)
+            .setIntent(NormalWebViewActivity.getWebIntent(this, url))
+    }
+
+    private fun website(title: String, url: String): Element {
+        return Element()
+            .setTitle(title)
+            .setIconDrawable(mehdi.sakout.aboutpage.R.drawable.about_icon_link)
+            .setIconTint(mehdi.sakout.aboutpage.R.color.about_item_icon_color)
+            .setValue(url)
+            .setIntent(NormalWebViewActivity.getWebIntent(this, url))
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -56,17 +91,13 @@ class AboutActivity : AppCompatActivity() {
         }
     }
 
-    private fun getCopyRightsElement(): Element? {
-        val copyRightsElement = Element()
-        val copyrights =
-            String.format(getString(R.string.copy_right), Calendar.getInstance()[Calendar.YEAR])
-        copyRightsElement.title = copyrights
-        copyRightsElement.iconDrawable = R.drawable.ic_very_satisfied
-        copyRightsElement.iconTint = R.color.colorPrimary
-        copyRightsElement.iconNightTint = android.R.color.white
-        copyRightsElement.gravity = Gravity.CENTER
-        copyRightsElement.onClickListener = View.OnClickListener { toast(copyrights) }
-        return copyRightsElement
+    private fun getCopyRightsElement(): Element? = Element().apply {
+        val year = Calendar.getInstance()[Calendar.YEAR]
+        title = String.format(getString(R.string.copy_right), year)
+        iconDrawable = R.drawable.ic_very_satisfied
+        iconTint = R.color.colorPrimary
+        iconNightTint = android.R.color.white
+        gravity = Gravity.CENTER
     }
 
 }

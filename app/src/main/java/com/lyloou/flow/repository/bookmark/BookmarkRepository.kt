@@ -16,9 +16,6 @@ object BookmarkRepository {
         Bookmark("每日一文", "https://meiriyiwen.com/random/iphone"),
         Bookmark("陈 皓", "https://coolshell.cn/"),
         Bookmark("刘未鹏", "http://mindhacks.cn/"),
-        Bookmark("阮一峰", "http://ruanyifeng.com/blog/"),
-        Bookmark("廖雪峰", "https://www.liaoxuefeng.com/"),
-        Bookmark("王 垠", "http://www.yinwang.org/"),
         Bookmark("木子楼", "http://lyloou.com", order = 2)
     )
 

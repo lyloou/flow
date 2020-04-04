@@ -19,8 +19,6 @@ package com.lyloou.flow.util;
 import android.app.Activity;
 import android.view.View;
 
-import com.gyf.immersionbar.ImmersionBar;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -32,13 +30,6 @@ import java.util.TimerTask;
  * Description:
  */
 public class Uview {
-    public static void initStatusBar(Activity context, int statusBarColor) {
-        ImmersionBar.with(context)
-                .statusBarDarkFont(false)
-                .navigationBarDarkIcon(false)
-                .statusBarColor(statusBarColor)
-                .init();
-    }
 
     public static View getRootView(Activity activity) {
         return activity.findViewById(android.R.id.content);
