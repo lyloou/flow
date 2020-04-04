@@ -28,3 +28,8 @@
 -keep class com.lyloou.flow.model.**{*;}
 
 -dontwarn com.bumptech.glide.**
+
+-keep class com.just.agentweb.** {
+    *;
+}
+-dontwarn com.just.agentweb.**
