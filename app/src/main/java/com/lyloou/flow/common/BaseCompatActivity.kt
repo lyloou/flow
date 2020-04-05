@@ -2,11 +2,14 @@ package com.lyloou.flow.common
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.lyloou.flow.R
 import com.lyloou.flow.ui.setting.SettingsViewModel
 import com.lyloou.flow.widget.GrayFrameLayout
 
@@ -22,6 +25,7 @@ open class BaseCompatActivity : AppCompatActivity() {
     }
 
     // https://mp.weixin.qq.com/s/8fTWLYaPhi0to47EUmFd7A
+    // 网页端，加入css： html {filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);-webkit-filter: grayscale(100%);}
     override fun onCreateView(
         parent: View?,
         name: String,
@@ -30,7 +34,14 @@ open class BaseCompatActivity : AppCompatActivity() {
     ): View? {
 
         // 启用灰色模式
-        if (settingViewModel.enableGrayMode && "FrameLayout" == name) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (settingViewModel.enableGrayMode) {
+                // https://stackoverflow.com/questions/22192291/how-to-change-the-status-bar-color-in-android
+                window.statusBarColor = ContextCompat.getColor(this, R.color.gray)
+            }
+        }
+
+        if ("FrameLayout" == name) {
             val count: Int = attrs.attributeCount
             for (i in 0 until count) {
                 val attributeName: String = attrs.getAttributeName(i)

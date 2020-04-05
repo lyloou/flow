@@ -1,13 +1,13 @@
 package com.lyloou.flow.ui.kalendar
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.lyloou.flow.R
+import com.lyloou.flow.common.BaseCompatActivity
 
-class KalendarActivity : AppCompatActivity() {
+class KalendarActivity : BaseCompatActivity() {
 
     private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
