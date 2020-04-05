@@ -4,16 +4,16 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.lyloou.flow.BuildConfig
 import com.lyloou.flow.R
+import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.ui.web.NormalWebViewActivity
 import mehdi.sakout.aboutpage.AboutPage
 import mehdi.sakout.aboutpage.Element
 import java.util.*
 
-class AboutActivity : AppCompatActivity() {
+class AboutActivity : BaseCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getView())

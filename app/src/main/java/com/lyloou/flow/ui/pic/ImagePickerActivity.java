@@ -12,16 +12,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.lyloou.flow.common.BaseCompatActivity;
 import com.lyloou.flow.util.Udialog;
 import com.lyloou.flow.util.Ufile;
 
 import java.io.File;
 
-public class ImagePickerActivity extends AppCompatActivity {
+public class ImagePickerActivity extends BaseCompatActivity {
     private static final String TAG = ImagePickerActivity.class.getSimpleName();
     public static final String EXTRA_ERROR = "error";
     private int width;

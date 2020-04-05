@@ -22,6 +22,7 @@
 
     <!-- setting -->
     <string name="setting_city" translatable="false">city</string>
+    <string name="setting_gray_mode" translatable="false">Gray mode</string>
     <string name="setting_cache_size" translatable="false">cacheSize</string>
     <!--  argument key  -->
     <string name="arg_key_list_to_detail" translatable="false">arg_key_list_to_detail</string>

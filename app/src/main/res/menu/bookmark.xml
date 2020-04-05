@@ -7,6 +7,13 @@
         android:icon="@drawable/ic_add"
         android:title="添加"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/add_shortcut"
+        android:icon="@drawable/ic_add"
+        android:title="添加到桌面"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/recover"
         android:icon="@drawable/ic_add"

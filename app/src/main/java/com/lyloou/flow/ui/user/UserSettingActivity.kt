@@ -6,13 +6,13 @@ import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.lyloou.flow.R
+import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.toast
 import com.lyloou.flow.model.User
 import com.lyloou.flow.model.UserHelper
@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.item_toolbar.*
 import kotlinx.android.synthetic.main.user_setting_activity.*
 
 
-class UserSettingActivity : AppCompatActivity(), SettingLayout.IClickListener, ToolbarManager {
+class UserSettingActivity : BaseCompatActivity(), SettingLayout.IClickListener, ToolbarManager {
 
     lateinit var viewModel: UserViewModel
     lateinit var user: User

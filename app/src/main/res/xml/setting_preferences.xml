@@ -14,6 +14,16 @@
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
+        app:title="界面">
+
+        <SwitchPreference
+            app:iconSpaceReserved="false"
+            app:key="@string/setting_gray_mode"
+            app:title="灰色模式" />
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
         app:title="缓存清理">
 
         <Preference

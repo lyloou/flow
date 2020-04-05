@@ -19,6 +19,9 @@ import androidx.core.graphics.drawable.IconCompat;
 import com.lyloou.flow.common.Consumer;
 
 import java.util.List;
+import java.util.Objects;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class Uapp {
     public static void handlePackageIntent(Context context, String packageName, Consumer<Intent> intentConsumer) {
@@ -72,7 +75,7 @@ public class Uapp {
 
         Intent shortcutInfoIntent = new Intent();
         shortcutInfoIntent.setClassName(context, className);
-        shortcutInfoIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        shortcutInfoIntent.addFlags(FLAG_ACTIVITY_NEW_TASK);
         shortcutInfoIntent.setAction(Intent.ACTION_VIEW);
         addShortCutCompatWithoutCheckPermission(context, shortcutInfoIntent, id, iconResId, label);
     }
@@ -119,5 +122,17 @@ public class Uapp {
         }
 
         return false;
+    }
+
+    // https://stackoverflow.com/questions/46070938/restarting-android-app-programmatically
+    // https://stackoverflow.com/questions/6609414/how-do-i-programmatically-restart-an-android-app
+    public static void restartApp(Context context) {
+        Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+        Objects.requireNonNull(intent).addFlags(FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+        if (context instanceof Activity) {
+            ((Activity) context).finish();
+        }
+        Runtime.getRuntime().exit(0);
     }
 }

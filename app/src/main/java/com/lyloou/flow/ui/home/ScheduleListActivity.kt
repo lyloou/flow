@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -15,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.lyloou.flow.R
+import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.toast
 import com.lyloou.flow.databinding.ActivityScheduleListBinding
 import com.lyloou.flow.model.Order
@@ -30,7 +30,7 @@ import kotlinx.android.synthetic.main.activity_schedule_list.*
 import kotlinx.android.synthetic.main.dialog_schedule_detail.view.*
 import kotlinx.android.synthetic.main.item_toolbar.*
 
-class ScheduleListActivity : AppCompatActivity(), ToolbarManager, OnItemClickListener {
+class ScheduleListActivity : BaseCompatActivity(), ToolbarManager, OnItemClickListener {
     private lateinit var binding: ActivityScheduleListBinding
     private lateinit var viewModel: ScheduleListViewModel
     private lateinit var scheduleViewModel: ScheduleViewModel

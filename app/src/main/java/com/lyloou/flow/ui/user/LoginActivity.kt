@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.forEach
 import androidx.databinding.DataBindingUtil
@@ -13,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.lyloou.flow.R
+import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.toast
 import com.lyloou.flow.databinding.ActivityLoginBinding
 import com.lyloou.flow.extension.simpleStartActivity
@@ -24,7 +24,7 @@ import com.lyloou.flow.widget.ToolbarManager
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.item_toolbar.*
 
-class LoginActivity : AppCompatActivity(), ToolbarManager {
+class LoginActivity : BaseCompatActivity(), ToolbarManager {
 
     lateinit var binding: ActivityLoginBinding
     lateinit var viewModel: LoginViewModel

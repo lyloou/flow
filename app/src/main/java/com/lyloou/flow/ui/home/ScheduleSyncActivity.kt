@@ -3,12 +3,12 @@ package com.lyloou.flow.ui.home
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.lyloou.flow.R
+import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.Consumer
 import com.lyloou.flow.common.toast
 import com.lyloou.flow.model.SyncStatus
@@ -18,7 +18,7 @@ import com.lyloou.flow.widget.ToolbarManager
 import kotlinx.android.synthetic.main.activity_schedule_sync.*
 import kotlinx.android.synthetic.main.item_toolbar.*
 
-class ScheduleSyncActivity : AppCompatActivity(), ToolbarManager {
+class ScheduleSyncActivity : BaseCompatActivity(), ToolbarManager {
 
     private lateinit var viewModel: ScheduleListViewModel
     private lateinit var adapterMap: MutableMap<SyncStatus, ScheduleSyncAdapter>

@@ -2,17 +2,17 @@ package com.lyloou.flow
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.ui.home.ScheduleFragment
 import com.lyloou.flow.ui.list.ListFragment
 import com.lyloou.flow.ui.mine.MineFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 // [Android布局实现-BottomNavigationView+ViewPager+Fragment+整合 | 朋也的博客](https://tomoya92.github.io/2017/04/05/android-bottomnavigationview-viewpager-fragment/)
-class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
+class MainActivity : BaseCompatActivity(), ViewPager.OnPageChangeListener {
     companion object {
         const val INDEX = "index"
     }

@@ -51,6 +51,7 @@ enum class Key : Str {
     SCHEDULE_ITEM_D,
     USER,
     WEATHER_CITY,
+    GRAY_MODE,
 
     ;
 

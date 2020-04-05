@@ -2,12 +2,15 @@ package com.lyloou.flow.ui.setting
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreference
 import com.lyloou.flow.R
 import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.model.CityHelper
 import com.lyloou.flow.ui.city.CitySelectorActivity
+import com.lyloou.flow.util.Uapp
 import com.lyloou.flow.util.Udialog
 import com.lyloou.flow.util.Ufile
 import com.lyloou.flow.util.Usystem
@@ -28,7 +31,10 @@ class SettingsActivity : BaseCompatActivity() {
     }
 
     class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
+        lateinit var viewModel: SettingsViewModel
+
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            viewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
             setPreferencesFromResource(R.xml.setting_preferences, rootKey)
             initPreference()
         }
@@ -41,16 +47,41 @@ class SettingsActivity : BaseCompatActivity() {
         }
 
         override fun onStart() {
-            reloadSummary()
+            reloadPreferenceValue()
             super.onStart()
         }
 
-        private fun reloadSummary() {
+        private fun reloadPreferenceValue() {
             findPreference<Preference>(getString(R.string.setting_city))?.summary =
                 CityHelper.getCity()?.cityName ?: "深圳"
             findPreference<Preference>(getString(R.string.setting_cache_size))?.summary =
                 Ufile.getTotalCacheSize(requireContext())
+
+            val enableGrayMode =
+                findPreference<SwitchPreference>(getString(R.string.setting_gray_mode))
+            enableGrayMode?.setDefaultValue(viewModel.enableGrayMode)
+            enableGrayMode?.onPreferenceChangeListener =
+                Preference.OnPreferenceChangeListener { _, newValue ->
+                    handleGrayModeChangListener(newValue)
+                    true
+                }
+
         }
+
+        private fun handleGrayModeChangListener(newValue: Any?) {
+            viewModel.enableGrayMode = if (newValue == null) false else newValue as Boolean
+            Udialog.AlertOneItem.builder(context)
+                .message("部分页面需重启后生效")
+                .positiveTips("立即重启")
+                .negativeTips("稍后重启")
+                .consumer {
+                    if (it) {
+                        Uapp.restartApp(context)
+                    }
+                }
+                .show()
+        }
+
 
         override fun onPreferenceClick(preference: Preference): Boolean {
             when (preference.key) {

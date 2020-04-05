@@ -14,7 +14,6 @@ import android.view.View
 import android.webkit.HttpAuthHandler
 import android.webkit.WebView
 import android.widget.LinearLayout
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -23,6 +22,7 @@ import com.just.agentweb.AgentWeb
 import com.just.agentweb.WebChromeClient
 import com.just.agentweb.WebViewClient
 import com.lyloou.flow.R
+import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.toast
 import com.lyloou.flow.model.Bookmark
 import com.lyloou.flow.util.Udialog
@@ -34,7 +34,7 @@ import com.lyloou.flow.util.Uview
  * https://blog.csdn.net/chu_cheng/article/details/78084728
  * https://www.jianshu.com/p/2adaa6a5f85f
  */
-class NormalWebViewActivity : AppCompatActivity() {
+class NormalWebViewActivity : BaseCompatActivity() {
     private lateinit var mAgentWeb: AgentWeb
     private lateinit var mWebView: WebView
     private lateinit var mContext: Activity

@@ -1,12 +1,12 @@
 package com.lyloou.flow.ui.home
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.lyloou.flow.R
+import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.Key
 import com.lyloou.flow.databinding.ActivityScheduleDetailBinding
 import com.lyloou.flow.model.Order
@@ -14,7 +14,7 @@ import com.lyloou.flow.widget.ToolbarManager
 import kotlinx.android.synthetic.main.activity_schedule_detail.*
 import kotlinx.android.synthetic.main.item_toolbar.*
 
-class ScheduleDetailActivity : AppCompatActivity(), ToolbarManager {
+class ScheduleDetailActivity : BaseCompatActivity(), ToolbarManager {
 
     private lateinit var viewModel: ScheduleDetailViewModel
     private lateinit var binding: ActivityScheduleDetailBinding

@@ -2,18 +2,18 @@ package com.lyloou.flow.ui.city
 
 import android.app.Activity
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lyloou.flow.R
+import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.toast
 import com.lyloou.flow.databinding.ActivityCitySelectorBinding
 import com.lyloou.flow.model.City
 import kotlinx.android.synthetic.main.activity_city_selector.*
 
-class CitySelectorActivity : AppCompatActivity(), OnClickItemListener {
+class CitySelectorActivity : BaseCompatActivity(), OnClickItemListener {
 
     private lateinit var viewModel: CitySelectorViewModel
     private lateinit var binding: ActivityCitySelectorBinding

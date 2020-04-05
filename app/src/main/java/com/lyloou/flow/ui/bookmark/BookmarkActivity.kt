@@ -5,23 +5,26 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.lyloou.flow.R
+import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.toast
 import com.lyloou.flow.extension.dp2px
+import com.lyloou.flow.extension.snackbar
 import com.lyloou.flow.model.Bookmark
 import com.lyloou.flow.ui.web.NormalWebViewActivity
+import com.lyloou.flow.util.Uapp
 import com.lyloou.flow.util.Udialog
 import com.lyloou.flow.util.Usystem
 import com.lyloou.flow.widget.ItemOffsetDecoration
 import com.lyloou.flow.widget.ToolbarManager
 import kotlinx.android.synthetic.main.activity_bookmark.*
 
-class BookmarkActivity : AppCompatActivity(), ToolbarManager, BookmarkAdapter.OnItemListener {
+class BookmarkActivity : BaseCompatActivity(), ToolbarManager, BookmarkAdapter.OnItemListener {
 
     lateinit var viewModel: BookmarkViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -150,8 +153,26 @@ class BookmarkActivity : AppCompatActivity(), ToolbarManager, BookmarkAdapter.On
         return super.onCreateOptionsMenu(menu)
     }
 
+    private fun addShortcut() {
+        Uapp.addShortCutCompat(
+            this,
+            BookmarkActivity::class.java.canonicalName,
+            "bookmark",
+            R.mipmap.road,
+            resources.getString(R.string.my_bookmark)
+        )
+        val snackbar: Snackbar = snackbar("已添加到桌面", Snackbar.LENGTH_LONG)
+        snackbar.setAction("添加失败？去授权") {
+            Usystem.toAppSetting(this)
+        }
+        snackbar.show()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.add_shortcut -> {
+                addShortcut()
+            }
             R.id.add -> {
                 showBookmarkEditDialog()
             }
