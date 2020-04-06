@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputType
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -25,7 +26,8 @@ import com.lyloou.flow.R
 import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.toast
 import com.lyloou.flow.model.Bookmark
-import com.lyloou.flow.util.Udialog
+import com.lyloou.flow.util.Udialog.AlertMultipleInputDialog
+import com.lyloou.flow.util.Udialog.AlertMultipleInputDialog.InputItem
 import com.lyloou.flow.util.Usystem
 import com.lyloou.flow.util.Uview
 
@@ -101,7 +103,26 @@ class NormalWebViewActivity : BaseCompatActivity() {
                 host: String,
                 realm: String
             ) {
-                Udialog.showHttpAuthRequest(view, handler)
+                // [Android-WebView's onReceivedHttpAuthRequest() not called again - Stack Overflow](https://stackoverflow.com/questions/20399339/android-webviews-onreceivedhttpauthrequest-not-called-again)
+                AlertMultipleInputDialog.builder(view.context)
+                    .title("Authentication")
+                    .addInputItem(InputItem().apply {
+                        id = 1
+                        hint = "Username"
+                    })
+                    .addInputItem(InputItem().apply {
+                        id = 2
+                        hint = "Password"
+                        type = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                    })
+                    .cancelable(false)
+                    .positiveConsumer { map: Map<Int?, String?> ->
+                        val username = map[0]
+                        val password = map[1]
+                        handler.proceed(username, password)
+                    }
+                    .negativeConsumer { view.stopLoading() }
+                    .show()
             }
         }
 

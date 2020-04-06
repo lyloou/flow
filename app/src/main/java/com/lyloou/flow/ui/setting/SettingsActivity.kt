@@ -74,10 +74,8 @@ class SettingsActivity : BaseCompatActivity() {
                 .message("部分页面需重启后生效")
                 .positiveTips("立即重启")
                 .negativeTips("稍后重启")
-                .consumer {
-                    if (it) {
-                        Uapp.restartApp(context)
-                    }
+                .positiveConsumer {
+                    Uapp.restartApp(context)
                 }
                 .show()
         }
@@ -97,10 +95,7 @@ class SettingsActivity : BaseCompatActivity() {
                 .message("要清数据吗")
                 .positiveTips("是的")
                 .negativeTips("不用了")
-                .consumer {
-                    if (!it) {
-                        return@consumer
-                    }
+                .positiveConsumer {
                     showTwiceWithTips()
                 }
                 .show()
@@ -111,10 +106,7 @@ class SettingsActivity : BaseCompatActivity() {
                 .message("清数据前，要先同步数据哦")
                 .positiveTips("已同步")
                 .negativeTips("再想想")
-                .consumer {
-                    if (!it) {
-                        return@consumer
-                    }
+                .positiveConsumer {
                     Usystem.toAppSetting(requireContext())
                 }
                 .show()

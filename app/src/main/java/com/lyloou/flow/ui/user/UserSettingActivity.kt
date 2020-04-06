@@ -118,7 +118,7 @@ class UserSettingActivity : BaseCompatActivity(), SettingLayout.IClickListener, 
                     .defaultValue(item.contentStr)
                     .type(getInputType(item))
                     .requestFocus(true)
-                    .consumer {
+                    .positiveConsumer {
                         if (item.contentStr != it) {
                             this.menu?.findItem(R.id.confirm)?.isVisible = true
                             updateItem(item, it)
@@ -132,11 +132,7 @@ class UserSettingActivity : BaseCompatActivity(), SettingLayout.IClickListener, 
     private fun showLogoutDialog() {
         Udialog.AlertOneItem.builder(this)
             .message("确定要退出")
-            .consumer {
-                if (!it) {
-                    return@consumer
-                }
-
+            .positiveConsumer {
                 UserHelper.clearUser()
                 finish()
             }
@@ -150,7 +146,7 @@ class UserSettingActivity : BaseCompatActivity(), SettingLayout.IClickListener, 
         Udialog.AlertCustomViewDialog.builder(this)
             .view(view)
             .title(resources.getString(R.string.user_reset_password))
-            .consumer { resetPassword(it) }
+            .positiveConsumer { resetPassword(it) }
             .show()
     }
 

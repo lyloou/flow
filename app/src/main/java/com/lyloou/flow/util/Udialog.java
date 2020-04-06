@@ -3,12 +3,9 @@ package com.lyloou.flow.util;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.HttpAuthHandler;
-import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -26,14 +23,19 @@ import java.util.List;
 import java.util.Map;
 
 public class Udialog {
+    private static final String DEFAULT_POSITIVE_TIPS = "确定";
+    private static final String DEFAULT_NEGATIVE_TIPS = "取消";
+
     public static class AlertOneItem {
         private Context context;
         private String title;
         private String message;
-        private Consumer<Boolean> consumer = result -> {
+        private Consumer<Void> positiveConsumer = result -> {
         };
-        private String positiveTips = "确定";
-        private String negativeTips = "取消";
+        private Consumer<Void> negativeConsumer = result -> {
+        };
+        private String positiveTips = DEFAULT_POSITIVE_TIPS;
+        private String negativeTips = DEFAULT_NEGATIVE_TIPS;
 
         private AlertOneItem(Context context) {
             this.context = context;
@@ -43,8 +45,13 @@ public class Udialog {
             return new AlertOneItem(context);
         }
 
-        public AlertOneItem consumer(Consumer<Boolean> consumer) {
-            this.consumer = consumer;
+        public AlertOneItem positiveConsumer(Consumer<Void> consumer) {
+            this.positiveConsumer = consumer;
+            return this;
+        }
+
+        public AlertOneItem negativeConsumer(Consumer<Void> consumer) {
+            this.negativeConsumer = consumer;
             return this;
         }
 
@@ -78,11 +85,11 @@ public class Udialog {
                 builder.setMessage(message);
             }
             if (!TextUtils.isEmpty(negativeTips)) {
-                builder.setNegativeButton(negativeTips, (dialog, which) -> consumer.accept(false));
+                builder.setNegativeButton(negativeTips, (dialog, which) -> negativeConsumer.accept(null));
             }
 
             if (!TextUtils.isEmpty(positiveTips)) {
-                builder.setPositiveButton(positiveTips, (dialog, which) -> consumer.accept(true));
+                builder.setPositiveButton(positiveTips, (dialog, which) -> positiveConsumer.accept(null));
             }
 
             builder.setCancelable(true);
@@ -151,40 +158,6 @@ public class Udialog {
         new TimePickerDialog(context, 0, listener, time[0], time[1], true).show();
     }
 
-    public static void showHttpAuthRequest(WebView view, HttpAuthHandler handler) {
-        Context context = view.getContext();
-        // [Android-WebView's onReceivedHttpAuthRequest() not called again - Stack Overflow](https://stackoverflow.com/questions/20399339/android-webviews-onreceivedhttpauthrequest-not-called-again)
-        final EditText usernameInput = new EditText(context);
-        usernameInput.setHint("Username");
-
-        final EditText passwordInput = new EditText(context);
-        passwordInput.setHint("Password");
-        passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-
-        LinearLayout ll = new LinearLayout(context);
-        ll.setOrientation(LinearLayout.VERTICAL);
-        ll.addView(usernameInput);
-        ll.addView(passwordInput);
-
-        new AlertDialog
-                .Builder(context)
-                .setTitle("Authentication")
-                .setView(ll)
-                .setCancelable(false)
-                .setPositiveButton("OK", (dialog, whichButton) -> {
-                    String username = usernameInput.getText().toString();
-                    String password = passwordInput.getText().toString();
-                    handler.proceed(username, password);
-                    dialog.dismiss();
-                })
-                .setNegativeButton("Cancel", (dialog, whichButton) -> {
-                    dialog.dismiss();
-                    view.stopLoading();
-                })
-                .show();
-    }
-
-
     public static class AlertInputDialog {
         private Context context;
         private String title;
@@ -193,10 +166,12 @@ public class Udialog {
         private boolean cancelable;
         private boolean requestFocus;
         private String defaultValue;
-        private Consumer<String> consumer = result -> {
+        private Consumer<String> positiveConsumer = result -> {
         };
-        private String positiveTips = "确定";
-        private String negativeTips = "取消";
+        private Consumer<Void> negativeConsumer = result -> {
+        };
+        private String positiveTips = DEFAULT_POSITIVE_TIPS;
+        private String negativeTips = DEFAULT_NEGATIVE_TIPS;
 
         private AlertInputDialog(Context context) {
             this.context = context;
@@ -206,8 +181,8 @@ public class Udialog {
             return new AlertInputDialog(context);
         }
 
-        public AlertInputDialog consumer(Consumer<String> consumer) {
-            this.consumer = consumer;
+        public AlertInputDialog positiveConsumer(Consumer<String> consumer) {
+            this.positiveConsumer = consumer;
             return this;
         }
 
@@ -283,14 +258,13 @@ public class Udialog {
             }
 
             if (!TextUtils.isEmpty(negativeTips)) {
-                builder.setNegativeButton(negativeTips, (dialog, which) -> {
-                });
+                builder.setNegativeButton(negativeTips,
+                        (dialog, which) -> negativeConsumer.accept(null));
             }
 
             if (!TextUtils.isEmpty(positiveTips)) {
-                builder.setPositiveButton(positiveTips, (dialog, which) -> {
-                    consumer.accept(et.getText().toString());
-                });
+                builder.setPositiveButton(positiveTips,
+                        (dialog, which) -> positiveConsumer.accept(et.getText().toString()));
             }
 
             if (requestFocus) {
@@ -316,10 +290,12 @@ public class Udialog {
         private String title;
         private View view;
         private boolean cancelable;
-        private Consumer<View> consumer = result -> {
+        private Consumer<View> positiveConsumer = result -> {
         };
-        private String positiveTips = "确定";
-        private String negativeTips = "取消";
+        private Consumer<Void> negativeConsumer = result -> {
+        };
+        private String positiveTips = DEFAULT_POSITIVE_TIPS;
+        private String negativeTips = DEFAULT_NEGATIVE_TIPS;
 
         private AlertCustomViewDialog(Context context) {
             this.context = context;
@@ -329,8 +305,13 @@ public class Udialog {
             return new AlertCustomViewDialog(context);
         }
 
-        public AlertCustomViewDialog consumer(Consumer<View> consumer) {
-            this.consumer = consumer;
+        public AlertCustomViewDialog positiveConsumer(Consumer<View> consumer) {
+            this.positiveConsumer = consumer;
+            return this;
+        }
+
+        public AlertCustomViewDialog negativeConsumer(Consumer<Void> consumer) {
+            this.negativeConsumer = consumer;
             return this;
         }
 
@@ -361,28 +342,23 @@ public class Udialog {
         }
 
         public void show() {
-
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             if (!TextUtils.isEmpty(title)) {
                 builder.setTitle(title);
             }
 
             if (!TextUtils.isEmpty(negativeTips)) {
-                builder.setNegativeButton(negativeTips, (dialog, which) -> {
-                });
+                builder.setNegativeButton(negativeTips, (dialog, which) -> negativeConsumer.accept(null));
             }
 
             if (!TextUtils.isEmpty(positiveTips)) {
-                builder.setPositiveButton(positiveTips, (dialog, which) -> {
-                    consumer.accept(this.view);
-                });
+                builder.setPositiveButton(positiveTips, (dialog, which) -> positiveConsumer.accept(this.view));
             }
 
             builder.setView(view);
             builder.setCancelable(cancelable);
             builder.create();
             builder.show();
-
         }
     }
 
@@ -400,10 +376,13 @@ public class Udialog {
         private boolean cancelable;
         private List<InputItem> inputItemList = new ArrayList<>();
 
-        private Consumer<Map<Integer, String>> consumer = result -> {
+        private Consumer<Map<Integer, String>> positiveConsumer = result -> {
         };
-        private String positiveTips = "确定";
-        private String negativeTips = "取消";
+        private Consumer<Void> negativeConsumer = result -> {
+        };
+
+        private String positiveTips = DEFAULT_POSITIVE_TIPS;
+        private String negativeTips = DEFAULT_NEGATIVE_TIPS;
 
         private AlertMultipleInputDialog(Context context) {
             this.context = context;
@@ -413,8 +392,13 @@ public class Udialog {
             return new AlertMultipleInputDialog(context);
         }
 
-        public AlertMultipleInputDialog consumer(Consumer<Map<Integer, String>> consumer) {
-            this.consumer = consumer;
+        public AlertMultipleInputDialog positiveConsumer(Consumer<Map<Integer, String>> consumer) {
+            this.positiveConsumer = consumer;
+            return this;
+        }
+
+        public AlertMultipleInputDialog negativeConsumer(Consumer<Void> negativeConsumer) {
+            this.negativeConsumer = negativeConsumer;
             return this;
         }
 
@@ -483,7 +467,7 @@ public class Udialog {
                         EditText et = (EditText) ll.getChildAt(i);
                         map.put((Integer) et.getTag(), et.getText().toString());
                     }
-                    consumer.accept(map);
+                    positiveConsumer.accept(map);
                 });
             }
 
@@ -494,6 +478,7 @@ public class Udialog {
                 if (InputMethodUtils.isActive(ll.getContext())) {
                     InputMethodUtils.hideSoftInput(ll);
                 }
+                negativeConsumer.accept(null);
             });
             builder.show();
 

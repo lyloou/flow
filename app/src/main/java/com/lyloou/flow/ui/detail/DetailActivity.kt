@@ -428,11 +428,9 @@ class DetailActivity : BaseCompatActivity() {
 
         override fun onLongClickTimeStart(item: FlowItem, position: Int) {
             Udialog.AlertOneItem.builder(context)
-                .consumer {
-                    if (it) {
-                        item.timeStart = null
-                        updateUIAndDelayUpdateDb()
-                    }
+                .positiveConsumer {
+                    item.timeStart = null
+                    updateUIAndDelayUpdateDb()
                 }
                 .message("清空开始时间")
                 .show();
@@ -440,11 +438,9 @@ class DetailActivity : BaseCompatActivity() {
 
         override fun onLongClickTimeEnd(item: FlowItem, position: Int) {
             Udialog.AlertOneItem.builder(context)
-                .consumer {
-                    if (it) {
-                        item.timeEnd = null
-                        updateUIAndDelayUpdateDb()
-                    }
+                .positiveConsumer {
+                    item.timeEnd = null
+                    updateUIAndDelayUpdateDb()
                 }
                 .message("清空结束时间")
                 .show();

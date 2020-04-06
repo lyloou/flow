@@ -171,7 +171,7 @@ class ScheduleListActivity : BaseCompatActivity(), ToolbarManager, OnItemClickLi
             .hint("请输入名称")
             .defaultValue(schedule.title)
             .cancelable(false)
-            .consumer {
+            .positiveConsumer {
                 schedule.title = it
                 viewModel.updateSchedule(schedule)
             }
@@ -188,10 +188,8 @@ class ScheduleListActivity : BaseCompatActivity(), ToolbarManager, OnItemClickLi
             .message("首页存在数据，是否需要保存？")
             .positiveTips("我要保存")
             .negativeTips("不用了")
-            .consumer {
-                if (it) {
-                    scheduleViewModel.startNewSchedule()
-                }
+            .positiveConsumer {
+                scheduleViewModel.startNewSchedule()
                 applyAndTips(schedule)
             }
             .show()

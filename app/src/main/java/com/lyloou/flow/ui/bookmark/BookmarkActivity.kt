@@ -109,12 +109,12 @@ class BookmarkActivity : BaseCompatActivity(), ToolbarManager, BookmarkAdapter.O
                 this.hint = "描述"
                 this.defaultValue = bookmark?.desc
             })
-            .consumer {
+            .positiveConsumer {
 
                 if (it[1].isNullOrEmpty() || it[2].isNullOrEmpty()) {
                     showBookmarkEditDialog(bookmark)
                     toast("标题和网址不能为空")
-                    return@consumer
+                    return@positiveConsumer
                 }
 
                 if (bookmark == null) {
@@ -128,7 +128,7 @@ class BookmarkActivity : BaseCompatActivity(), ToolbarManager, BookmarkAdapter.O
                         )
                     )
                     viewModel.reload()
-                    return@consumer
+                    return@positiveConsumer
                 }
 
                 bookmark.title = it[1]!!
