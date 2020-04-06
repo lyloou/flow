@@ -27,11 +27,8 @@ data class Bookmark(
             return true
         }
 
-        if (other !is Bookmark) {
-            return false
-        }
-
-        return (other.title == this.title && other.url == this.url)
+        val its = other as? Bookmark ?: return false
+        return (its.title == this.title && its.url == this.url)
     }
 
     override fun hashCode(): Int {

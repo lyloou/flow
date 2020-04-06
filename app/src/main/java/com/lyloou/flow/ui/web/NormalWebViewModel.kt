@@ -24,7 +24,7 @@ class NormalWebViewModel(application: Application) : AndroidViewModel(applicatio
             while (iterator.hasNext()) {
                 val bookmark = iterator.next()
                 if (bookmark.url == url) {
-                    it.remove(bookmark)
+                    iterator.remove()
                 }
             }
 

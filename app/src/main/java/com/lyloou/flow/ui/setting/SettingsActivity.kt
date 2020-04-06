@@ -69,7 +69,7 @@ class SettingsActivity : BaseCompatActivity() {
         }
 
         private fun handleGrayModeChangListener(newValue: Any?) {
-            viewModel.enableGrayMode = if (newValue == null) false else newValue as Boolean
+            viewModel.enableGrayMode = newValue as? Boolean ?: false
             Udialog.AlertOneItem.builder(context)
                 .message("部分页面需重启后生效")
                 .positiveTips("立即重启")

@@ -41,7 +41,7 @@ open class BaseCompatActivity : AppCompatActivity() {
             }
         }
 
-        if ("FrameLayout" == name) {
+        if (settingViewModel.enableGrayMode && "FrameLayout" == name) {
             val count: Int = attrs.attributeCount
             for (i in 0 until count) {
                 val attributeName: String = attrs.getAttributeName(i)
