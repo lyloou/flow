@@ -19,7 +19,6 @@ import com.lyloou.flow.ui.bookmark.BookmarkActivity
 import com.lyloou.flow.ui.setting.SettingsActivity
 import com.lyloou.flow.ui.user.LoginActivity
 import com.lyloou.flow.ui.user.UserSettingActivity
-import com.lyloou.flow.ui.web.NormalWebViewActivity
 import kotlinx.android.synthetic.main.fragment_mine.*
 
 class MineFragment : Fragment() {
@@ -61,11 +60,6 @@ class MineFragment : Fragment() {
                 return@setOnClickListener
             }
             requireActivity().simpleStartActivity<UserSettingActivity>()
-        }
-
-        cvFollow.setOnClickListener {
-            val url = "https://voice.baidu.com/act/newpneumonia/newpneumonia/?from=osari_pc_1"
-            NormalWebViewActivity.start(requireActivity(), url)
         }
 
         cvSetting.setOnClickListener {
