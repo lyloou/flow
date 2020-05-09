@@ -93,7 +93,8 @@ class DetailActivity : BaseCompatActivity() {
 
     private fun initWeatherAndMemo(flow: DbFlow) {
         viewModel.weather.value = flow.weather
-        if (flow.weather.isEmpty() && isToday()) {
+        // 如果是今天，每次进入时，都刷新下
+        if (isToday()) {
             loadWeather()
         }
 
