@@ -137,11 +137,11 @@ class DetailActivity : BaseCompatActivity() {
         Network.weatherApi()
             .getWeather(CityHelper.getCity()?.cityCode ?: "101280601")
             .defaultSubscribe {
-                val fbs = it.data?.forecast
+                val fbs = it.data.forecast
                 if (fbs != null && fbs.isNotEmpty()) {
                     fbs[0].let { fb ->
                         Udialog.AlertOneItem.builder(this)
-                            .title(fb.ymd)
+                            .title(fb.date)
                             .message(fb.toPrettyJsonString())
                             .show()
                     }
@@ -153,19 +153,19 @@ class DetailActivity : BaseCompatActivity() {
         Network.weatherApi()
             .getWeather(CityHelper.getCity()?.cityCode ?: "101280601")
             .defaultSubscribe {
-                val fbs = it.data?.forecast
+                val fbs = it.data.forecast
                 if (fbs != null && fbs.isNotEmpty()) {
                     val fb = fbs[0]
                     val sb = StringBuilder()
-                    sb.append(it.cityInfo?.city)
+                    sb.append(it.data.city)
                         .append(" ")
-                        .append(fb.week)
+                        .append(subDate(fb.date))
                         .append(" ")
                         .append(fb.type)
                         .append(" (")
-                        .append(fb.low)
+                        .append(fb.low.replace("低温 ", ""))
                         .append(" ~ ")
-                        .append(fb.high)
+                        .append(fb.high.replace("高温 ", ""))
                         .append(") ")
                     viewModel.weather.value = sb.toString()
                     viewModel.updateDbFlowWeather(day, sb.toString())
@@ -457,6 +457,18 @@ class DetailActivity : BaseCompatActivity() {
 
         }
 
+    }
+
+    private fun subDate(date: String): String {
+        if (!date.contains("日")) {
+            return date;
+        }
+
+        val substring = date.substring(date.indexOf("日"))
+        if ((substring.length > 1)) {
+            return substring.substring(1)
+        }
+        return substring
     }
 
 }

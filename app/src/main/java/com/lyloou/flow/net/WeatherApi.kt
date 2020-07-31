@@ -1,14 +1,14 @@
 package com.lyloou.flow.net
 
 import com.lyloou.flow.common.Url
-import com.lyloou.flow.model.WeatherResult
+import com.lyloou.flow.model.MyWeather
 import io.reactivex.Observable
 import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface WeatherApi {
-    @GET("/api/weather/city/{city_code}")
-    fun getWeather(@Path("city_code") cityCode: String): Observable<WeatherResult>
+    @GET("/weather_mini")
+    fun getWeather(@Query("citykey") cityCode: String): Observable<MyWeather>
 }
 
 fun Network.weatherApi(): WeatherApi {

@@ -7,7 +7,7 @@ var FALSE = 0
 
 enum class Url(val url: String) : Str {
     Kingsoftware("http://open.iciba.com/"),
-    WeatherApi("http://t.weather.sojson.com/"),
+    WeatherApi("http://wthrcdn.etouch.cn/"),
     FlowApi("http://8.129.173.10:8888/api/v1/flow/"),
     UserApi("http://8.129.173.10:8888/api/v1/user/"),
     ScheduleApi("http://8.129.173.10:8888/api/v1/schedule/"),
