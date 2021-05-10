@@ -49,11 +49,13 @@ class UserSettingActivity : BaseCompatActivity(), SettingLayout.IClickListener, 
             ImagePickerActivity.CROP_REQUEST_CODE -> {
                 data?.let {
                     // TODO 上传到网络
+                    val avatarUrl = ""
 
                     // 清除缓存，由于url一样，它有可能会不刷新
                     ivAvatar?.setImageURI(null)
                     ivAvatar?.let {
                         loadCircleImage(it, data.data)
+                        user.avatar = avatarUrl
                     }
 
                     toast("已更新头像")
