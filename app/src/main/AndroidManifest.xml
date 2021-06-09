@@ -76,6 +76,14 @@
             android:name=".ui.about.AboutActivity"
             android:label="@string/about_us"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.income.IncomeActivity"
+            android:label="@string/income"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".ui.income.IncomeDetailActivity"
+            android:label="@string/income_detail"
+            android:theme="@style/AppTheme" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

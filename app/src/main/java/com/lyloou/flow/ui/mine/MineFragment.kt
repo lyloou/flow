@@ -16,6 +16,7 @@ import com.lyloou.flow.model.DEFAULT_USER
 import com.lyloou.flow.model.UserHelper
 import com.lyloou.flow.ui.about.AboutActivity
 import com.lyloou.flow.ui.bookmark.BookmarkActivity
+import com.lyloou.flow.ui.income.IncomeActivity
 import com.lyloou.flow.ui.setting.SettingsActivity
 import com.lyloou.flow.ui.user.LoginActivity
 import com.lyloou.flow.ui.user.UserSettingActivity
@@ -68,6 +69,10 @@ class MineFragment : Fragment() {
 
         cvBookmark.setOnClickListener {
             requireActivity().simpleStartActivity<BookmarkActivity>()
+        }
+
+        cvIncome.setOnClickListener {
+            requireActivity().simpleStartActivity<IncomeActivity>()
         }
 
         cvAbout.setOnClickListener {

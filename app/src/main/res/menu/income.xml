@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/add"
+        android:icon="@drawable/ic_add"
+        android:title="添加"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/add_shortcut"
+        android:icon="@drawable/ic_add"
+        android:title="添加到桌面"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/recover"
+        android:icon="@drawable/ic_add"
+        android:title="恢复默认"
+        app:showAsAction="never" />
+</menu>

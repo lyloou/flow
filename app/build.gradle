@@ -149,4 +149,6 @@ dependencies {
 
     api 'com.just.agentweb:agentweb:4.0.3-alpha@aar' // (必选)
     implementation 'com.github.medyo:android-about-page:1.2.5'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
 }

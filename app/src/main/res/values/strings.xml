@@ -91,5 +91,7 @@
     <string name="card_content" translatable="false">This is help content</string>
     <string name="copy_right" translatable="false">Copyrights © %1$d</string>
     <string name="about_us" translatable="false">About us</string>
+    <string name="income" translatable="false">Income</string>
+    <string name="income_detail" translatable="false">Income Detail</string>
     <string name="my_bookmark" translatable="false">My Bookmark</string>
 </resources>
