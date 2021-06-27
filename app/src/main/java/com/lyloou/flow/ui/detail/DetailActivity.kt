@@ -37,6 +37,7 @@ import com.lyloou.flow.MainActivity
 import com.lyloou.flow.R
 import com.lyloou.flow.common.BaseCompatActivity
 import com.lyloou.flow.common.Key
+import com.lyloou.flow.common.toast
 import com.lyloou.flow.databinding.ActivityDetailBinding
 import com.lyloou.flow.extension.snackbar
 import com.lyloou.flow.model.*
@@ -99,16 +100,18 @@ class DetailActivity : BaseCompatActivity() {
         }
 
         tvWeather.setOnClickListener {
-            // 当天的才可以修改天气
-            if (!isToday()) {
-                return@setOnClickListener
-            }
-            Udialog.AlertMultiItem.builder(this)
-                .add("刷新", ::loadWeather)
-                .add("显示完整信息", ::showAllWeather)
-                .add("选择其他城市", ::toCitySelector)
-                .show()
+            val builder = Udialog.AlertMultiItem.builder(this)
+            builder.add("复制天气内容", ::copyWeather)
+            builder.add("修改天气内容", ::updateWeather)
 
+            // 当天的才可以修改天气
+            if (isToday()) {
+                builder
+                    .add("显示详细天气", ::showAllWeather)
+                    .add("切换其他城市", ::toCitySelector)
+                    .add("刷新天气", ::loadWeather)
+            }
+            builder.show()
         }
 
         viewModel.memo.value = flow.memo
@@ -149,6 +152,22 @@ class DetailActivity : BaseCompatActivity() {
             }
     }
 
+    private fun updateWeather() {
+        Udialog.AlertInputDialog
+            .builder(this)
+            .hint("请输入天气信息")
+            .defaultValue(viewModel.weather.value)
+            .positiveConsumer {
+                updateWeatherContent(it)
+            }
+            .show()
+    }
+
+    private fun copyWeather() {
+        Usystem.copyString(this, viewModel.weather.value)
+        toast("复制成功")
+    }
+
     private fun loadWeather() {
         Network.weatherApi()
             .getWeather(CityHelper.getCity()?.cityCode ?: "101280601")
@@ -167,10 +186,15 @@ class DetailActivity : BaseCompatActivity() {
                         .append(" ~ ")
                         .append(fb.high.replace("高温 ", ""))
                         .append(") ")
-                    viewModel.weather.value = sb.toString()
-                    viewModel.updateDbFlowWeather(day, sb.toString())
+                    val weatherContent = sb.toString()
+                    updateWeatherContent(weatherContent)
                 }
             }
+    }
+
+    private fun updateWeatherContent(weatherContent: String) {
+        viewModel.weather.value = weatherContent
+        viewModel.updateDbFlowWeather(day, weatherContent)
     }
 
     companion object {
@@ -434,7 +458,7 @@ class DetailActivity : BaseCompatActivity() {
                     updateUIAndDelayUpdateDb()
                 }
                 .message("清空开始时间")
-                .show();
+                .show()
         }
 
         override fun onLongClickTimeEnd(item: FlowItem, position: Int) {
@@ -444,7 +468,7 @@ class DetailActivity : BaseCompatActivity() {
                     updateUIAndDelayUpdateDb()
                 }
                 .message("清空结束时间")
-                .show();
+                .show()
         }
 
         override fun onTextChanged(item: FlowItem, s: CharSequence, position: Int) {
@@ -461,7 +485,7 @@ class DetailActivity : BaseCompatActivity() {
 
     private fun subDate(date: String): String {
         if (!date.contains("日")) {
-            return date;
+            return date
         }
 
         val substring = date.substring(date.indexOf("日"))
