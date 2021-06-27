@@ -1,6 +1,7 @@
 package com.lyloou.flow.ui.list
 
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -8,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
+import android.widget.DatePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -22,6 +24,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.lyloou.flow.R
+import com.lyloou.flow.common.Key
 import com.lyloou.flow.extension.snackbar
 import com.lyloou.flow.model.Daily
 import com.lyloou.flow.model.UserHelper.isNotLogin
@@ -30,13 +33,11 @@ import com.lyloou.flow.repository.DbFlow
 import com.lyloou.flow.repository.toPrettyText
 import com.lyloou.flow.ui.detail.DetailActivity
 import com.lyloou.flow.ui.kalendar.KalendarActivity
-import com.lyloou.flow.util.Uapp
-import com.lyloou.flow.util.Ucolor
-import com.lyloou.flow.util.Udialog
-import com.lyloou.flow.util.Usystem
+import com.lyloou.flow.util.*
 import com.lyloou.flow.widget.TitleViewPagerAdapter
 import kotlinx.android.synthetic.main.dialog_sync.view.*
 import kotlinx.android.synthetic.main.fragment_list.*
+import java.util.*
 
 class ListFragment : Fragment(), OnItemLongClickListener {
 
@@ -115,8 +116,28 @@ class ListFragment : Fragment(), OnItemLongClickListener {
 
     }
 
-    private fun toDetail() {
+    private fun toTodayDetail() {
         startActivity(Intent(activity, DetailActivity::class.java))
+    }
+
+    private fun toOnedayDetail() {
+        val instance = Calendar.getInstance()
+        val listener =
+            DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                val intent = Intent(activity, DetailActivity::class.java)
+                instance[Calendar.YEAR] = year
+                instance[Calendar.MONTH] = month
+                instance[Calendar.DAY_OF_MONTH] = dayOfMonth
+                val oneday = Utime.getDayWithFormatTwo(instance.time)
+                intent.putExtra(Key.DAY.name, oneday)
+                startActivity(intent)
+            }
+
+        val year = instance[Calendar.YEAR]
+        val month = instance[Calendar.MONTH]
+        val day = instance[Calendar.DAY_OF_MONTH]
+        Udialog.showDatePicker(activity, listener, year, month, day)
+
     }
 
     private fun initIvHeader(daily: Daily) {
@@ -166,7 +187,8 @@ class ListFragment : Fragment(), OnItemLongClickListener {
             R.id.menu_kalendar -> toKalendar()
             R.id.menu_sync_all_tab -> syncData()
             R.id.menu_add_shortcut -> addShortcut()
-            R.id.menu_today_flow_time -> toDetail()
+            R.id.menu_today_flow_time -> toTodayDetail()
+            R.id.menu_oneday_flow_time -> toOnedayDetail()
         }
         return super.onOptionsItemSelected(item)
     }

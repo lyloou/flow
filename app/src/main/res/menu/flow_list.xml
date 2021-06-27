@@ -14,13 +14,19 @@
         android:title="分析模式"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/menu_oneday_flow_time"
+        android:title="择日时分流"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_add_shortcut"
         android:title="添加到桌面"
         app:showAsAction="never" />
+
     <item
         android:id="@+id/menu_sync_all_tab"
-        android:title="上传全部数据" />
+        android:title="上传全部数据"
+        app:showAsAction="never" />
 
 </menu>

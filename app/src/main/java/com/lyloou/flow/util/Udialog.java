@@ -1,5 +1,6 @@
 package com.lyloou.flow.util;
 
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -156,6 +157,12 @@ public class Udialog {
             return;
         }
         new TimePickerDialog(context, 0, listener, time[0], time[1], true).show();
+    }
+
+    public static void showDatePicker(Context context,
+                                      DatePickerDialog.OnDateSetListener listener,
+                                      int year, int month, int dayOfMonth) {
+        new DatePickerDialog(context, listener, year, month, dayOfMonth).show();
     }
 
     public static class AlertInputDialog {
