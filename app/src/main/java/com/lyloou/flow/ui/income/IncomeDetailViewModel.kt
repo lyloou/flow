@@ -16,6 +16,10 @@ class IncomeDetailViewModel(application: Application) : AndroidViewModel(applica
     val rateOfEnd: MutableLiveData<String> = MutableLiveData()
     val rateOfActual: MutableLiveData<String> = MutableLiveData()
 
+    val priceOfEnd2: MutableLiveData<String> = MutableLiveData()
+    val rateOfEnd2: MutableLiveData<String> = MutableLiveData()
+    val rateOfActual2: MutableLiveData<String> = MutableLiveData()
+
     val priceOfEndForInput: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
@@ -107,5 +111,31 @@ class IncomeDetailViewModel(application: Application) : AndroidViewModel(applica
             rateOfEndForInput.value =
                 Ustr.toPercentStr(getRateOfEndValue(it.toDouble(), incomeData.value!!))
         }
+    }
+
+    fun refreshChartData(x: Float?, y: Float?) {
+        if (x == null || y == null) {
+            return
+        }
+
+        if (incomeData.value == null) {
+            return
+        }
+
+        val income = incomeData.value!!
+        val priceOfEndIntervalStart = income.priceOfEndIntervalStart
+        val priceOfEndIntervalEnd = income.priceOfEndIntervalEnd
+
+        // 每一格的大小
+        var per = (priceOfEndIntervalEnd - priceOfEndIntervalStart) / 100
+        if (per < 0) {
+            per = 0.0
+        }
+        val priceOfEndValue = income.priceOfBegin + x * per
+        priceOfEnd2.value = "$priceOfEndValue"
+
+        val rateOfEndValue = getRateOfEndValue(priceOfEndValue, income)
+        rateOfEnd2.value = Ustr.toPercentStr(rateOfEndValue)
+        rateOfActual2.value = Ustr.toPercentStr(rateOfEndValue + 0.001)
     }
 }

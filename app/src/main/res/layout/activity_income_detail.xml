@@ -24,217 +24,299 @@
             type="com.lyloou.flow.ui.income.IncomeDetailViewModel" />
     </data>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="12dp"
+        android:layout_height="wrap_content"
         tools:context=".ui.income.IncomeDetailActivity">
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="start"
-            android:maxLines="1"
-            android:text="@{data.incomeData.first()}"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            tools:text="20200319" />
-
-        <TextView
-            android:id="@+id/tvSecond"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="start"
-            android:maxLines="1"
-            android:text="@{data.incomeData.second()}"
-            android:textSize="14sp"
-            tools:text="子标题/" />
-
-        <TextView
-            android:id="@+id/tvThird"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="start"
-            android:maxLines="1"
-            android:text="@{data.incomeData.third()}"
-            android:textSize="14sp"
-            tools:text="子标题/" />
-
-        <TextView
-            android:id="@+id/tvForth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="start"
-            android:maxLines="1"
-            android:text="@{data.incomeData.forth()}"
-            android:textSize="14sp"
-            tools:text="子标题/" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="60dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="start"
-            android:maxLines="1"
-            android:text="方式1. SeekBar显示"
-            android:textSize="14sp"
-            tools:text="方式1. SeekBar显示" />
-
-        <SeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/gray"
-            android:max="100"
-            android:onProgressChanged="@{data.onSeekBarChanged}"
-            android:progressBackgroundTint="@color/gray"
-            android:progressTint="@color/colorPrimary"
-            android:textAlignment="gravity"
-            android:thumbTint="@color/colorAccent"
-            android:tooltipText="@string/income" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:padding="12dp">
 
             <TextView
+                android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="start"
                 android:maxLines="1"
-                android:text="期末价格："
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:gravity="start"
-                android:maxLines="1"
-                android:text="@{data.priceOfEnd}"
+                android:text="@{data.incomeData.first()}"
                 android:textSize="14sp"
-                tools:text="0.00" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                android:textStyle="bold"
+                tools:text="20200319" />
 
             <TextView
+                android:id="@+id/tvSecond"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="start"
                 android:maxLines="1"
-                android:text="期末收益："
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:gravity="start"
-                android:maxLines="1"
-                android:text="@{data.rateOfEnd}"
+                android:text="@{data.incomeData.second()}"
                 android:textSize="14sp"
-                tools:text="0.00%" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                tools:text="子标题/" />
 
             <TextView
+                android:id="@+id/tvThird"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="start"
                 android:maxLines="1"
-                android:text="实际收益："
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:gravity="start"
-                android:maxLines="1"
-                android:text="@{data.rateOfActual}"
+                android:text="@{data.incomeData.third()}"
                 android:textSize="14sp"
-                tools:text="0.00%" />
-        </LinearLayout>
+                tools:text="子标题/" />
 
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="60dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="start"
-            android:maxLines="1"
-            android:text="方式2. 折线图显示"
-            android:textSize="14sp"
-            tools:text="方式2. 折线图显示" />
-
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@color/white" />
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="60dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="start"
-            android:maxLines="1"
-            android:text="方式3. 手动输入计算"
-            android:textSize="14sp"
-            tools:text="方式3. 手动输入计算" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tvForth"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="期末价格"
-                android:text="@={data.priceOfEndForInput}" />
+                android:ellipsize="end"
+                android:gravity="start"
+                android:maxLines="1"
+                android:text="@{data.incomeData.forth()}"
+                android:textSize="14sp"
+                tools:text="子标题/" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="60dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="期末收益：" />
+                android:ellipsize="end"
+                android:gravity="start"
+                android:maxLines="1"
+                android:text="方式1. SeekBar显示"
+                android:textSize="14sp"
+                tools:text="方式1. SeekBar显示" />
+
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/gray"
+                android:max="100"
+                android:onProgressChanged="@{data.onSeekBarChanged}"
+                android:progressBackgroundTint="@color/gray"
+                android:progressTint="@color/colorPrimary"
+                android:textAlignment="gravity"
+                android:thumbTint="@color/colorAccent"
+                android:tooltipText="@string/income" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="期末价格："
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="@{data.priceOfEnd}"
+                    android:textSize="14sp"
+                    tools:text="0.00" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="期末收益："
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="@{data.rateOfEnd}"
+                    android:textSize="14sp"
+                    tools:text="0.00%" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="实际收益："
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="@{data.rateOfActual}"
+                    android:textSize="14sp"
+                    tools:text="0.00%" />
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="60dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@={data.rateOfEndForInput}" />
+                android:ellipsize="end"
+                android:gravity="start"
+                android:maxLines="1"
+                android:text="方式2. 折线图显示"
+                android:textSize="14sp"
+                tools:text="方式2. 折线图显示" />
+
+            <com.lyloou.flow.widget.TouchLineChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/white" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="期末价格："
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="@{data.priceOfEnd2}"
+                    android:textSize="14sp"
+                    tools:text="0.00" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="期末收益："
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="@{data.rateOfEnd2}"
+                    android:textSize="14sp"
+                    tools:text="0.00%" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="实际收益："
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="@{data.rateOfActual2}"
+                    android:textSize="14sp"
+                    tools:text="0.00%" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="60dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:maxLines="1"
+                android:text="方式3. 手动输入计算"
+                android:textSize="14sp"
+                tools:text="方式3. 手动输入计算" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="期末价格"
+                    android:text="@={data.priceOfEndForInput}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="期末收益：" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@={data.rateOfEndForInput}" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
+
 </layout>

@@ -9,10 +9,11 @@ public class Ustr {
         System.out.println(toPercentStr(1.2));
     }
 
-    public static String toPercentStr(Double data) {
-        return String.format(Locale.CHINA, "%.2f%%", data * 100);
+    public static String toPercentStr(Number data) {
+        return String.format(Locale.CHINA, "%.2f%%", data.doubleValue() * 100);
     }
-    public static String to2Decimal(Double data) {
-        return String.format(Locale.CHINA, "%.2f", data );
+
+    public static String to2Decimal(Number data) {
+        return String.format(Locale.CHINA, "%.2f", data.doubleValue());
     }
 }

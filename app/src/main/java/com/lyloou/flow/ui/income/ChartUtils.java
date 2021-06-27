@@ -10,6 +10,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.lyloou.flow.util.Ustr;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,12 @@ public class ChartUtils {
         YAxis leftAxis = lineChart.getAxisLeft();
         //保证Y轴从0开始，不然会上移一点
         leftAxis.setAxisMinimum(0f);
+        leftAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return Ustr.toPercentStr(value);
+            }
+        });
         rightAxis.setAxisMinimum(0f);
         //设置图表右边的y轴禁用
         rightAxis.setEnabled(false);
@@ -124,8 +131,8 @@ public class ChartUtils {
         for (Pair<String, Float> pair : pairs) {
             //添加x轴值
             xData.add(pair.getFirst());
+            Entry entry = new Entry(xData.size(), pair.getSecond(), Ustr.toPercentStr(Double.parseDouble(String.valueOf(pair.getSecond()))));
             //添加y轴值
-            Entry entry = new Entry(xData.size(), pair.getSecond());
             mLineData.addEntry(entry, 0);
         }
         //数据刷新

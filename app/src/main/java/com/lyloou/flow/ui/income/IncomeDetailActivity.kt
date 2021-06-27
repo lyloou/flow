@@ -63,6 +63,7 @@ class IncomeDetailActivity : BaseCompatActivity(), OnChartValueSelectedListener 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
         Log.d(TAG, "onValueSelected: x=${e?.x}, y=${e?.y}")
         chart.highlightValue(h)
+        viewModel.refreshChartData(e?.x, e?.y)
     }
 
     override fun onNothingSelected() {
